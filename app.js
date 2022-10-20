@@ -4,6 +4,8 @@ const jobsRoute = require("./routes/jobsRoute");
 
 const app = express();
 
+app.use(express.json());
+
 if (process.env.NODE_ENV !== "production") {
   app.use(morgan("dev"));
 }
