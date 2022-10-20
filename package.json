@@ -1,0 +1,30 @@
+{
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "mongoose": "^6.6.5",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.20"
+  },
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "name": "job-tracker",
+  "version": "1.0.0",
+  "description": "An application to track all the jobs you applied for.",
+  "main": "app.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/manlikeHB/job-tracker.git"
+  },
+  "keywords": [
+    "job",
+    "tracker"
+  ],
+  "author": "HB",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/manlikeHB/job-tracker/issues"
+  },
+  "homepage": "https://github.com/manlikeHB/job-tracker#readme"
+}
