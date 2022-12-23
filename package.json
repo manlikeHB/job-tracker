@@ -5,7 +5,8 @@
     "mysql2": "^2.3.3"
   },
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "nodemon server.js",
+    "start:prod": "SET NODE_ENV=production&&nodemon server.js"
   },
   "name": "job-tracker",
   "version": "1.0.0",
