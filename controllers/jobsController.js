@@ -1,5 +1,4 @@
-const db = require("../db");
-const Factory = require("../utils/handlerFactory");
+const Factory = require("./handlerFactory");
 
 exports.getJob = Factory.getAll("jobs");
 exports.createJob = Factory.createOne("jobs");
