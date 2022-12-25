@@ -4,6 +4,24 @@ const handleBadFieldErrorDB = (err) => {
   return new AppError(err.message, 400);
 };
 
+const handleRequiredFieldErrorDB = (err) => {
+  const column = err.message.match(/'[^']*'/)[0].slice(1, -1);
+  const table = err.sql.split(" ")[2].slice(0, -1);
+  return new AppError(`A ${table} must have a ${column}`, 400);
+};
+
+const handleDuplicateEntryDB = (err) => {
+  let [value, column] = [...err.message.matchAll(/'[^']*'/g)];
+  column = column[0].slice(1, -1).split(".")[1];
+  const table = err.sql.split(" ")[2].slice(0, -1);
+
+  if (column === "email") {
+    return new AppError(`Please use another email, ${value} is taken!`, 400);
+  } else {
+    return new AppError(`A ${table}'s ${column} must be unique`, 400);
+  }
+};
+
 const sendErrorDev = (err, res) => {
   res.status(err.statusCode).json({
     status: err.status,
@@ -45,6 +63,11 @@ module.exports = (err, req, res, next) => {
 
     if (error.code === "ER_BAD_FIELD_ERROR")
       error = handleBadFieldErrorDB(error);
+
+    if (error.code === "ER_BAD_NULL_ERROR")
+      error = handleRequiredFieldErrorDB(error);
+
+    if (error.code === "ER_DUP_ENTRY") error = handleDuplicateEntryDB(error);
 
     sendErrorProd(error, res);
   }
