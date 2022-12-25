@@ -11,3 +11,4 @@ exports.createUser = (req, res, next) => {
 
 exports.getAllUsers = Factory.getAll("users", columns);
 exports.getUser = Factory.getOne("users", columns);
+exports.deleteUser = Factory.deleteOne("users");

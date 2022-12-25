@@ -5,12 +5,12 @@ const { response } = require("express");
 
 const isIdaNumberMsg = "Invalid ID! (ID must be a number)";
 
-const sendResponse = (res, table, response) => {
+const sendResponse = (res, table, response, statusCode) => {
   const results = response.length > 1 ? response.length : undefined;
 
   let tableName = results ? table : table.slice(0, -1);
 
-  res.status(200).json({
+  res.status(statusCode).json({
     status: "success",
     results,
     [tableName]: response,
@@ -25,7 +25,7 @@ exports.getAll = (table, filteredColumns) => {
     // Get all rows in table
     const result = (await db.query(sql))[0];
 
-    sendResponse(res, table, result);
+    sendResponse(res, table, result, 200);
   });
 };
 
@@ -42,7 +42,7 @@ exports.createOne = (table) => {
       await db.query(`SELECT * FROM ${table} WHERE id = ?`, row.insertId)
     )[0];
 
-    sendResponse(res, table, result);
+    sendResponse(res, table, result, 201);
   });
 };
 
@@ -59,7 +59,7 @@ exports.deleteOne = (table) => {
     // Delete row
     const row = (await db.query(sql, id))[0];
 
-    sendResponse(res, table, row);
+    sendResponse(res, table, row, 204);
   });
 };
 
@@ -84,7 +84,7 @@ exports.getOne = (table, filteredColumns) => {
       );
     }
 
-    sendResponse(res, table, row);
+    sendResponse(res, table, row, 200);
   });
 };
 
@@ -115,6 +115,6 @@ exports.updateOne = (table) => {
       );
     }
 
-    sendResponse(res, table, result);
+    sendResponse(res, table, result, 200);
   });
 };

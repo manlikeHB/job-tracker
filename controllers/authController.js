@@ -3,7 +3,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const AppError = require("../utils/appError");
 const catchAsync = require("./../utils/catchAsync");
-const Factory = require("./handlerFactory");
+const validator = require("validator");
 
 const signToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -11,14 +11,29 @@ const signToken = (id) => {
   });
 };
 
+const createSendToken = (user, statusCode, res, req) => {
+  const token = signToken(user.id.toString());
+
+  res.cookie("jwt", token, {
+    expires: new Date(
+      Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
+    ),
+    httpOnly: true,
+  });
+
+  res.status(statusCode).json({
+    status: "success",
+    token,
+    data: user,
+  });
+};
+
 exports.signUp = catchAsync(async (req, res, next) => {
   const { lastName, firstName, email, password, passwordConfirm } = req.body;
 
-  //   Check if password and confirm password are the same
-  if (password !== passwordConfirm) {
-    return next(
-      new AppError("Password and confirm password are not the same.", 400)
-    );
+  // Check if email is valid
+  if (!email || !validator.isEmail(email)) {
+    return next(new AppError("Please enter a valid email!"));
   }
 
   // Check if email is already in use
@@ -30,6 +45,21 @@ exports.signUp = catchAsync(async (req, res, next) => {
     return next(new AppError("Email is already in use!"), 400);
   }
 
+  // Check if password is equal to confirm password
+  if (password !== passwordConfirm) {
+    //   Check if password and confirm password are the same
+    return next(
+      new AppError("Password and confirm password are not the same.", 400)
+    );
+  }
+
+  // Check if password is up to 8 characters
+  if (!password || password.length < 8) {
+    return next(
+      new AppError("Please enter a password with at least 8 characters")
+    );
+  }
+
   //   Hash password
   const hashedPassword = await bcrypt.hash(password, 12);
 
@@ -37,21 +67,14 @@ exports.signUp = catchAsync(async (req, res, next) => {
   const sql = "INSERT INTO users SET ?";
   const data = { lastName, firstName, email, password: hashedPassword };
   const newUserId = (await db.query(sql, data))[0].insertId;
-  console.log(newUserId);
-
-  //   create and send Token
-  const token = signToken(newUserId);
 
   // Get current user
   const newUser = (
     await db.query(
       `SELECT id, lastName, firstName, email, role, active FROM users WHERE id = ${newUserId} `
     )
-  )[0];
+  )[0][0];
 
-  res.status(200).json({
-    status: "success",
-    token,
-    user: newUser,
-  });
+  //   create and send Token
+  createSendToken(newUser, 201, res, req);
 });
