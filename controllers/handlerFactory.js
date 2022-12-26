@@ -88,11 +88,12 @@ exports.getOne = (table, filteredColumns) => {
   });
 };
 
-exports.updateOne = (table) => {
+exports.updateOne = (table, filteredColumns) => {
   return catchAsync(async (req, res, next) => {
     const sql = `UPDATE ${table} SET ? WHERE id = ?`;
     const update = req.body;
     const id = req.params.id;
+    const columns = filteredColumns ? filteredColumns : "*";
 
     // Check if id is a number
     if (!Number(id)) {
@@ -104,7 +105,7 @@ exports.updateOne = (table) => {
 
     // Get updated row
     const [result, ...others] = await db.query(
-      `SELECT * FROM ${table} WHERE id = ?`,
+      `SELECT ${columns} FROM ${table} WHERE id = ?`,
       id
     );
 

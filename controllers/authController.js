@@ -21,6 +21,9 @@ const createSendToken = (user, statusCode, res, req) => {
     httpOnly: true,
   });
 
+  // Remove password
+  user.password = undefined;
+
   res.status(statusCode).json({
     status: "success",
     token,
@@ -70,11 +73,32 @@ exports.signUp = catchAsync(async (req, res, next) => {
 
   // Get current user
   const newUser = (
-    await db.query(
-      `SELECT id, lastName, firstName, email, role, active FROM users WHERE id = ${newUserId} `
-    )
+    await db.query(`SELECT * FROM users WHERE id = ${newUserId} `)
   )[0][0];
 
   //   create and send Token
   createSendToken(newUser, 201, res, req);
+});
+
+exports.login = catchAsync(async (req, res, next) => {
+  const { email, password } = req.body;
+
+  // Check if email and password is provided
+  if (!email || !password) {
+    return next(
+      new AppError("Please provide a valid email and password!"),
+      400
+    );
+  }
+
+  // Check if user exist and password is correct
+  const user = (
+    await db.query("SELECT * FROM users WHERE email = ?", email)
+  )[0][0];
+
+  if (!user || !(await bcrypt.compare(password, user.password))) {
+    return next(new AppError("Invalid email or password!", 401));
+  }
+
+  createSendToken(user, 200, res, req);
 });

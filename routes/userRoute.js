@@ -5,6 +5,7 @@ const authController = require("./../controllers/authController");
 const router = express.Router();
 
 router.post("/signup", authController.signUp);
+router.post("/login", authController.login);
 
 router
   .route("/")
@@ -14,6 +15,7 @@ router
 router
   .route("/:id")
   .get(userController.getUser)
-  .delete(userController.deleteUser);
+  .delete(userController.deleteUser)
+  .patch(userController.updateUser);
 
 module.exports = router;
