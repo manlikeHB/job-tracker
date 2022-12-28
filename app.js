@@ -1,5 +1,6 @@
 const express = require("express");
 const morgan = require("morgan");
+const cookieParser = require("cookie-parser");
 
 const globalErrorHandler = require("./controllers/errorController");
 const AppError = require("./utils/appError");
@@ -8,7 +9,10 @@ const userRouter = require("./routes/userRoute");
 
 const app = express();
 
+// Body parser
 app.use(express.json());
+// Cookie parser
+app.use(cookieParser());
 
 if (process.env.NODE_ENV !== "production") {
   app.use(morgan("dev"));
