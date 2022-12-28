@@ -45,7 +45,10 @@ const changedPasswordAfter = (JWTTimestamp, user) => {
 };
 
 exports.signUp = catchAsync(async (req, res, next) => {
-  const { lastName, firstName, email, password, passwordConfirm } = req.body;
+  const { lastName, firstName, email, password, passwordConfirm, role } =
+    req.body;
+
+  console.log(role);
 
   // check if first name and last name are empty strings
   if (lastName.trim() === "")
@@ -86,8 +89,11 @@ exports.signUp = catchAsync(async (req, res, next) => {
   const hashedPassword = await bcrypt.hash(password, 12);
 
   //    Insert new user
+  const data1 = { lastName, firstName, email, password: hashedPassword };
+  const data2 = { lastName, firstName, email, password: hashedPassword, role };
+  const data = role === undefined || role.trim() === "" ? data1 : data2;
   const sql = "INSERT INTO users SET ?";
-  const data = { lastName, firstName, email, password: hashedPassword };
+
   const newUserId = (await db.query(sql, data))[0].insertId;
 
   // Get current user
@@ -162,3 +168,15 @@ exports.protect = catchAsync(async (req, res, next) => {
 
   next();
 });
+
+exports.restrictTo = (...roles) => {
+  return (req, res, next) => {
+    if (!roles.includes(req.user.role)) {
+      return next(
+        new AppError("You do not have permission to perform this action", 403)
+      );
+    }
+
+    next();
+  };
+};
