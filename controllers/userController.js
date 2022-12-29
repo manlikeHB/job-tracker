@@ -1,7 +1,7 @@
 const Factory = require("./handlerFactory");
 const db = require("../db");
 
-const columns = "id, lastName, firstName, email, role, active";
+const columns = "id, lastName, firstName, email, role";
 
 exports.createUser = (req, res, next) => {
   res.status(200).json({

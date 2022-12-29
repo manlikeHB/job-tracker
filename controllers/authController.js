@@ -44,6 +44,10 @@ const changedPasswordAfter = (JWTTimestamp, user) => {
   return false;
 };
 
+const comparePassword = (currentPassword, user) => {
+  return bcrypt.compare(currentPassword, user.password);
+};
+
 exports.signUp = catchAsync(async (req, res, next) => {
   const { lastName, firstName, email, password, passwordConfirm, role } =
     req.body;
@@ -72,7 +76,6 @@ exports.signUp = catchAsync(async (req, res, next) => {
 
   // Check if password is equal to confirm password
   if (password !== passwordConfirm) {
-    //   Check if password and confirm password are the same
     return next(
       new AppError("Password and confirm password are not the same.", 400)
     );
@@ -81,7 +84,7 @@ exports.signUp = catchAsync(async (req, res, next) => {
   // Check if password is up to 8 characters
   if (!password || password.length < 8) {
     return next(
-      new AppError("Please enter a password with at least 8 characters")
+      new AppError("Please enter a password with at least 8 characters", 400)
     );
   }
 
@@ -121,7 +124,7 @@ exports.login = catchAsync(async (req, res, next) => {
     await db.query("SELECT * FROM users WHERE email = ?", email)
   )[0][0];
 
-  if (!user || !(await bcrypt.compare(password, user.password))) {
+  if (!user || !(await comparePassword(password, user))) {
     return next(new AppError("Invalid email or password!", 401));
   }
 
@@ -162,7 +165,6 @@ exports.protect = catchAsync(async (req, res, next) => {
   }
 
   user.password = undefined;
-  user.passwordChangedAt = undefined;
 
   req.user = user;
 
@@ -180,3 +182,48 @@ exports.restrictTo = (...roles) => {
     next();
   };
 };
+
+exports.updatePassword = catchAsync(async (req, res, next) => {
+  const { passwordCurrent, password, passwordConfirm } = req.body;
+
+  // Get the current user
+  const user = (
+    await db.query("SELECT * FROM users WHERE id = ?", req.user.id)
+  )[0][0];
+
+  // Check if current password is correct
+  if (!(await comparePassword(passwordCurrent, user))) {
+    return next(new AppError("Your current password is incorrect!", 401));
+  }
+
+  // Check if password is equal to confirm password
+  if (password !== passwordConfirm) {
+    return next(
+      new AppError("Password and confirm password are not the same.", 400)
+    );
+  }
+
+  // Check if password is up to 8 characters
+  if (!password || password.length < 8) {
+    return next(
+      new AppError("Please enter a password with at least 8 characters", 400)
+    );
+  }
+
+  // Hash password
+  const hashedPassword = await bcrypt.hash(password, 12);
+
+  // // Update password
+  await db.query("UPDATE users SET password = ? WHERE id = ?", [
+    hashedPassword,
+    req.user.id,
+  ]);
+
+  // Get updated user
+  const updatedUser = (
+    await db.query("SELECT * FROM users WHERE id = ? ", req.user.id)
+  )[0][0];
+
+  // Log user In, send jwt
+  createSendToken(updatedUser, 200, res, req);
+});

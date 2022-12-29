@@ -7,13 +7,15 @@ const router = express.Router();
 router.post("/signup", authController.signUp);
 router.post("/login", authController.login);
 
+router.post(
+  "/updatemypassword",
+  authController.protect,
+  authController.updatePassword
+);
+
 router
   .route("/")
-  .get(
-    authController.protect,
-    authController.restrictTo("admin"),
-    userController.getAllUsers
-  )
+  .get(userController.getAllUsers)
   .post(userController.createUser);
 
 router
