@@ -1,10 +1,12 @@
 const db = require("../db");
 const bcrypt = require("bcryptjs");
+const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
 const AppError = require("../utils/appError");
 const catchAsync = require("./../utils/catchAsync");
 const validator = require("validator");
 const { promisify } = require("util");
+const sendEmail = require("./../utils/email");
 
 const signToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -47,6 +49,21 @@ const changedPasswordAfter = (JWTTimestamp, user) => {
 const comparePassword = (currentPassword, user) => {
   return bcrypt.compare(currentPassword, user.password);
 };
+
+const createPasswordResetToken = () => {
+  const resetToken = crypto.randomBytes(32).toString("hex");
+
+  const passwordResetToken = crypto
+    .createHash("sha256")
+    .update(resetToken)
+    .digest("hex");
+
+  const passwordResetExpires = new Date(Date.now() + 10 * 60 * 1000);
+
+  return { resetToken, passwordResetToken, passwordResetExpires };
+};
+
+// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 exports.signUp = catchAsync(async (req, res, next) => {
   const { lastName, firstName, email, password, passwordConfirm, role } =
@@ -226,4 +243,54 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
 
   // Log user In, send jwt
   createSendToken(updatedUser, 200, res, req);
+});
+
+exports.forgotPassword = catchAsync(async (req, res, next) => {
+  // Get user based on email provided
+  const user = (
+    await db.query("SELECT * FROM users WHERE email = ? ", req.body.email)
+  )[0][0];
+
+  if (!user) {
+    return next(new AppError("There is no user with the email address.", 404));
+  }
+
+  //Generate random token
+  const resetOpt = createPasswordResetToken();
+  const { resetToken, passwordResetToken, passwordResetExpires } = resetOpt;
+
+  // Save hashed reset password and reset token expiration in db
+  const sql =
+    "UPDATE users SET passwordResetToken = ?, passwordResetExpires = ? WHERE email = ? ";
+
+  await db.query(sql, [
+    passwordResetToken,
+    passwordResetExpires,
+    req.body.email,
+  ]);
+
+  // Send token to user's email
+  const resetURL = `${req.protocol}://${req.get(
+    "host"
+  )}/api/v1/users/resetpassword/${resetToken}`;
+
+  const message = `Forgot your password? Submit a PATCH request with your new password and confirm password to ${resetURL}\n If you did no forget your email, then ignore this!`;
+
+  try {
+    await sendEmail({
+      email: req.body.email,
+      subject: "Your password reset token!(Only valid for 10mins)",
+      message,
+    });
+
+    res.status(200).json({
+      status: "success",
+      message: "Token sent to email!",
+    });
+  } catch (err) {
+    const sql =
+      "UPDATE users SET passwordResetToken = ?, passwordResetExpires = ? WHERE email = ? ";
+
+    await db.query(sql, [undefined, undefined, req.body.email]);
+  }
 });

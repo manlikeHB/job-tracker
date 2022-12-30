@@ -1,5 +1,5 @@
 const Factory = require("./handlerFactory");
-const db = require("../db");
+// const db = require("../db");
 
 const columns = "id, lastName, firstName, email, role";
 
