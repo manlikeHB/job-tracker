@@ -9,11 +9,12 @@ router.post("/login", authController.login);
 router.post("/forgotpassword", authController.forgotPassword);
 router.patch("/resetpassword/:token", authController.resetPassword);
 
-router.post(
-  "/updatemypassword",
-  authController.protect,
-  authController.updatePassword
-);
+router.use(authController.protect);
+
+router.post("/updatemypassword", authController.updatePassword);
+router.get("/me", userController.getMe, userController.getUser);
+
+router.use(authController.restrictTo("admin"));
 
 router
   .route("/")

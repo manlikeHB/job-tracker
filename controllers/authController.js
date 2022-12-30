@@ -71,8 +71,6 @@ exports.signUp = catchAsync(async (req, res, next) => {
   const { lastName, firstName, email, password, passwordConfirm, role } =
     req.body;
 
-  console.log(role);
-
   // check if first name and last name are empty strings
   if (lastName.trim() === "")
     return next(new AppError("Last name is required", 400));
