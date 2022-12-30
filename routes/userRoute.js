@@ -13,6 +13,7 @@ router.use(authController.protect);
 
 router.post("/updatemypassword", authController.updatePassword);
 router.get("/me", userController.getMe, userController.getUser);
+router.patch("/updateme", userController.updateMe);
 
 router.use(authController.restrictTo("admin"));
 

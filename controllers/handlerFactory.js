@@ -112,7 +112,7 @@ exports.updateOne = (table, filteredColumns) => {
     // Throw error if result is an empty array
     if (!(Array.isArray(result) && result.length)) {
       return next(
-        new AppError(`No ${table.slice(0, -1)} found with the ID: ${id}`, 404)
+        new AppError(`No ${table.slice(0, -1)} found with that id`, 404)
       );
     }
 

@@ -1,8 +1,20 @@
-const { request } = require("express");
+const AppError = require("../utils/appError");
 const Factory = require("./handlerFactory");
-// const db = require("../db");
+const catchAsync = require("./../utils/catchAsync");
+const db = require("../db");
 
 const columns = "id, lastName, firstName, email, role";
+
+const filterObj = (obj, ...options) => {
+  let newObj = {};
+  Object.keys(obj).forEach((el) => {
+    if (options.includes(el)) {
+      newObj[el] = obj[el];
+    }
+  });
+
+  return newObj;
+};
 
 exports.createUser = (req, res, next) => {
   res.status(200).json({
@@ -17,7 +29,37 @@ exports.getMe = (req, res, next) => {
   next();
 };
 
-exports.updateMe = (req, res, next) => {};
+exports.updateMe = catchAsync(async (req, res, next) => {
+  // Create error if user send password data
+  if (req.body.password || req.body.passwordConfirm) {
+    return next(
+      new AppError(
+        "This route is not for password update, use /updatemypassword instead.",
+        400
+      )
+    );
+  }
+
+  // Filter out fileds that are not allowed to be updated
+  const filteredBody = filterObj(req.body, "lastName", "firstName", "email");
+
+  // Update user
+  const sql = "UPDATE users SET ? WHERE id = ?";
+  await db.query(sql, [filteredBody, req.user.id]);
+
+  // Get updated user
+  const user = (
+    await db.query(`SELECT ${columns} FROM users WHERE id = ?`, [req.user.id])
+  )[0][0];
+
+  // send response
+  res.status(200).json({
+    status: "success",
+    data: {
+      user,
+    },
+  });
+});
 
 exports.deleteMe = (req, res, next) => {};
 
