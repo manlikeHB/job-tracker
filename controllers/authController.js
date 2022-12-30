@@ -27,6 +27,8 @@ const createSendToken = (user, statusCode, res, req) => {
   // Remove password
   user.password = undefined;
   user.passwordChangedAt = undefined;
+  user.passwordResetToken = undefined;
+  user.passwordResetExpires = undefined;
 
   res.status(statusCode).json({
     status: "success",
@@ -293,4 +295,50 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
 
     await db.query(sql, [undefined, undefined, req.body.email]);
   }
+});
+
+exports.resetPassword = catchAsync(async (req, res, next) => {
+  // Get user based on token
+  const hashedToken = crypto
+    .createHash("sha256")
+    .update(req.params.token)
+    .digest("hex");
+
+  // Get the user based on the token
+  const sql =
+    "SELECT * FROM users WHERE passwordResetToken = ? AND passwordResetExpires > NOW()";
+  const user = (await db.query(sql, hashedToken))[0][0];
+
+  // If no user then token is either invalid or expired.
+  if (!user) {
+    return next(new AppError("Token is invalid or Expired"), 400);
+  }
+
+  // If token is valid, then update password
+  const { password, passwordConfirm } = req.body;
+
+  // Check if password is equal to confirm password
+  if (password !== passwordConfirm) {
+    return next(
+      new AppError("Password and confirm password are not the same.", 400)
+    );
+  }
+
+  // Check if password is up to 8 characters
+  if (!password || password.length < 8) {
+    return next(
+      new AppError("Please enter a password with at least 8 characters", 400)
+    );
+  }
+
+  // Hash password
+  const hashedPassword = await bcrypt.hash(password, 12);
+
+  const q =
+    "UPDATE users SET password = ?, passwordResetToken = ?, passwordResetExpires = ? WHERE email = ? ";
+
+  await db.query(q, [hashedPassword, undefined, undefined, user.email]);
+
+  // Log user in and send jwt
+  createSendToken(user, 200, res, req);
 });
