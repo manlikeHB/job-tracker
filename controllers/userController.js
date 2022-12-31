@@ -61,7 +61,14 @@ exports.updateMe = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.deleteMe = (req, res, next) => {};
+exports.deleteMe = catchAsync(async (req, res, next) => {
+  const sql = "UPDATE users SET active = 'false' WHERE id = ?";
+  await db.query(sql, req.user.id);
+
+  res.status(204).json({
+    status: "success",
+  });
+});
 
 exports.getAllUsers = Factory.getAll("users", columns);
 exports.getUser = Factory.getOne("users", columns);

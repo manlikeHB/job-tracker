@@ -20,7 +20,9 @@ const sendResponse = (res, table, response, statusCode) => {
 exports.getAll = (table, filteredColumns) => {
   return catchAsync(async (req, res, next) => {
     const columns = filteredColumns ? filteredColumns : "*";
-    const sql = `SELECT ${columns} FROM ${table}`;
+    const forUsers = `SELECT ${columns} FROM ${table} WHERE active <> 'false'`;
+    const sql =
+      table === "users" ? forUsers : `SELECT ${columns} FROM ${table}`;
 
     // Get all rows in table
     const result = (await db.query(sql))[0];
@@ -66,7 +68,11 @@ exports.deleteOne = (table) => {
 exports.getOne = (table, filteredColumns) => {
   return catchAsync(async (req, res, next) => {
     const columns = filteredColumns ? filteredColumns : "*";
-    const sql = `SELECT ${columns} FROM ${table} WHERE id = ?`;
+    const forUsers = `SELECT ${columns} FROM ${table} WHERE active <> 'false' AND id = ?`;
+    const sql =
+      table === "users"
+        ? forUsers
+        : `SELECT ${columns} FROM ${table} WHERE id = ?`;
     const id = req.params.id;
 
     // Check if id is a number
@@ -80,7 +86,7 @@ exports.getOne = (table, filteredColumns) => {
     // Throw error if row is an empty array
     if (!(Array.isArray(row) && row.length)) {
       return next(
-        new AppError(`No ${table.slice(0, -1)} found with the ID: ${id}`, 404)
+        new AppError(`No ${table.slice(0, -1)} found with that id`, 404)
       );
     }
 
