@@ -3,7 +3,7 @@ const catchAsync = require("../utils/catchAsync");
 const Factory = require("./handlerFactory");
 const AppError = require("./../utils/appError");
 
-exports.getJob = Factory.getAll("jobs");
+exports.getAllJobs = Factory.getAll("jobs");
 exports.createJob = Factory.createOne("jobs");
 exports.deleteJob = Factory.deleteOne("jobs");
 exports.getJob = Factory.getOne("jobs");
@@ -36,4 +36,33 @@ exports.getOneJob = catchAsync(async (req, res, next) => {
     results: data.length,
     data,
   });
+});
+
+exports.checkAndUpdateJobStatus = catchAsync(async (req, res, next) => {
+  // Get all jobs that are forthcoming
+  const sql =
+    "SELECT jobs.id, jobs.deadline FROM jobs JOIN users_jobs ON users_jobs.job_id = jobs.id JOIN users ON users_jobs.user_id = users.id WHERE users.id = ? AND status = 'forthcoming'";
+
+  const data = (await db.query(sql, req.user.id))[0];
+
+  // update status and deadline if deadline has been elapsed
+  if (data) {
+    data.forEach(
+      catchAsync(async (job) => {
+        const date = new Date(job.deadline);
+
+        console.log(date);
+
+        if (date < new Date(Date.now())) {
+          console.log("update deadline");
+
+          const sql = `UPDATE jobs SET status = 'closed', deadline = ${null} WHERE id = ?`;
+
+          await db.query(sql, job.id);
+        }
+      })
+    );
+  }
+
+  next();
 });
