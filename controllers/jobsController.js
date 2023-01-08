@@ -39,9 +39,9 @@ exports.getOneJob = catchAsync(async (req, res, next) => {
 });
 
 exports.checkAndUpdateJobStatus = catchAsync(async (req, res, next) => {
-  // Get all jobs that are forthcoming
+  // Get all jobs that are forthcoming and open
   const sql =
-    "SELECT jobs.id, jobs.deadline FROM jobs JOIN users_jobs ON users_jobs.job_id = jobs.id JOIN users ON users_jobs.user_id = users.id WHERE users.id = ? AND status = 'forthcoming'";
+    "SELECT jobs.id, jobs.deadline FROM jobs JOIN users_jobs ON users_jobs.job_id = jobs.id JOIN users ON users_jobs.user_id = users.id WHERE users.id = ? AND status IN ('forthcoming', 'open')";
 
   const data = (await db.query(sql, req.user.id))[0];
 
@@ -49,16 +49,16 @@ exports.checkAndUpdateJobStatus = catchAsync(async (req, res, next) => {
   if (data) {
     data.forEach(
       catchAsync(async (job) => {
-        const date = new Date(job.deadline);
+        if (job.deadline) {
+          const date = new Date(job.deadline);
 
-        console.log(date);
+          if (date < new Date(Date.now())) {
+            console.log(`update deadline for job with the id: ${job.id}`);
 
-        if (date < new Date(Date.now())) {
-          console.log("update deadline");
+            const sql = `UPDATE jobs SET status = 'closed', deadline = ${null} WHERE id = ?`;
 
-          const sql = `UPDATE jobs SET status = 'closed', deadline = ${null} WHERE id = ?`;
-
-          await db.query(sql, job.id);
+            await db.query(sql, job.id);
+          }
         }
       })
     );
