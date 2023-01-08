@@ -22,6 +22,24 @@ const handleDuplicateEntryDB = (err) => {
   }
 };
 
+handleJobStatusAndDeadlineDB = (err) => {
+  const arr = err.sql.split(",");
+  let status = "";
+
+  for (const i of arr) {
+    if (i.includes("status")) status = i.split("=")[1].slice(2, -1);
+  }
+
+  if (status === "forthcoming") {
+    return new AppError(
+      "A forthcoming job must have a deadline in the future",
+      400
+    );
+  } else if (status === "closed") {
+    return new AppError("A closed job application cannot have a deadline", 400);
+  }
+};
+
 const sendErrorDev = (err, res) => {
   res.status(err.statusCode).json({
     status: err.status,
@@ -68,6 +86,12 @@ module.exports = (err, req, res, next) => {
       error = handleRequiredFieldErrorDB(error);
 
     if (error.code === "ER_DUP_ENTRY") error = handleDuplicateEntryDB(error);
+
+    if (
+      error.message.match(/'[^']*'/)[0].slice(1, -1) ===
+      "CHK_JOB_STATUS_AND_DEADLINE"
+    )
+      error = handleJobStatusAndDeadlineDB(error);
 
     sendErrorProd(error, res);
   }

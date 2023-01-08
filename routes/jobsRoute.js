@@ -15,8 +15,6 @@ router
   .get(jobController.checkAndUpdateJobStatus, jobController.getOneJob)
   .patch(jobController.updateOpenedJobStatusToClosed);
 
-// router.patch("/")
-
 router.use(authController.protect);
 
 router
