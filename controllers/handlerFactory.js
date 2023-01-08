@@ -100,10 +100,10 @@ exports.getOne = (table, filteredColumns) => {
   });
 };
 
-exports.updateOne = (table, filteredColumns) => {
+exports.updateOne = (table, filteredColumns, data) => {
   return catchAsync(async (req, res, next) => {
     const sql = `UPDATE ${table} SET ? WHERE id = ?`;
-    const update = req.body;
+    let update = data ? data : req.body;
     const id = req.params.id;
     const columns = filteredColumns ? filteredColumns : "*";
 

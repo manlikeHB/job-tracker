@@ -12,19 +12,30 @@ router
 
 router
   .route("/my-jobs/:id")
-  .get(jobController.checkAndUpdateJobStatus, jobController.getOneJob);
+  .get(jobController.checkAndUpdateJobStatus, jobController.getOneJob)
+  .patch(jobController.updateOpenedJobStatusToClosed);
+
+// router.patch("/")
 
 router.use(authController.protect);
 
 router
   .route("/")
-  .get(jobController.checkAndUpdateJobStatus, jobController.getAllJobs)
+  .get(
+    authController.restrictTo("admin"),
+    jobController.checkAndUpdateJobStatus,
+    jobController.getAllJobs
+  )
   .post(jobController.createJob);
 
 router
   .route("/:id")
   .delete(jobController.deleteJob)
-  .get(jobController.checkAndUpdateJobStatus, jobController.getJob)
+  .get(
+    authController.restrictTo("admin"),
+    jobController.checkAndUpdateJobStatus,
+    jobController.getJob
+  )
   .patch(jobController.updateJob);
 
 module.exports = router;

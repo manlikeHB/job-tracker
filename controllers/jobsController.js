@@ -66,3 +66,8 @@ exports.checkAndUpdateJobStatus = catchAsync(async (req, res, next) => {
 
   next();
 });
+
+exports.updateOpenedJobStatusToClosed = Factory.updateOne("jobs", undefined, {
+  status: "closed",
+  deadline: null,
+});
