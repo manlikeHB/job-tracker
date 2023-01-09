@@ -78,6 +78,7 @@ module.exports = (err, req, res, next) => {
     sendErrorDev(err, res);
   } else if (process.env.NODE_ENV === "production") {
     let error = { ...err };
+    error.message = err.message;
 
     if (error.code === "ER_BAD_FIELD_ERROR")
       error = handleBadFieldErrorDB(error);
@@ -88,7 +89,7 @@ module.exports = (err, req, res, next) => {
     if (error.code === "ER_DUP_ENTRY") error = handleDuplicateEntryDB(error);
 
     if (
-      error.message.match(/'[^']*'/)[0].slice(1, -1) ===
+      error.message.match(/'[^']*'/)?.[0].slice(1, -1) ===
       "CHK_JOB_STATUS_AND_DEADLINE"
     )
       error = handleJobStatusAndDeadlineDB(error);
