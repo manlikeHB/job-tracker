@@ -1,5 +1,6 @@
 const express = require("express");
 const intervieController = require("./../controllers/interviewController");
+const authController = require("./../controllers/authController");
 
 const router = express.Router({ mergeParams: true });
 
@@ -8,6 +9,8 @@ router.get(
   "/job-interviews/:interviewId",
   intervieController.getInterviewOnJob
 );
+
+router.use(authController.protect);
 
 router
   .route("/")

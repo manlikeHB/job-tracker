@@ -44,10 +44,21 @@ exports.createOne = (table) => {
       await db.query(`SELECT * FROM ${table} WHERE id = ?`, row.insertId)
     )[0];
 
+    // Insert into users_jobs table when user create ajob
     if (table === "jobs" && req.user) {
       const q = "INSERT INTO users_jobs SET ?";
 
       await db.query(q, { user_id: req.user.id, job_id: row.insertId });
+    }
+
+    // Insert into job_interviews table when user creates interview
+    if (table === "interviews" && req.user) {
+      const q = "INSERT INTO job_interviews SET ?";
+
+      await db.query(q, {
+        job_id: req.params.jobId,
+        interview_id: row.insertId,
+      });
     }
 
     sendResponse(res, table, result, 201);
