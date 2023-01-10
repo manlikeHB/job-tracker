@@ -8,6 +8,9 @@ router
   .get(intervieController.getAllInterviews)
   .post(intervieController.createInterview);
 
-router.route("/:id").get(intervieController.getInterview);
+router
+  .route("/:id")
+  .get(intervieController.getInterview)
+  .delete(intervieController.deleteInterview);
 
 module.exports = router;
