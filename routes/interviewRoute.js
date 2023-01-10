@@ -5,6 +5,6 @@ const router = express.Router();
 
 router.route("/").get(intervieController.getAllInterviews);
 
-router.route("/:id");
+router.route("/:id").get(intervieController.getInterview);
 
 module.exports = router;
