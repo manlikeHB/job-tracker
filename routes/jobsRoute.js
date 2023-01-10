@@ -1,10 +1,11 @@
 const express = require("express");
 const jobController = require("../controllers/jobsController");
 const authController = require("./../controllers/authController");
+const interviewRouter = require("./interviewRoute");
 
 const router = express.Router({ mergeParams: true });
 
-// router.use(jobController.checkAndUpdateJobStatus);
+router.use("/:jobId/interviews", interviewRouter);
 
 router
   .route("/my-jobs")

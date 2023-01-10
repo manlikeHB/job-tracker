@@ -1,7 +1,9 @@
 const express = require("express");
 const intervieController = require("./../controllers/interviewController");
 
-const router = express.Router();
+const router = express.Router({ mergeParams: true });
+
+router.get("/job-interviews", intervieController.getAllInterviewsOnJob);
 
 router
   .route("/")
