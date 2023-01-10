@@ -20,3 +20,17 @@ exports.getAllInterviewsOnJob = catchAsync(async (req, res, next) => {
     data,
   });
 });
+
+exports.getInterviewOnJob = catchAsync(async (req, res, next) => {
+  const sql =
+    "SELECT interviews.* FROM interviews JOIN job_interviews ON interviews.id = job_interviews.interview_id JOIN jobs ON jobs.id = job_interviews.job_id WHERE jobs.id = ? AND interviews.id = ?";
+
+  const data = (
+    await db.query(sql, [req.params.jobId, req.params.interviewId])
+  )[0];
+
+  res.status(200).json({
+    statusbar: "success",
+    data,
+  });
+});

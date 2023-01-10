@@ -4,6 +4,10 @@ const intervieController = require("./../controllers/interviewController");
 const router = express.Router({ mergeParams: true });
 
 router.get("/job-interviews", intervieController.getAllInterviewsOnJob);
+router.get(
+  "/job-interviews/:interviewId",
+  intervieController.getInterviewOnJob
+);
 
 router
   .route("/")
