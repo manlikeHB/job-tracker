@@ -3,7 +3,10 @@ const intervieController = require("./../controllers/interviewController");
 
 const router = express.Router();
 
-router.route("/").get(intervieController.getAllInterviews);
+router
+  .route("/")
+  .get(intervieController.getAllInterviews)
+  .post(intervieController.createInterview);
 
 router.route("/:id").get(intervieController.getInterview);
 
