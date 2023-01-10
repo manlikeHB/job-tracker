@@ -4,3 +4,4 @@ exports.getAllInterviews = Factory.getAll("interviews");
 exports.getInterview = Factory.getOne("interviews");
 exports.createInterview = Factory.createOne("interviews");
 exports.deleteInterview = Factory.deleteOne("interviews");
+exports.updateInterview = Factory.updateOne("interviews");

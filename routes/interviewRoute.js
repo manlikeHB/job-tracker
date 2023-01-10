@@ -11,6 +11,7 @@ router
 router
   .route("/:id")
   .get(intervieController.getInterview)
-  .delete(intervieController.deleteInterview);
+  .delete(intervieController.deleteInterview)
+  .patch(intervieController.updateInterview);
 
 module.exports = router;
