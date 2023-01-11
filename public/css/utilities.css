@@ -1,0 +1,44 @@
+:root {
+  --background-color: #000028;
+  --background-color-onhover: #9999ad;
+  --text-color: #ccccd6;
+  --text-color-onhover: #00001e;
+  --action-btn-color: #71fcdd;
+  --action-btn-color-onhover: ;
+}
+
+.btn {
+  display: inline-block;
+  cursor: pointer;
+  padding: 1rem 1.5rem;
+  border: 0.2rem solid;
+  border-radius: 0.5rem;
+  border-color: transparent;
+}
+
+.btn:hover {
+  border-bottom-color: white;
+}
+
+.action-btn {
+  display: inline-block;
+  cursor: pointer;
+  padding: 1rem 1.5rem;
+  background-color: white;
+  color: green;
+  border: none;
+  border-radius: 0.5rem;
+}
+
+.action-btn:hover {
+  background-color: var(--action-btn-color);
+}
+
+.active-color {
+  color: var(--action-btn-color);
+}
+
+.btn-sign-up {
+  text-decoration: none;
+  color: green;
+}

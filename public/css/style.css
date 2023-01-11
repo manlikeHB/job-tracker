@@ -1,0 +1,89 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
+
+:root {
+  --background-color: #000028;
+  --background-color-onhover: #9999ad;
+  --text-color: #ccccd6;
+  --text-color-onhover: #00001e;
+}
+
+html {
+  font-size: 10px;
+  font-family: "Montserrat", sans-serif;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--background-color);
+}
+
+#container {
+  width: 125rem;
+  height: 100%;
+  margin: 2.5rem auto 0;
+}
+
+.nav-container {
+  width: 85%;
+  height: 6rem;
+  margin: 0 auto;
+  color: var(--text-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-container p {
+  font-size: 4rem;
+}
+
+.nav-container ul {
+  display: flex;
+  width: 50%;
+  justify-content: space-around;
+  list-style: none;
+  font-size: 2rem;
+}
+
+.nav-container ul li {
+  display: flex;
+  align-items: center;
+}
+
+.btn-nav a {
+  text-decoration: none;
+  color: var(--text-color);
+}
+
+a:hover {
+  color: white;
+}
+
+#hero {
+  width: 85%;
+  display: flex;
+  margin: 0 auto;
+  justify-content: space-between;
+}
+
+#hero .hero-left {
+  width: 45%;
+  padding-top: 8rem;
+  color: var(--text-color);
+  text-align: center;
+}
+
+#hero h1 {
+  font-size: 3.9rem;
+}
+
+#hero p {
+  font-size: 1.5rem;
+}
+
+#get-started {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
