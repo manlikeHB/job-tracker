@@ -7,27 +7,15 @@
   --action-btn-color-onhover: ;
 }
 
-.btn {
-  display: inline-block;
-  cursor: pointer;
-  padding: 1rem 1.5rem;
-  border: 0.2rem solid;
-  border-radius: 0.5rem;
-  border-color: transparent;
-}
-
-.btn:hover {
-  border-bottom-color: white;
-}
-
 .action-btn {
-  display: inline-block;
   cursor: pointer;
   padding: 1rem 1.5rem;
   background-color: white;
-  color: green;
+  color: var(--background-color);
   border: none;
   border-radius: 0.5rem;
+  font-weight: 700;
+  font-size: 2rem;
 }
 
 .action-btn:hover {
@@ -38,7 +26,11 @@
   color: var(--action-btn-color);
 }
 
+.primary-text {
+  color: var(--text-color);
+}
+
 .btn-sign-up {
   text-decoration: none;
-  color: green;
+  /* color: green; */
 }

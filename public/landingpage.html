@@ -19,14 +19,27 @@
     <div id="container">
       <div class="nav-container">
         <p><span class="active-color">JobTracker</span></p>
-        <ul>
-          <li class="btn btn-nav"><a href="#">About</a></li>
-          <li class="btn btn-nav"><a href="#">Pricing</a></li>
-          <li class="btn btn-nav"><a href="#">Documentation</a></li>
-          <li class="action-btn">
-            <a href="#" class="btn-sign-up">Sign In</a>
+
+        <ul class="nav-menu">
+          <li class="btn btn-nav nav-item">
+            <a href="#" class="nav-link">About</a>
+          </li>
+          <li class="btn btn-nav nav-item">
+            <a href="#" class="nav-link">Pricing</a>
+          </li>
+          <li class="btn btn-nav nav-item">
+            <a href="#" class="nav-link">Documentation</a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="btn-sign-up action-btn nav-link">Sign In</a>
           </li>
         </ul>
+
+        <div class="hamburger">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </div>
       </div>
       <div id="hero">
         <div class="hero-left">
@@ -41,8 +54,8 @@
             hunt less stressful.
           </p>
           <div id="get-started">
-            <p class="action-btn">
-              <a href="#" class="btn-sign-up">Get Started</a>
+            <p>
+              <a href="#" class="btn-sign-up action-btn">Get Started</a>
             </p>
           </div>
         </div>
@@ -56,5 +69,21 @@
         ></lottie-player>
       </div>
     </div>
+
+    <div class="footer">
+      <div class="footer__logo">
+        <p>JobTracker</p>
+      </div>
+      <ul class="footer__nav">
+        <li><a href="#">About</a></li>
+        <li><a href="#">Download app</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+      <p class="footer__copyright">
+        &copy; by Yusuf Habib Tajudeen. All rights reserved.
+      </p>
+    </div>
+
+    <script src="/public/hamburger.js"></script>
   </body>
 </html>
