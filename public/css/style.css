@@ -151,12 +151,6 @@ body {
   /* margin-right: 1rem; */
 }
 
-.user-li {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 #content {
   display: flex;
   flex-wrap: wrap;
@@ -164,11 +158,28 @@ body {
   width: 80%;
 }
 
-.card {
+.card-overview-job {
   color: var(--background-color);
   background-color: var(--action-btn-color);
   width: 25rem;
   height: 25rem;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  font-size: 1.5rem;
+  justify-content: space-around;
+  align-items: flex-start;
+  box-shadow: 0 4px 8px 0 rgba(255, 255, 255, 0.7);
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 2rem auto;
+}
+
+.card-interview {
+  color: var(--background-color);
+  background-color: var(--action-btn-color);
+  width: 40%;
+  height: 50rem;
   display: flex;
   flex-direction: column;
   padding: 2rem;
@@ -241,6 +252,10 @@ body {
     height: 50%;
     justify-content: space-around;
     padding-top: 5rem;
+  }
+
+  .card-interview {
+    width: 45%;
   }
 
   .footer {
@@ -325,5 +340,9 @@ body {
 
   .search-div {
     width: 100%;
+  }
+
+  .card-interview {
+    width: 30rem;
   }
 }

@@ -50,3 +50,17 @@
   text-decoration: none;
   /* color: green; */
 }
+
+.bad-color {
+  color: red;
+}
+
+.good-color {
+  color: rgb(20, 114, 20);
+}
+
+.center-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
