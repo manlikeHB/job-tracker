@@ -22,6 +22,13 @@ body {
   background-color: var(--background-color);
 }
 
+#container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0;
+}
+
 .nav-container {
   min-height: 7rem;
   color: var(--text-color);
@@ -104,17 +111,17 @@ body {
   justify-content: center;
 }
 
+/* ///////////////////////////////////////////////////////////////////////////////// */
+
+/* ///////////////////////////////////////////////////////////////////////////////// */
+
 .footer {
-  height: 12%;
-  width: 100%;
-  position: fixed;
-  bottom: 0;
-  left: 0;
+  margin-top: auto;
+  padding: 3rem 10rem;
   background-color: rgba(113, 252, 221, 0.2);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 10rem;
   font-size: 1.5rem;
   color: var(--text-color);
 }
@@ -157,8 +164,8 @@ body {
   }
 
   .footer {
-    padding: 0;
-    justify-content: space-around;
+    padding: 3rem 1rem;
+    justify-content: space-between;
   }
 }
 
