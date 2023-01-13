@@ -215,6 +215,8 @@ body {
   color: var(--text-color);
 }
 
+/* /////////////////////////////////////////////////////////////// */
+
 /* Media query for Tab */
 @media (min-width: 768px) and (max-width: 1023px) {
   .nav-container {
@@ -246,6 +248,8 @@ body {
     justify-content: space-between;
   }
 }
+
+/* //////////////////////////////////////////////////////////////// */
 
 /* Media query For Mobile */
 @media (max-width: 767px) {
@@ -310,5 +314,16 @@ body {
   .footer {
     padding: 1rem 0;
     flex-direction: column;
+  }
+
+  #header {
+    flex-direction: column;
+    align-items: center;
+    /* justify-content: space-between; */
+    gap: 1.5rem;
+  }
+
+  .search-div {
+    width: 100%;
   }
 }
