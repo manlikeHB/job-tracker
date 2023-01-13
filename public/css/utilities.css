@@ -18,8 +18,24 @@
   font-size: 2rem;
 }
 
+.action-btn-two {
+  cursor: pointer;
+  padding: 1rem 1.5rem;
+  background-color: white;
+  color: var(--background-color);
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: 700;
+  font-size: 2rem;
+}
+
 .action-btn:hover {
   background-color: var(--action-btn-color);
+}
+
+.action-btn-two:hover {
+  background-color: var(--background-color);
+  color: var(--text-color);
 }
 
 .active-color {

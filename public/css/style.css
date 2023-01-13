@@ -11,6 +11,8 @@
   --background-color-onhover: #9999ad;
   --text-color: #ccccd6;
   --text-color-onhover: #00001e;
+  --action-btn-color: #71fcdd;
+  --action-btn-color-onhover: ;
 }
 
 html {
@@ -112,6 +114,39 @@ body {
 }
 
 /* ///////////////////////////////////////////////////////////////////////////////// */
+#content {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 auto;
+  width: 80%;
+}
+
+.card {
+  color: var(--background-color);
+  background-color: var(--action-btn-color);
+  width: 25rem;
+  height: 25rem;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  font-size: 1.5rem;
+  justify-content: space-around;
+  align-items: flex-start;
+  box-shadow: 0 4px 8px 0 rgba(255, 255, 255, 0.7);
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 2rem auto;
+}
+
+.line {
+  display: flex;
+  padding: 0.3rem;
+}
+
+.details {
+  width: 50%;
+  align-self: center;
+}
 
 /* ///////////////////////////////////////////////////////////////////////////////// */
 
