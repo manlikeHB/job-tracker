@@ -11,6 +11,10 @@
       href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap"
       rel="stylesheet"
     />
+    <script
+      src="https://kit.fontawesome.com/08d9e9f1ab.js"
+      crossorigin="anonymous"
+    ></script>
     <link rel="stylesheet" href="/public/css/utilities.css" />
     <link rel="stylesheet" href="/public/css/style.css" />
     <title>Job Tracker</title>
@@ -21,18 +25,28 @@
         <p><span class="active-color">JobTracker</span></p>
 
         <ul class="nav-menu">
-          <li class="btn btn-nav nav-item">
+          <!-- <li class="btn btn-nav nav-item">
             <a href="#" class="nav-link">About</a>
           </li>
           <li class="btn btn-nav nav-item">
             <a href="#" class="nav-link">Pricing</a>
-          </li>
+          </li> -->
           <li class="btn btn-nav nav-item">
-            <a href="#" class="nav-link">Documentation</a>
+            <a href="#" class="nav-link">My Interviews</a>
           </li>
-          <li class="nav-item">
+          <li class="btn btn-nav nav-item user-li">
+            <a href="#" class="nav__el">
+              <img
+                src="/public/img/default.jpg"
+                alt="User photo"
+                class="user-img"
+              />&nbsp;
+            </a>
+            <span>Habib</span>
+          </li>
+          <!-- <li class="nav-item">
             <a href="#" class="btn-sign-up action-btn nav-link">Sign In</a>
-          </li>
+          </li> -->
         </ul>
 
         <div class="hamburger">
@@ -41,6 +55,23 @@
           <span class="bar"></span>
         </div>
       </div>
+
+      <div id="header">
+        <h3>My Job Applications</h3>
+        <div class="search-div">
+          <label for="search">
+            <i class="fa-solid fa-magnifying-glass"></i> </label
+          >&nbsp;
+          <input
+            type="search"
+            name="search"
+            id="search"
+            placeholder="Search your jobs"
+            required="required"
+          />
+        </div>
+      </div>
+      <hr />
 
       <section id="content">
         <div class="card">
