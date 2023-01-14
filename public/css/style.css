@@ -175,6 +175,24 @@ body {
   margin: 2rem auto;
 }
 
+.card-job {
+  color: var(--background-color);
+  background-color: var(--action-btn-color);
+  min-width: 25rem;
+  min-height: 25rem;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  font-size: 1.5rem;
+  justify-content: space-around;
+  align-items: flex-start;
+  box-shadow: 0 4px 8px 0 rgba(255, 255, 255, 0.7);
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 2rem auto;
+  line-height: 2.5rem;
+}
+
 .card-interview {
   color: var(--background-color);
   background-color: var(--action-btn-color);
@@ -192,6 +210,11 @@ body {
   margin: 2rem auto;
 }
 
+.add-view-interview {
+  display: flex;
+  gap: 1rem;
+}
+
 .line {
   display: flex;
   padding: 0.3rem;
@@ -199,6 +222,10 @@ body {
 
 .details {
   width: 50%;
+  align-self: center;
+}
+
+.add-interview {
   align-self: center;
 }
 
