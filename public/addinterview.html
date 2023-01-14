@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap"
+      rel="stylesheet"
+    />
+    <script
+      src="https://kit.fontawesome.com/08d9e9f1ab.js"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="/public/css/utilities.css" />
+    <link rel="stylesheet" href="/public/css/style.css" />
+    <title>Job Tracker</title>
+  </head>
+  <body>
+    <div id="container">
+      <div class="nav-container">
+        <p><span class="active-color">JobTracker</span></p>
+
+        <ul class="nav-menu">
+          <!-- <li class="btn btn-nav nav-item">
+            <a href="#" class="nav-link">About</a>
+          </li> -->
+          <li class="btn btn-nav nav-item">
+            <a href="#" class="nav-link">My Jobs</a>
+          </li>
+          <li class="btn btn-nav nav-item">
+            <a href="#" class="nav-link">My Interviews</a>
+          </li>
+          <li class="btn btn-nav nav-item center-div">
+            <a href="#" class="nav__el">
+              <img
+                src="/public/img/default.jpg"
+                alt="User photo"
+                class="user-img"
+              />&nbsp;
+            </a>
+            <span>Habib</span>
+          </li>
+        </ul>
+
+        <div class="hamburger">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </div>
+      </div>
+
+      <div id="header">
+        <h3>Add Job Interview</h3>
+      </div>
+      <hr />
+
+      <section id="content">
+        <div class="card">
+          <form class="form form-interview-data">
+            <div class="type form-input-div">
+              <span>Type:</span>&nbsp;
+              <input
+                type="text"
+                name="type"
+                placeholder="Enter Job Type"
+                id="type"
+                class="form-input"
+                required
+              />
+            </div>
+
+            <div class="date form-input-div">
+              <span>Date:</span>&nbsp;
+              <input
+                type="datetime-local"
+                name="date"
+                placeholder="Enter Interview Date"
+                id="date"
+                class="form-input"
+                required
+              />
+            </div>
+            <div class="address form-input-div">
+              <span>Address:</span>&nbsp;
+              <input
+                type="text"
+                name="address"
+                placeholder="Enter Address"
+                id="address"
+                class="form-input"
+              />
+            </div>
+            <div class="note form-input-div">
+              <label for="note">Note:</label>&nbsp;
+              <textarea
+                name="note"
+                id="note"
+                cols="25"
+                rows="5"
+                class="form-input"
+                placeholder="Enter Note"
+              ></textarea>
+            </div>
+            <div class="deadline form-input-div">
+              <span>Deadline:</span>&nbsp;
+              <input
+                type="datetime-local"
+                name="deadline"
+                id="deadline"
+                class="form-input"
+              />
+            </div>
+            <div class="result form-input-div">
+              <span>Result:</span>&nbsp;
+              <select name="result" id="result" class="form-input">
+                <option value="">Select Job result*</option>
+                <option value="passed">Passed</option>
+                <option value="failed">Failed</option>
+              </select>
+            </div>
+            <div class="rescheduleDate form-input-div">
+              <span>Resheduled Date:</span>&nbsp;
+              <input
+                type="datetime-local"
+                name="rescheduleDate"
+                id="rescheduleDate"
+                class="form-input"
+              />
+            </div>
+            <div class="rescheduleReason form-input-div">
+              <label for="rescheduleReason">Reschedule Reason:</label>&nbsp;
+              <textarea
+                name="rescheduleReason"
+                id="rescheduleReason"
+                cols="25"
+                rows="5"
+                class="form-input"
+                placeholder="Enter Reason for Reschedule"
+              ></textarea>
+            </div>
+            <div class="center-div">
+              <button class="action-btn-two">Add Interview</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <div class="footer">
+        <div class="footer__logo">
+          <p>JobTracker</p>
+        </div>
+        <ul class="footer__nav">
+          <li><a href="#">About</a></li>
+          <li><a href="#">Download app</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+        <p class="footer__copyright">
+          &copy; by Yusuf Habib Tajudeen. All rights reserved.
+        </p>
+      </div>
+    </div>
+
+    <script src="/public/hamburger.js"></script>
+  </body>
+</html>
