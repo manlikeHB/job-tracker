@@ -158,6 +158,24 @@ body {
   width: 80%;
 }
 
+.form-input {
+  min-width: 30rem;
+  border-radius: 1rem;
+  border: none;
+  padding: 0.5rem 1rem;
+  background-color: var(--text-color);
+  outline: none;
+  display: flex;
+  /* margin-right: 2rem; */
+}
+
+.form-input-div {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  /* padding-right: 1rem; */
+}
+
 .card-overview-job {
   color: var(--background-color);
   background-color: var(--action-btn-color);
@@ -191,6 +209,28 @@ body {
   overflow: hidden;
   margin: 2rem auto;
   line-height: 2.5rem;
+}
+
+.card {
+  color: var(--background-color);
+  background-color: var(--action-btn-color);
+  min-width: 25rem;
+  min-height: 25rem;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  font-size: 1.5rem;
+  justify-content: space-around;
+  align-items: flex-start;
+  box-shadow: 0 4px 8px 0 rgba(255, 255, 255, 0.7);
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 2rem auto;
+  line-height: 2.5rem;
+}
+
+.form {
+  width: 100%;
 }
 
 .card-interview {
@@ -381,5 +421,9 @@ body {
 
   .card-interview {
     width: 30rem;
+  }
+
+  .form-input {
+    min-width: auto;
   }
 }

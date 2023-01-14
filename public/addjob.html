@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap"
+      rel="stylesheet"
+    />
+    <script
+      src="https://kit.fontawesome.com/08d9e9f1ab.js"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="/public/css/utilities.css" />
+    <link rel="stylesheet" href="/public/css/style.css" />
+    <title>Job Tracker</title>
+  </head>
+  <body>
+    <div id="container">
+      <div class="nav-container">
+        <p><span class="active-color">JobTracker</span></p>
+
+        <ul class="nav-menu">
+          <!-- <li class="btn btn-nav nav-item">
+            <a href="#" class="nav-link">About</a>
+          </li> -->
+          <li class="btn btn-nav nav-item">
+            <a href="#" class="nav-link">My Jobs</a>
+          </li>
+          <li class="btn btn-nav nav-item">
+            <a href="#" class="nav-link">My Interviews</a>
+          </li>
+          <li class="btn btn-nav nav-item center-div">
+            <a href="#" class="nav__el">
+              <img
+                src="/public/img/default.jpg"
+                alt="User photo"
+                class="user-img"
+              />&nbsp;
+            </a>
+            <span>Habib</span>
+          </li>
+        </ul>
+
+        <div class="hamburger">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </div>
+      </div>
+
+      <div id="header">
+        <h3>Add New Job Application</h3>
+      </div>
+      <hr />
+
+      <section id="content">
+        <div class="card">
+          <form class="form form-job-data">
+            <div class="title form-input-div">
+              <span>Title:</span>&nbsp;
+              <input
+                type="text"
+                name="title"
+                placeholder="Enter Job Title"
+                id="title"
+                class="form-input"
+                required
+              />
+            </div>
+            <div class="position form-input-div">
+              <span>Position:</span>&nbsp;
+              <input
+                type="text"
+                name="position"
+                placeholder="Enter Job Position"
+                id="position"
+                class="form-input"
+                required
+              />
+            </div>
+            <div class="company form-input-div">
+              <span>Company:</span>&nbsp;
+              <input
+                type="text"
+                name="company"
+                placeholder="Enter Company Name"
+                id="company"
+                class="form-input"
+                required
+              />
+            </div>
+            <div class="location form-input-div">
+              <span>Location:</span>&nbsp;
+              <input
+                type="text"
+                name="location"
+                placeholder="Enter Company location"
+                id="location"
+                class="form-input"
+                required
+              />
+            </div>
+            <div class="status form-input-div">
+              <span>status:</span>&nbsp;
+              <select name="status" id="status" class="form-input" required>
+                <option value="">Select Job Status*</option>
+                <option value="open">Open</option>
+                <option value="closed">Closed</option>
+                <option value="forthcoming">Forthcoming</option>
+              </select>
+            </div>
+            <div class="type form-input-div">
+              <span>Type:</span>&nbsp;
+              <select name="type" id="type" class="form-input" required>
+                <option value="">Select Job Type*</option>
+                <option value="onsite">On-site</option>
+                <option value="remote">Remote</option>
+                <option value="hybrid">Hybrid</option>
+              </select>
+            </div>
+            <div class="deadline form-input-div">
+              <span>Deadline:</span>&nbsp;
+              <input
+                type="datetime-local"
+                name="deadline"
+                placeholder="Enter Job Application Deadline"
+                id="deadline"
+                class="form-input"
+              />
+            </div>
+            <div class="description form-input-div">
+              <label for="description">Description:</label>&nbsp;
+              <textarea
+                name="description"
+                id="description"
+                cols="25"
+                rows="5"
+                class="form-input"
+                placeholder="Enter Job Description"
+              ></textarea>
+            </div>
+            <div class="requirement form-input-div">
+              <label for="requirement">Requirement:</label>&nbsp;
+              <textarea
+                name="requirement"
+                id="requirement"
+                cols="25"
+                rows="5"
+                class="form-input"
+                placeholder="Enter Job Requirements"
+              ></textarea>
+            </div>
+            <div class="center-div">
+              <button class="action-btn-two">Add Job</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <div class="footer">
+        <div class="footer__logo">
+          <p>JobTracker</p>
+        </div>
+        <ul class="footer__nav">
+          <li><a href="#">About</a></li>
+          <li><a href="#">Download app</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+        <p class="footer__copyright">
+          &copy; by Yusuf Habib Tajudeen. All rights reserved.
+        </p>
+      </div>
+    </div>
+
+    <script src="/public/hamburger.js"></script>
+  </body>
+</html>
