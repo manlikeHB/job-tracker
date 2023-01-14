@@ -215,6 +215,16 @@ body {
   gap: 1rem;
 }
 
+.de-link {
+  color: var(--background-color);
+  text-decoration: none;
+  padding: 1rem 1.5rem;
+}
+
+.de-link:hover {
+  color: var(--text-color);
+}
+
 .line {
   display: flex;
   padding: 0.3rem;
