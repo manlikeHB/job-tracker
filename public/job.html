@@ -74,60 +74,144 @@
       <hr />
 
       <section id="content">
-        <div class="card-job">
-          <div class="title line">
-            <h4>Title:</h4>
-            &nbsp;
-            <p>Web Developer</p>
-          </div>
-          <div class="position line">
-            <h4>Postition:</h4>
-            &nbsp;
-            <p>Backend Developer</p>
-          </div>
-          <div class="company line">
-            <h4>Company:</h4>
-            &nbsp;
-            <p>Microsoft inc.</p>
-          </div>
-          <div class="location line">
-            <h4>location:</h4>
-            &nbsp;
-            <p>Accra</p>
-          </div>
-          <div class="type line">
-            <h4>type:</h4>
-            &nbsp;
-            <p>Hybrid</p>
-          </div>
-          <div class="status line">
-            <h4>Status:</h4>
-            &nbsp;
-            <p>open</p>
-          </div>
-          <div class="deadline line">
-            <h4>Deadline:</h4>
-            &nbsp;
-            <p>Sun 19th 2022, 07:49</p>
-          </div>
-          <div class="requirement line">
-            <h4>Requirement:</h4>
-            &nbsp;
-            <p>Laptop and good internet</p>
-          </div>
-          <div class="description line">
-            <h4>Description:</h4>
-            &nbsp;
-            <p>bla bla bla</p>
-          </div>
-          <div class="add-view-interview">
-            <div class="view-interview action-btn-two">
-              <p><a href="#" class="de-link"> View Interview </a></p>
+        
+
+        <div class="card">
+          <form class="form form-job-data">
+            <div class="edit-icon form-input-div">
+              <a href="#"><i class="fa-regular fa-pen-to-square fa-lg fa-icons"></i></a>
             </div>
-            <div class="add-interview action-btn-two">
-              <a href="#" class="de-link"> Add Interview </a>
+            <div class="title form-input-div">
+              <span>Title:</span>&nbsp;
+              <input
+                type="text"
+                name="title"
+                placeholder="Enter Job Title"
+                id="title"
+                class="form-input"
+                required
+                value="Web Developer"
+                readonly
+              />
+            </div>
+            <div class="position form-input-div">
+              <span>Position:</span>&nbsp;
+              <input
+                type="text"
+                name="position"
+                placeholder="Enter Job Position"
+                id="position"
+                class="form-input"
+                required
+                value="Backend Developer"
+                readonly
+              />
+            </div>
+            <div class="company form-input-div">
+              <span>Company:</span>&nbsp;
+              <input
+                type="text"
+                name="company"
+                placeholder="Enter Company Name"
+                id="company"
+                class="form-input"
+                required
+                value="Microsoft inc."
+                readonly
+              />
+            </div>
+            <div class="location form-input-div">
+              <span>Location:</span>&nbsp;
+              <input
+                type="text"
+                name="location"
+                placeholder="Enter Company location"
+                id="location"
+                class="form-input"
+                required
+                value="Accra"
+                readonly
+              />
+            </div>
+            <div class="status form-input-div">
+              <span>status:</span>&nbsp;
+              <select
+                name="status"
+                id="status"
+                class="form-input"
+                required
+                disabled
+              >
+                <option value="">Select Job Status*</option>
+                <option value="open">Open</option>
+                <option value="closed">Closed</option>
+                <option value="forthcoming">Forthcoming</option>
+              </select>
+            </div>
+            <div class="type form-input-div">
+              <span>Type:</span>&nbsp;
+              <select
+                name="type"
+                id="type"
+                class="form-input"
+                required
+                disabled
+              >
+                <option value="">Select Job Type*</option>
+                <option value="onsite">On-site</option>
+                <option value="remote">Remote</option>
+                <option value="hybrid">Hybrid</option>
+              </select>
+            </div>
+            <div class="deadline form-input-div">
+              <span>Deadline:</span>&nbsp;
+              <input
+                type="text"
+                name="deadline"
+                id="deadline"
+                class="form-input"
+                value="Sun 19th 2022, 07:49"
+                readonly
+              />
+            </div>
+            <div class="description form-input-div">
+              <span>Description:</span>&nbsp;
+              <textarea
+                name="description"
+                id="description"
+                cols="25"
+                rows="7"
+                class="form-input"
+                placeholder="Enter Job Description"
+                readonly
+              >
+Laptop and good internet</textarea
+              >
+            </div>
+            <div class="requirement form-input-div">
+              <label for="requirement">Requirement:</label>&nbsp;
+              <textarea
+                name="requirement"
+                id="requirement"
+                cols="25"
+                rows="7"
+                class="form-input"
+                placeholder="Enter Job Requirements"
+                readonly
+              >
+Lorem ipsum dolor sit </textarea
+              >
+            </div>
+            <div class="add-view-interview">
+              <div class="view-interview action-btn-two">
+                <p><a href="#" class="de-link"> View Interview </a></p>
+              </div>
+              <div class="add-interview action-btn-two">
+                <a href="#" class="de-link"> Add Interview </a>
+              </div>
             </div>
           </div>
+          </form>
         </div>
       </section>
 
