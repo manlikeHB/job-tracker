@@ -102,8 +102,11 @@ function saveJob() {
   jobDeadline.setAttribute("type", "text");
   jobDeadline.value = deadlineValue;
 
-  jobStatus.innerHTML = `<option value="open">Open</option>`;
-  jobType.innerHTML = `<option value="onsite">On-site</option>`;
+  console.log(jobStatus.value);
+  console.log(jobType.value);
+
+  jobStatus.innerHTML = `<option value="${jobStatus.value}">${jobStatus.value}</option>`;
+  jobType.innerHTML = `<option value="${jobType.value}">${jobType.value}</option>`;
 
   //   Show the save button and remove add interview and view interview button
   addAndViewButton.classList.toggle("display-none");
