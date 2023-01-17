@@ -78,8 +78,8 @@
 
         <div class="card">
           <form class="form form-job-data">
-            <div class="edit-icon form-input-div">
-              <a href="#"><i class="fa-regular fa-pen-to-square fa-lg fa-icons"></i></a>
+            <div class="edit-icon  form-input-div">
+              <i class="fa-regular fa-pen-to-square fa-lg fa-icons edit-job"></i>
             </div>
             <div class="title form-input-div">
               <span>Title:</span>&nbsp;
@@ -138,14 +138,12 @@
               <select
                 name="status"
                 id="status"
-                class="form-input"
+                class="form-input select-job-status"
                 required
                 disabled
               >
-                <option value="">Select Job Status*</option>
                 <option value="open">Open</option>
-                <option value="closed">Closed</option>
-                <option value="forthcoming">Forthcoming</option>
+            
               </select>
             </div>
             <div class="type form-input-div">
@@ -153,26 +151,24 @@
               <select
                 name="type"
                 id="type"
-                class="form-input"
+                class="form-input select-job-type"
                 required
                 disabled
               >
-                <option value="">Select Job Type*</option>
                 <option value="onsite">On-site</option>
-                <option value="remote">Remote</option>
-                <option value="hybrid">Hybrid</option>
               </select>
             </div>
             <div class="deadline form-input-div">
               <span>Deadline:</span>&nbsp;
               <input
-                type="text"
-                name="deadline"
-                id="deadline"
-                class="form-input"
-                value="Sun 19th 2022, 07:49"
-                readonly
-              />
+              type="text"
+              name="deadline"
+              id="deadline"
+              class="form-input job-deadline"
+              value="Wed Aug 31 2022 by 02:15 am"
+              readonly
+            
+            />
             </div>
             <div class="description form-input-div">
               <span>Description:</span>&nbsp;
@@ -202,7 +198,7 @@ Laptop and good internet</textarea
 Lorem ipsum dolor sit </textarea
               >
             </div>
-            <div class="add-view-interview">
+            <div class="add-view-interview ">
               <div class="view-interview action-btn-two">
                 <p><a href="#" class="de-link"> View Interview </a></p>
               </div>
@@ -210,7 +206,13 @@ Lorem ipsum dolor sit </textarea
                 <a href="#" class="de-link"> Add Interview </a>
               </div>
             </div>
+            <div class="save-job center-div display-none">
+              <div class=" action-btn-two">
+                <span class="save"> Save </span>
+              </div>
+            </div>
           </div>
+          
           </form>
         </div>
       </section>
@@ -231,5 +233,6 @@ Lorem ipsum dolor sit </textarea
     </div>
 
     <script src="/public/hamburger.js"></script>
+    <script src="/public/index.js"></script>
   </body>
 </html>
