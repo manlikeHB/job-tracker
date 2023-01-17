@@ -30,7 +30,14 @@ const generateAmPmTime = (time) => {
   return timeString;
 };
 
+// Collect initial values for job status and job type
+let prevJobStatus;
+let prevJobType;
+
 function editAndSave() {
+  prevJobStatus = jobStatus.value;
+  prevJobType = jobType.value;
+
   // Get all input fields and remove the readonly and disabled attribute
   inputs.forEach((n) => {
     if (n.hasAttribute("readonly")) {
@@ -79,6 +86,7 @@ function editAndSave() {
 function saveJob() {
   // Get all input fields and add the readonly and disabled attribute
   inputs.forEach((n) => {
+    console.log(n.value);
     if (
       n.classList.contains("select-job-status") ||
       n.classList.contains("select-job-type")
@@ -102,11 +110,12 @@ function saveJob() {
   jobDeadline.setAttribute("type", "text");
   jobDeadline.value = deadlineValue;
 
-  console.log(jobStatus.value);
-  console.log(jobType.value);
+  // Assign job status value and job type value if unprovided
+  const jobStatusValue = jobStatus.value ? jobStatus.value : prevJobStatus;
+  const jobTypeValue = jobType.value ? jobType.value : prevJobType;
 
-  jobStatus.innerHTML = `<option value="${jobStatus.value}">${jobStatus.value}</option>`;
-  jobType.innerHTML = `<option value="${jobType.value}">${jobType.value}</option>`;
+  jobStatus.innerHTML = `<option value="${jobStatusValue}">${jobStatusValue}</option>`;
+  jobType.innerHTML = `<option value="${jobTypeValue}">${jobTypeValue}</option>`;
 
   //   Show the save button and remove add interview and view interview button
   addAndViewButton.classList.toggle("display-none");
