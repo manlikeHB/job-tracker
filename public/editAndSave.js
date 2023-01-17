@@ -86,7 +86,6 @@ function editAndSave() {
 function saveJob() {
   // Get all input fields and add the readonly and disabled attribute
   inputs.forEach((n) => {
-    console.log(n.value);
     if (
       n.classList.contains("select-job-status") ||
       n.classList.contains("select-job-type")
