@@ -107,18 +107,7 @@ function editJobFunc() {
   // Change the deadline input type to datetime-local and set the value
   // 1) convert deadline to datetime-local acceptable format
 
-  let [dayOfWeek, month, day, year, by, time, ampm] =
-    jobDeadline.value.split(" ");
-
-  let [h, m, s] = time.split(":");
-  h = h * 1 + 1;
-
-  time = [h, m, s].join(":");
-
-  const deadlineValue = new Date([month, day, year, time])
-    .toISOString()
-    .slice(0, -1)
-    .replace("T", " ");
+  const deadlineValue = convertDateTime(jobDeadline);
 
   // 2) set deadline attribute to datetime-local
   jobDeadline.setAttribute("type", "datetime-local");
@@ -153,15 +142,8 @@ function saveJob() {
     }
   });
 
-  //
-  const [dayW, M, dayN, year, time] = new Date(jobDeadline.value)
-    .toString()
-    .split(" ");
-
-  const timeString = generateAmPmTime(time);
-
-  const dateString = [dayW, M, dayN, year].join(" ");
-  const deadlineValue = `${dateString} by ${timeString}`;
+  // Convert job deadline to readable time string
+  const deadlineValue = convertDateTimeToString(jobDeadline);
 
   jobDeadline.setAttribute("type", "text");
   jobDeadline.value = deadlineValue;
