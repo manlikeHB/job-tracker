@@ -65,3 +65,13 @@
   justify-content: center;
   align-items: center;
 }
+
+.de-link {
+  color: var(--background-color);
+  text-decoration: none;
+  padding: 1rem 1.5rem;
+}
+
+.de-link:hover {
+  color: var(--text-color);
+}

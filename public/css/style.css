@@ -255,16 +255,6 @@ body {
   gap: 1rem;
 }
 
-.de-link {
-  color: var(--background-color);
-  text-decoration: none;
-  padding: 1rem 1.5rem;
-}
-
-.de-link:hover {
-  color: var(--text-color);
-}
-
 .line {
   display: flex;
   padding: 0.3rem;
@@ -291,6 +281,112 @@ body {
 
 .display-none {
   display: none;
+}
+
+/* //////////////////////////////////////////////////////////////////////////////// */
+/* User account */
+#user-account {
+  display: flex;
+  width: 90%;
+  margin: 2rem auto;
+  color: var(--background-color);
+}
+
+.user-menu {
+  background-color: var(--background-color-onhover);
+  width: 30%;
+}
+
+.user-view {
+  background-color: var(--text-color);
+  width: 70%;
+}
+
+.account-div {
+  padding: 3rem;
+  font-size: 1.7rem;
+  margin-bottom: 0.5rem;
+}
+
+.account-div:hover {
+  border-left: #71fcdd solid 1rem;
+  color: var(--text-color);
+}
+
+.active-btn-menu {
+  border-left: #71fcdd solid 1rem;
+}
+
+.account-settings {
+  display: flex;
+  flex-direction: column;
+  padding: 3rem;
+  font-size: 2rem;
+}
+
+.account-settings h2 {
+  margin-bottom: 2rem;
+}
+
+.form-input-account {
+  width: 70%;
+  height: 5rem;
+  border-radius: 1rem;
+  border: none;
+  padding: 0.5rem 1rem;
+  background-color: var(--action-btn-color);
+  outline: none;
+  display: flex;
+  font-size: 1.7rem;
+}
+
+.form-input-account:focus {
+  border-bottom: #00001e solid 0.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 2rem;
+  gap: 1rem;
+}
+
+.choose-photo {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.avatar {
+  display: flex;
+  flex-direction: column;
+}
+
+.save-div {
+  display: flex;
+  justify-content: center;
+}
+
+.width-80 {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.admin-h3 {
+  padding: 3rem;
+  padding-bottom: 0;
+  font-size: 1.7rem;
+  margin-bottom: 0.5rem;
+}
+
+.show-password {
+  width: 2rem;
+  height: 2rem;
+}
+
+.show-password-div {
+  display: flex;
+  margin-bottom: 2rem;
 }
 
 /* ///////////////////////////////////////////////////////////////////////////////// */
@@ -348,6 +444,14 @@ body {
   .card-interview {
     width: 45%;
   }
+  /* ///////////////////////////////////////////////// */
+  .account-div {
+    padding: 1rem;
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  /* ////////////////////////////////////////////// */
 
   .footer {
     padding: 3rem 1rem;
@@ -439,5 +543,36 @@ body {
 
   .form-input {
     min-width: auto;
+  }
+  #content {
+    width: 100%;
+  }
+
+  #user-account {
+    display: flex;
+    width: 100%;
+    margin: 2rem auto;
+    color: var(--background-color);
+  }
+
+  .account-div {
+    padding: 1rem 0;
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .form-input-account {
+    width: 100%;
+    font-size: 1.5rem;
+  }
+
+  .account-settings {
+    padding: 1rem;
+    font-size: 1.5rem;
+  }
+
+  .account-div {
+    font-size: 1.2rem;
+    font-weight: 700;
   }
 }
