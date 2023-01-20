@@ -1,6 +1,5 @@
 const showPasswordBox = document.querySelector(".show-password");
 const passwordInputs = document.querySelectorAll(".password");
-const password = document.querySelector("#password");
 
 showPasswordBox.addEventListener("click", function () {
   if (passwordInputs) {
@@ -11,13 +10,5 @@ showPasswordBox.addEventListener("click", function () {
         n.setAttribute("type", "password");
       }
     });
-  }
-
-  if (password) {
-    if (password.type === "password") {
-      password.setAttribute("type", "text");
-    } else {
-      password.setAttribute("type", "password");
-    }
   }
 });

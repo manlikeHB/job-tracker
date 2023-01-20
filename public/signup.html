@@ -26,7 +26,10 @@
 
         <ul class="nav-menu">
           <li class="btn btn-nav nav-item">
-            <a href="#" class="nav-link">Sign Up</a>
+            <a href="#" class="nav-link">Pricing</a>
+          </li>
+          <li class="btn btn-nav nav-item">
+            <a href="#" class="nav-link">Log In</a>
             <i class="fa-solid fa-circle-user"></i>
           </li>
         </ul>
@@ -46,7 +49,7 @@
       <section id="content">
         <main class="card main">
           <div class="login-form">
-            <h2 class="login-heading">Log into your account</h2>
+            <h2 class="login-heading">Sign Up</h2>
             <form class="form form-login">
               <div class="form-group">
                 <label class="" for="email">Email address</label
@@ -69,17 +72,28 @@
                   minlength="8"
                 />
               </div>
+              <div class="form-group">
+                <label class="" for="password-confirm">Confirm Password</label
+                ><input
+                  class="login-input password"
+                  id="password-confirm"
+                  type="password"
+                  placeholder="••••••••"
+                  required="required"
+                  minlength="8"
+                />
+              </div>
               <div class="show-password-div">
                 <input type="checkbox" class="show-password" />&nbsp;Show
                 password
               </div>
               <div class="center-div">
-                <button class="action-btn-two">Login</button>
+                <button class="action-btn-two">Sign Up</button>
               </div>
             </form>
           </div>
           <div class="sign-up-options">
-            <h5>Don't have an account? <a href="/signup">Sign Up!</a></h5>
+            <h5>Already have an account? <a href="/signup">Log In!</a></h5>
           </div>
         </main>
       </section>
