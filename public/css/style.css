@@ -388,6 +388,29 @@ body {
   display: flex;
   margin-bottom: 2rem;
 }
+/* ////////////////////////////////////////////////////////////////////// */
+
+.login-input {
+  background-color: #e8f0fe;
+  height: 4rem;
+  border-radius: 1rem;
+  border: none;
+  color: var(--background-color);
+  padding: 1.5rem;
+  outline: none;
+}
+
+.login-input:focus {
+  border: var(--background-color) solid 0.1rem;
+}
+
+.login-heading {
+  padding-bottom: 2rem;
+}
+
+.sign-up-options {
+  margin-top: 1rem;
+}
 
 /* ///////////////////////////////////////////////////////////////////////////////// */
 
