@@ -398,6 +398,7 @@ body {
   color: var(--background-color);
   padding: 1.5rem;
   outline: none;
+  width: 40rem;
 }
 
 .login-input:focus {
@@ -597,5 +598,9 @@ body {
   .account-div {
     font-size: 1.2rem;
     font-weight: 700;
+  }
+
+  .login-input {
+    max-width: 25rem;
   }
 }
