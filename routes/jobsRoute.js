@@ -18,6 +18,8 @@ router
 
 router.use(authController.protect);
 
+router.get("/search", jobController.searchJobs);
+
 router
   .route("/")
   .get(

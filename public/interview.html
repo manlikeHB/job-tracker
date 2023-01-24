@@ -74,56 +74,6 @@
       <hr />
 
       <section id="content">
-        <div class="card-interview">
-          <div class="Type line">
-            <h4>Type:</h4>
-            &nbsp;
-            <p>Face to face</p>
-          </div>
-          <div class="interviwer-name line">
-            <h4>Interviewer's Name:</h4>
-            &nbsp;
-            <p>Grace Good Person</p>
-          </div>
-          <div class="date line">
-            <h4>Date:</h4>
-            &nbsp;
-            <p class="bad-color">Sun 14th 2020, 01:30pm</p>
-          </div>
-          <div class="address line">
-            <h4>Address:</h4>
-            &nbsp;
-            <p>No 14b along the road, Ilorin Canada.</p>
-          </div>
-          <div class="note line">
-            <h4>Note:</h4>
-            &nbsp;
-            <p>Come with your writing materials.</p>
-          </div>
-          <div class="result line center-div">
-            <h4>Result:</h4>
-            &nbsp;
-            <p>passed</p>
-            &nbsp;
-            <i class="fa-solid fa-circle-check good-color"></i>
-          </div>
-          <div class="resheduled-date line">
-            <h4>Resheduled Date:</h4>
-            &nbsp;
-            <p class="good-color">Tue 18th 2020, 06:00am</p>
-          </div>
-          <div class="reshedule-reason line">
-            <h4>Reshedule Reason:</h4>
-            &nbsp;
-            <p>Bad Internet</p>
-          </div>
-          <div class="deadline line">
-            <h4>Deadline:</h4>
-            &nbsp;
-            <p class="good-color">Thur 18th 2020, 06:00am</p>
-          </div>
-        </div>
-
         <div class="card">
           <form class="form form-job-data">
             <div class="edit-icon form-input-div">
@@ -206,11 +156,21 @@ Come with your writing materials.</textarea
               </select>
             </div>
 
-            <div class="reshedule-reason form-input-div">
-              <span>Reshedule reason:</span>&nbsp;
+            <div class="rescheduleDate form-input-div">
+              <span>Rescheduled Date:</span>&nbsp;
+              <input
+                type="datetime-local"
+                name="rescheduleDate"
+                id="rescheduleDate"
+                class="form-input"
+              />
+            </div>
+
+            <div class="reschedule-reason form-input-div">
+              <span>Reschedule reason:</span>&nbsp;
               <textarea
-                name="reshedule-reason"
-                id="reshedule-reason"
+                name="reschedule-reason"
+                id="reschedule-reason"
                 cols="25"
                 rows="7"
                 class="form-input"
