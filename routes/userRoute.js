@@ -21,6 +21,8 @@ router.delete("/deleteme", userController.deleteMe);
 
 router.use(authController.restrictTo("admin"));
 
+router.get("/search", userController.searchUser);
+
 router
   .route("/")
   .get(userController.getAllUsers)

@@ -5,6 +5,8 @@ const db = require("../db");
 
 const columns = "id, lastName, firstName, email, role";
 
+const searchSql = `SELECT ${columns} FROM users WHERE lastName LIKE ? OR firstName LIKE ? OR email LIKE ? OR role LIKE ? `;
+
 const filterObj = (obj, ...options) => {
   let newObj = {};
   Object.keys(obj).forEach((el) => {
@@ -74,3 +76,4 @@ exports.getAllUsers = Factory.getAll("users", columns);
 exports.getUser = Factory.getOne("users", columns);
 exports.deleteUser = Factory.deleteOne("users");
 exports.updateUser = Factory.updateOne("users", columns);
+exports.searchUser = Factory.search("users", searchSql, 4);
