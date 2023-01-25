@@ -2,11 +2,15 @@ const Factory = require("./handlerFactory");
 const catchAsync = require("./../utils/catchAsync");
 const db = require("./../db");
 
+const searchSql =
+  "SELECT * FROM interviews WHERE type LIKE ? OR interviewerName LIKE ? OR address LIKE ? OR note LIKE ? OR result LIKE ?";
+
 exports.getAllInterviews = Factory.getAll("interviews");
 exports.getInterview = Factory.getOne("interviews");
 exports.createInterview = Factory.createOne("interviews");
 exports.deleteInterview = Factory.deleteOne("interviews");
 exports.updateInterview = Factory.updateOne("interviews");
+exports.searchInterview = Factory.search("interviews", searchSql, 5);
 
 exports.getAllInterviewsOnJob = catchAsync(async (req, res, next) => {
   const sql =

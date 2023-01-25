@@ -12,6 +12,8 @@ router.get(
 
 router.use(authController.protect);
 
+router.get("/search", intervieController.searchInterview);
+
 router
   .route("/")
   .get(intervieController.getAllInterviews)
