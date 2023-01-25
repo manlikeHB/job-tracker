@@ -3,8 +3,13 @@ const catchAsync = require("../utils/catchAsync");
 const Factory = require("./handlerFactory");
 const AppError = require("./../utils/appError");
 
+// Sql query for job search
 const searchSql =
   "SELECT * FROM jobs WHERE title LIKE ? OR company LIKE ? OR location LIKE ? OR status LIKE ? OR position LIKE ?";
+
+// Sql query for searching jobs of currently logged in user
+const searchMyJobsSql =
+  "SELECT jobs.* FROM jobs JOIN users_jobs ON users_jobs.job_id = jobs.id JOIN users ON users_jobs.user_id = users.id WHERE (jobs.title LIKE ? OR jobs.company LIKE ? OR jobs.location LIKE ? OR jobs.status LIKE ? OR jobs.position LIKE ?) AND users.id = ? ";
 
 exports.getAllJobs = Factory.getAll("jobs");
 exports.createJob = Factory.createOne("jobs");
@@ -12,6 +17,7 @@ exports.deleteJob = Factory.deleteOne("jobs");
 exports.getJob = Factory.getOne("jobs");
 exports.updateJob = Factory.updateOne("jobs");
 exports.searchJobs = Factory.search("jobs", searchSql, 5);
+exports.searchMyJobs = Factory.search("jobs", searchMyJobsSql, 5);
 
 exports.getMyJobs = catchAsync(async (req, res, next) => {
   const sql = `SELECT jobs.* FROM jobs JOIN users_jobs ON users_jobs.job_id = jobs.id JOIN users ON users_jobs.user_id = users.id WHERE users.id = ?`;

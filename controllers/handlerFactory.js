@@ -147,11 +147,16 @@ exports.search = (table, sql, num) => {
   return catchAsync(async (req, res, next) => {
     const { input } = req.query;
     const inputValue = "%" + input + "%";
+    const userId = req.user.id;
 
     const arr = [];
 
     for (let i = 0; i < num; i++) {
       arr.push(inputValue);
+    }
+
+    if (userId) {
+      arr.push(userId);
     }
 
     const data = (await db.query(sql, arr))[0];

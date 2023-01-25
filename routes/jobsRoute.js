@@ -16,9 +16,15 @@ router
   .get(jobController.checkAndUpdateJobStatus, jobController.getOneJob)
   .patch(jobController.updateOpenedJobStatusToClosed);
 
+router.get("/search-my-jobs", jobController.searchMyJobs);
+
 router.use(authController.protect);
 
-router.get("/search", jobController.searchJobs);
+router.get(
+  "/search",
+  authController.restrictTo("admin"),
+  jobController.searchJobs
+);
 
 router
   .route("/")
