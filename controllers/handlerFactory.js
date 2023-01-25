@@ -142,3 +142,24 @@ exports.updateOne = (table, filteredColumns, data) => {
     sendResponse(res, table, result, 200);
   });
 };
+
+exports.search = (table, sql, num) => {
+  return catchAsync(async (req, res, next) => {
+    const { input } = req.query;
+    const inputValue = "%" + input + "%";
+
+    const arr = [];
+
+    for (let i = 0; i < num; i++) {
+      arr.push(inputValue);
+    }
+
+    const data = (await db.query(sql, arr))[0];
+
+    if (!(Array.isArray(data) && data.length)) {
+      return next(new AppError("No data found!", 404));
+    }
+
+    sendResponse(res, table, data, 200);
+  });
+};

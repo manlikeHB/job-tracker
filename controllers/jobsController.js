@@ -2,13 +2,16 @@ const db = require("../db");
 const catchAsync = require("../utils/catchAsync");
 const Factory = require("./handlerFactory");
 const AppError = require("./../utils/appError");
-const { is } = require("bluebird");
+
+const searchSql =
+  "SELECT * FROM jobs WHERE title LIKE ? OR company LIKE ? OR location LIKE ? OR status LIKE ? OR position LIKE ?";
 
 exports.getAllJobs = Factory.getAll("jobs");
 exports.createJob = Factory.createOne("jobs");
 exports.deleteJob = Factory.deleteOne("jobs");
 exports.getJob = Factory.getOne("jobs");
 exports.updateJob = Factory.updateOne("jobs");
+exports.searchJobs = Factory.search("jobs", searchSql, 5);
 
 exports.getMyJobs = catchAsync(async (req, res, next) => {
   const sql = `SELECT jobs.* FROM jobs JOIN users_jobs ON users_jobs.job_id = jobs.id JOIN users ON users_jobs.user_id = users.id WHERE users.id = ?`;
@@ -71,27 +74,4 @@ exports.checkAndUpdateJobStatus = catchAsync(async (req, res, next) => {
 exports.updateOpenedJobStatusToClosed = Factory.updateOne("jobs", undefined, {
   status: "closed",
   deadline: null,
-});
-
-exports.searchJobs = catchAsync(async (req, res, next) => {
-  const { input } = req.query;
-  const inputValue = "%" + input + "%";
-
-  arr = [inputValue, inputValue, inputValue, inputValue, inputValue];
-  console.log(arr);
-
-  const sql =
-    "SELECT * FROM jobs WHERE title LIKE ? OR company LIKE ? OR location LIKE ? OR status LIKE ? OR position LIKE ?";
-
-  const data = (await db.query(sql, arr))[0];
-
-  if (!(Array.isArray(data) && data.length)) {
-    return next(new AppError("No data found!", 404));
-  }
-
-  res.status(200).json({
-    status: "success",
-    results: data.length,
-    data,
-  });
 });
