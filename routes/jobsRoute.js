@@ -6,6 +6,7 @@ const interviewRouter = require("./interviewRoute");
 const router = express.Router({ mergeParams: true });
 
 router.use("/:jobId/interviews", interviewRouter);
+router.use("/interviews", interviewRouter);
 
 router
   .route("/my-jobs")

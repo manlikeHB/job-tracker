@@ -10,9 +10,15 @@ router.get(
   intervieController.getInterviewOnJob
 );
 
+router.get("/search-my-interviews", intervieController.searchMyInterviews);
+
 router.use(authController.protect);
 
-router.get("/search", intervieController.searchInterview);
+router.get(
+  "/search",
+  authController.restrictTo("admin"),
+  intervieController.searchInterview
+);
 
 router
   .route("/")
