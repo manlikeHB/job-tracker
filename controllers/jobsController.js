@@ -81,3 +81,23 @@ exports.updateOpenedJobStatusToClosed = Factory.updateOne("jobs", undefined, {
   status: "closed",
   deadline: null,
 });
+
+// [
+//   { user_id: 2, deadline: 2023-12-22T23:00:00.000Z, job_id: 5 },
+//   { user_id: 2, deadline: 2024-12-31T23:00:00.000Z, job_id: 6 }
+// ]
+
+exports.getAllJobsWithDeadline = async () => {
+  const sql =
+    "SELECT user_id, deadline, job_id FROM jobs JOIN users_Jobs ON job_id = jobs.id JOIN users ON user_id = users.id WHERE deadline IS NOT NULL AND notification_created = 'false' AND DATE(deadline) = DATE(NOW()) AND TIME(deadline) > TIME(NOW());";
+
+  const result = (await db.query(sql))[0];
+
+  return result;
+};
+
+exports.updateNotificationCreatedStatus = async (jobId) => {
+  const sql = "UPDATE jobs SET notification_created = 'true' WHERE id = ?";
+
+  await db.query(sql, jobId);
+};

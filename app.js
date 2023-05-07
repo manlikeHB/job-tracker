@@ -1,6 +1,7 @@
 const express = require("express");
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
+const cron = require("./utils/cronjob");
 
 const globalErrorHandler = require("./controllers/errorController");
 const AppError = require("./utils/appError");
