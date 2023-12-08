@@ -22,7 +22,7 @@ router.get(
 
 router
   .route("/")
-  .get(intervieController.getAllInterviews)
+  .get(authController.restrictTo("admin"), intervieController.getAllInterviews)
   .post(intervieController.createInterview);
 
 router
