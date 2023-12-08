@@ -1,6 +1,9 @@
 DROP TABLE IF EXISTS users_Jobs;
+DROP TABLE IF EXISTS job_interviews;
 DROP TABLE IF EXISTS jobs;
 DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS interviews;
+
 
 
 CREATE TABLE jobs (
@@ -25,6 +28,7 @@ CREATE TABLE users (
     email VARCHAR(255) UNIQUE, 
     password VARCHAR(255) NOT NULL, 
     role ENUM ('admin', 'subscriber', 'non-subscriber') NOT NULL DEFAULT 'non-subscriber', 
+    active ENUM ('true', 'false') NOT NULL DEFAULT 'true',
     created_at TIMESTAMP DEFAULT NOW() 
 );
 
@@ -36,23 +40,25 @@ CREATE TABLE users_Jobs (
     FOREIGN KEY (job_id) REFERENCES jobs (id) ON DELETE CASCADE
 );
 
-INSERT INTO jobs (title, company, location, status) VALUES
-	('software eng', 'microsoft', 'accra', 'open'), 
-    ('chemist', 'labs', 'abuja', 'open'),
-    ('backend dev', 'google', 'LA', 'closed');
-    
-INSERT INTO jobs (title, company, location, status, deadline) VALUES
-	('barber', 'fine cut', 'kaduna', 'forthcoming', '2022-12-30'),
-	('terapist', 'oaks', 'abuja', 'forthcoming', '2022-12-23'),
-    ('frontend dev', 'azure', 'mexico', 'forthcoming', '2025-01-01');
-    
-INSERT INTO users (lastName, firstName, email, password) VALUES 
-	('test', 'one', 'one@example.com', 'test1234'),
-    ('test', 'two', 'two@example.com', 'test1234'),
-    ('test', 'three', 'three@example.com', 'test1234');
+CREATE TABLE interviews (
+	id INT AUTO_INCREMENT PRIMARY KEY,
+    interviewer_name VARCHAR(255),
+    interview_date TIMESTAMP,
+    location VARCHAR(255),
+    notes VARCHAR(255),
+    results ENUM("Passed", "Failed"),
+    rescheduled_date TIMESTAMP,
+    reschedule_reason VARCHAR(255),
+    deadline TIMESTAMP,
+    created_at TIMESTAMP DEFAULT NOW(),
+    CONSTRAINT CHK_INTERVIEW_DATE_AND_DEADLINE CHECK ((interview_date >= created_at) AND (deadline > created_at))
+);
 
-INSERT INTO users (lastName, firstName, email, password, role) VALUES 
-   ('yusuf', 'Habib', 'hb@gmail.com', 'test1234', 'admin');
-   
-INSERT INTO users_Jobs (user_id, job_id) VALUES 
-	(1, 2), (2, 3), (3, 5), (1, 1), (3, 4), (2, 6);
+CREATE TABLE job_interviews (
+	id INT PRIMARY KEY AUTO_INCREMENT,
+    job_id INT NOT NULL,
+    interview_id INT NOT NULL,
+    FOREIGN KEY (job_id) REFERENCES jobs (id) ON DELETE CASCADE,
+    FOREIGN KEY (interview_id) REFERENCES interviews (id) ON DELETE CASCADE
+);
+
