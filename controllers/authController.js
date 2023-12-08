@@ -176,6 +176,11 @@ exports.protect = catchAsync(async (req, res, next) => {
     );
   }
 
+  // Check user's active status
+  if (user.active === "false") {
+    return next(new AppError("This User is deactivated", 404));
+  }
+
   // Check if user changed password after token was issued
   if (changedPasswordAfter(decoded.iat, user)) {
     return next(new AppError("Password changed recently, Login again", 401));
@@ -340,3 +345,11 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
   // Log user in and send jwt
   createSendToken(user, 200, res, req);
 });
+
+// exports.checkIfUserIsActive = catchAsync(async (req, res, next) => {
+//   if (req.user.active === "false") {
+//     return next(new AppError("This User is deactivated", 404));
+//   }
+
+//   next();
+// });
