@@ -1,0 +1,73 @@
+extends base 
+
+block content 
+
+    .nav-container
+        p
+            span.active-color JobTracker
+        ul.nav-menu
+            li.btn.btn-nav.nav-item
+                a.nav-link(href="#") My Jobs
+            li.btn.btn-nav.nav-item
+                a.nav-link(href="#") My Interviews
+            li.btn.btn-nav.nav-item.center-div
+                a(href="#", class="nav__el")
+                    img.user-img(src="/img/default.jpg", alt="User photo")
+                    | &nbsp;
+                span Habib
+        .hamburger
+            span.bar
+            span.bar
+            span.bar
+    #header
+        h3 Add New Job Application
+    hr
+    section#content
+        .card
+            form.form.form-job-data
+                .title.form-input-div
+                    span Title:
+                    | &nbsp;
+                    input#title.form-input(type="text", name="title", placeholder="Enter Job Title", required)
+                .position.form-input-div
+                    span Position:
+                    | &nbsp;
+                    input#position.form-input(type="text", name="position", placeholder="Enter Job Position", required)
+                .company.form-input-div
+                    span Company:
+                    | &nbsp;
+                    input#company.form-input(type="text", name="company", placeholder="Enter Company Name", required)
+                .location.form-input-div
+                    span Location:
+                    | &nbsp;
+                    input#location.form-input(type="text", name="location", placeholder="Enter Company location", required)
+                .status.form-input-div
+                    span status:
+                    | &nbsp;
+                    select#status.form-input(name="status", required)
+                        option(value='', selected) Select Job Status*
+                        option(value="open") Open
+                        option(value="closed") Closed
+                        option(value="forthcoming") Forthcoming
+                .type.form-input-div
+                    span Type:
+                    | &nbsp;
+                    select#type.form-input(name="type", required)
+                        option(value='', selected) Select Job Type*
+                        option(value="onsite") On-site
+                        option(value="remote") Remote
+                        option(value="hybrid") Hybrid
+                .deadline.form-input-div
+                    span Deadline:
+                    | &nbsp;
+                    input#deadline.form-input(type="datetime-local", name="deadline", placeholder="Enter Job Application Deadline")
+                .description.form-input-div
+                    label(for="description") Description:
+                    | &nbsp;
+                    textarea#description.form-input(name="description", cols="25", rows="5", placeholder="Enter Job Description")
+                .requirement.form-input-div
+                    label(for="requirement") Requirement:
+                    | &nbsp;
+                    textarea#requirement.form-input(name="requirement", cols="25", rows="5", placeholder="Enter Job Requirements")
+                .center-div
+                    button.action-btn-two Add Job

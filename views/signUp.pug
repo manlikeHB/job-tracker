@@ -1,0 +1,40 @@
+extends base 
+
+block content
+    .nav-container
+        p
+            span.active-color JobTracker
+        ul.nav-menu
+            li.btn.btn-nav.nav-item
+                a.nav-link(href="#") Pricing
+            li.btn.btn-nav.nav-item
+                a.nav-link(href="#") Log In 
+                i.fa-solid.fa-circle-user
+        .hamburger
+            span.bar
+            span.bar
+            span.bar
+    hr
+    section#content
+        main.card.main
+            .login-form
+                h2.login-heading Sign Up
+                form.form.form-login
+                    .form-group
+                        label(class="", for="email") Email address
+                        input#email.login-input(type="email", placeholder="you@example.com", required="required")
+                    .form-group
+                        label(class="", for="password") Password
+                        input#password.login-input.password(type="password", placeholder="••••••••", required="required", minlength="8")
+                    .form-group
+                        label(class="", for="password-confirm") Confirm Password
+                        input#password-confirm.login-input.password(type="password", placeholder="••••••••", required="required", minlength="8")
+                    .show-password-div
+                        input.show-password(type="checkbox")
+                        | &nbsp;Show
+                        | password
+                    .center-div
+                        button.action-btn-two Sign Up
+            .sign-up-options
+                h5 Already have an account? 
+                    a(href="/signup") Log In!

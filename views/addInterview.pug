@@ -1,0 +1,65 @@
+extends base 
+
+block content 
+
+    .nav-container
+        p
+            span.active-color JobTracker
+        ul.nav-menu
+
+            li.btn.btn-nav.nav-item
+                a.nav-link(href="#") My Jobs
+            li.btn.btn-nav.nav-item
+                a.nav-link(href="#") My Interviews
+            li.btn.btn-nav.nav-item.center-div
+                a(href="#", class="nav__el")
+                    img.user-img(src="/img/default.jpg", alt="User photo")
+                    | &nbsp;
+                span Habib
+        .hamburger
+            span.bar
+            span.bar
+            span.bar
+    #header
+        h3 Add Job Interview
+    hr
+    section#content
+        .card
+            form.form.form-interview-data
+                .type.form-input-div
+                    span Type:
+                    | &nbsp;
+                    input#type.form-input(type="text", name="type", placeholder="Enter Job Type", required)
+                .date.form-input-div
+                    span Date:
+                    | &nbsp;
+                    input#date.form-input(type="datetime-local", name="date", placeholder="Enter Interview Date", required)
+                .address.form-input-div
+                    span Address:
+                    | &nbsp;
+                    input#address.form-input(type="text", name="address", placeholder="Enter Address")
+                .note.form-input-div
+                    label(for="note") Note:
+                    | &nbsp;
+                    textarea#note.form-input(name="note", cols="25", rows="5", placeholder="Enter Note")
+                .deadline.form-input-div
+                    span Deadline:
+                    | &nbsp;
+                    input#deadline.form-input(type="datetime-local", name="deadline")
+                .result.form-input-div
+                    span Result:
+                    | &nbsp;
+                    select#result.form-input(name="result")
+                        option(value="") Select Job result*
+                        option(value="passed") Passed
+                        option(value="failed") Failed
+                .rescheduleDate.form-input-div
+                    span Rescheduled Date:
+                    | &nbsp;
+                    input#rescheduleDate.form-input(type="datetime-local", name="rescheduleDate")
+                .rescheduleReason.form-input-div
+                    label(for="rescheduleReason") Reschedule Reason:
+                    | &nbsp;
+                    textarea#rescheduleReason.form-input(name="rescheduleReason", cols="25", rows="5", placeholder="Enter Reason for Reschedule")
+                .center-div
+                    button.action-btn-two Add Interview

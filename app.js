@@ -1,3 +1,4 @@
+const path = require("path");
 const express = require("express");
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
@@ -9,8 +10,14 @@ const jobRouter = require("./routes/jobsRoute");
 const userRouter = require("./routes/userRoute");
 const interviewRouter = require("./routes/interviewRoute");
 const notificationRouter = require("./routes/notificationRoute");
+const viewsRouter = require("./routes/viewRoute");
 
 const app = express();
+
+app.set("view engine", "pug");
+app.set("views", path.join(__dirname, "views"));
+
+app.use(express.static(path.join(__dirname, "public")));
 
 // Body parser
 app.use(express.json());
@@ -21,6 +28,7 @@ if (process.env.NODE_ENV !== "production") {
   app.use(morgan("dev"));
 }
 
+app.use("/", viewsRouter);
 app.use("/api/v1/jobs", jobRouter);
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/interviews", interviewRouter);

@@ -1,0 +1,75 @@
+extends base 
+
+block content 
+    .nav-container
+        p
+            span.active-color JobTracker
+        ul.nav-menu
+            li.btn.btn-nav.nav-item
+                a.nav-link(href="#") My Job Applications
+            li.btn.btn-nav.nav-item.center-div
+                a(href="#", class="nav__el")
+                    img.user-img(src="/img/default.jpg", alt="User photo")
+                    | &nbsp;
+                span Habib
+        .hamburger
+            span.bar
+            span.bar
+            span.bar
+    #header
+        h3 Job Application for backend developer role at Microsoft inc.
+    hr
+    section#content
+        .card
+            form.form.form-job-data
+                .edit-icon.form-input-div
+                    i.fa-regular.fa-pen-to-square.fa-lg.fa-icons.edit-job
+                .title.form-input-div
+                    span Title:
+                    | &nbsp;
+                    input#title.form-input(type="text", name="title", placeholder="Enter Job Title", required, value="Web Developer", readonly)
+                .position.form-input-div
+                    span Position:
+                    | &nbsp;
+                    input#position.form-input(type="text", name="position", placeholder="Enter Job Position", required, value="Backend Developer", readonly)
+                .company.form-input-div
+                    span Company:
+                    | &nbsp;
+                    input#company.form-input(type="text", name="company", placeholder="Enter Company Name", required, value="Microsoft inc.", readonly)
+                .location.form-input-div
+                    span Location:
+                    | &nbsp;
+                    input#location.form-input(type="text", name="location", placeholder="Enter Company location", required, value="Accra", readonly)
+                .status.form-input-div
+                    span status:
+                    | &nbsp;
+                    select#status.form-input.select-job-status(name="status", required, disabled)
+                        option(value="open") Open
+                .type.form-input-div
+                    span Type:
+                    | &nbsp;
+                    select#type.form-input.select-job-type(name="type", required, disabled)
+                        option(value="onsite") On-site
+                .deadline.form-input-div
+                    span Deadline:
+                    | &nbsp;
+                    input#deadline.form-input.job-deadline(type="text", name="deadline", value="Wed Aug 31 2022 by 02:15 am", readonly)
+                .description.form-input-div
+                    span Description:
+                    | &nbsp;
+                    textarea#description.form-input(name="description", cols="25", rows="7", placeholder="Enter Job Description", readonly)
+                        | Laptop and good internet
+                .requirement.form-input-div
+                    label(for="requirement") Requirement:
+                    | &nbsp;
+                    textarea#requirement.form-input(name="requirement", cols="25", rows="7", placeholder="Enter Job Requirements", readonly)
+                        | Lorem ipsum dolor sit
+                .add-view-interview
+                    .view-interview.action-btn-two
+                        p
+                            a.de-link(href="#")  View Interview 
+                    .add-interview.action-btn-two
+                        a.de-link(href="#")  Add Interview 
+                .save-job.center-div.display-none
+                    .action-btn-two
+                        span.save  Save 

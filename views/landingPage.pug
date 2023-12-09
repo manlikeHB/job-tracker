@@ -1,0 +1,41 @@
+extends base 
+
+block content
+
+    .nav-container
+        p
+            span.active-color JobTracker
+        ul.nav-menu
+            li.btn.btn-nav.nav-item
+                a.nav-link(href="#") About
+            li.btn.btn-nav.nav-item
+                a.nav-link(href="#") Pricing
+            li.btn.btn-nav.nav-item
+                a.nav-link(href="#") Documentation
+            li.nav-item
+                a.btn-sign-up.action-btn.nav-link(href="#") Sign In
+        .hamburger
+            span.bar
+            span.bar
+            span.bar
+    #hero
+        .hero-left
+            h1
+                span.active-color Organize
+                | , 
+                span.active-color track
+                | , and 
+                span.active-color receive reminders 
+                | for all of your
+                | job applications and interviews.
+            p
+                | This sophisticated job application tracker will help make your job
+                | hunt less stressful.
+            #get-started
+                // <p>
+                a.btn-sign-up.action-btn(href="#") Get Started
+                // </p>
+        .hero-svg
+            lottie-player(src="https://assets7.lottiefiles.com/packages/lf20_tmxfhtge.json", background="transparent", speed="1", style="width: 100%; height: 100%", loop, autoplay)
+
+

@@ -1,0 +1,80 @@
+extends base 
+
+block content 
+    .nav-container
+        p
+            span.active-color JobTracker
+        ul.nav-menu
+            li.btn.btn-nav.nav-item
+                a.nav-link(href="#") Log Out
+            li.btn.btn-nav.nav-item.center-div
+                a(href="#", class="nav__el")
+                    img.user-img(src="/img/default.jpg", alt="User photo")
+                    | &nbsp;
+                span Habib
+        .hamburger
+            span.bar
+            span.bar
+            span.bar
+    #header
+        h3 Account Settings
+    hr
+    section#content
+        #user-account
+            .user-menu
+                .settings.account-div.active-btn-menu
+                    a.de-link(href="#") SETTINGS
+                .my-jobs.account-div
+                    a.de-link(href="#") MY&nbsp;JOBS
+                .my-interviews.account-div
+                    a.de-link(href="#") My&nbsp;INTERVIEWS
+                .billing.account-div
+                    a.de-link(href="#") Billing
+                .log-out.account-div
+                    a.de-link(href="#") LOG OUT
+                div
+                    h3.admin-h3 Admin
+                    hr.width-80
+                    .manage-users.account-div
+                        a.de-link(href="#") Manage&nbsp;Users
+                    .manage-jobs.account-div
+                        a.de-link(href="#") Manage&nbsp;Jobs
+                    .manage-billings.account-div
+                        a.de-link(href="#") Manage&nbsp;Billings
+            .user-view
+                .account-settings
+                    h2 Your account settings
+                    form.form.form-user-data
+                        .form-group
+                            label(class="form__label", for="name") Name
+                            input#name.form-input-account(type="text", value="Yusuf Habib Tajudeen", required="required")
+                        .form-group
+                            label(class="form__label", for="email") Email address
+                            input#email.form-input-account(type="email", value="admin@natours.io", required="required")
+                        .choose-photo
+                            img.user-img(src="/img/default.jpg", alt="User photo")
+                            .avatar
+                                label(for="avatar") Choose profile picture
+                                input#avatar(type="file", name="avatar", accept="image/*")
+                        .save-div.save-settings
+                            button.action-btn Save settings
+                hr
+                .change-password.account-settings
+                    h2(class="") Password change
+                    form.form.form-user-settings
+                        .form-group
+                            label(class="form__label", for="password-current") Current password
+                            input#password-current.form-input-account.password(type="password", placeholder="••••••••", required="required", minlength="8")
+                        .form-group
+                            label(class="form__label", for="new-password") New password
+                            input#new-password.form-input-account.password(type="password", placeholder="••••••••", required="required", minlength="8")
+                        .form-group
+                            label(class="form__label", for="password-confirm") Confirm password
+                            input#password-confirm.form-input-account.password(type="password", placeholder="••••••••", required="required", minlength="8")
+                        .show-password-div
+                            input.show-password(type="checkbox")
+                            | &nbsp;Show password
+                        .save-div
+                            button.action-btn Save password
+
+        
