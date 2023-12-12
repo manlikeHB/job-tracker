@@ -12,8 +12,8 @@ block content
             li.btn.btn-nav.nav-item.center-div
                 a(href="#", class="nav__el")
                     img.user-img(src="/img/default.jpg", alt="User photo")
-                    | &nbsp;
-                span Habib
+                    |  &nbsp;
+                span=user.firstName
         .hamburger
             span.bar
             span.bar
@@ -27,188 +27,27 @@ block content
             input#search(type="search", name="search", placeholder="Search your jobs", required="required")
     hr
     section#content
-        .card-overview-job
-            .title.line
-                h4 Title:
-                | &nbsp;
-                p Web Developer
-            .position.line
-                h4 Postition:
-                | &nbsp;
-                p Backend Developer
-            .company.line
-                h4 Company:
-                | &nbsp;
-                p Microsoft inc.
-            .location.line
-                h4 location:
-                | &nbsp;
-                p Accra
-            .type.line
-                h4 type:
-                | &nbsp;
-                p Hybrid
-            .details.action-btn-two
-                p Details
-        .card-overview-job
-            .title.line
-                h4 Title:
-                | &nbsp;
-                p Web Developer
-            .position.line
-                h4 Postition:
-                | &nbsp;
-                p Backend Developer
-            .company.line
-                h4 Company:
-                | &nbsp;
-                p Microsoft inc.
-            .location.line
-                h4 location:
-                | &nbsp;
-                p Accra
-            .type.line
-                h4 type:
-                | &nbsp;
-                p Hybrid
-            .details.action-btn-two
-                p Details
-        .card-overview-job
-            .title.line
-                h4 Title:
-                | &nbsp;
-                p Web Developer
-            .position.line
-                h4 Postition:
-                | &nbsp;
-                p Backend Developer
-            .company.line
-                h4 Company:
-                | &nbsp;
-                p Microsoft inc.
-            .location.line
-                h4 location:
-                | &nbsp;
-                p Accra
-            .type.line
-                h4 type:
-                | &nbsp;
-                p Hybrid
-            .details.action-btn-two
-                p Details
-        .card-overview-job
-            .title.line
-                h4 Title:
-                | &nbsp;
-                p Web Developer
-            .position.line
-                h4 Postition:
-                | &nbsp;
-                p Backend Developer
-            .company.line
-                h4 Company:
-                | &nbsp;
-                p Microsoft inc.
-            .location.line
-                h4 location:
-                | &nbsp;
-                p Accra
-            .type.line
-                h4 type:
-                | &nbsp;
-                p Hybrid
-            .details.action-btn-two
-                p Details
-        .card-overview-job
-            .title.line
-                h4 Title:
-                | &nbsp;
-                p Web Developer
-            .position.line
-                h4 Postition:
-                | &nbsp;
-                p Backend Developer
-            .company.line
-                h4 Company:
-                | &nbsp;
-                p Microsoft inc.
-            .location.line
-                h4 location:
-                | &nbsp;
-                p Accra
-            .type.line
-                h4 type:
-                | &nbsp;
-                p Hybrid
-            .details.action-btn-two
-                p Details
-        .card-overview-job
-            .title.line
-                h4 Title:
-                | &nbsp;
-                p Web Developer
-            .position.line
-                h4 Postition:
-                | &nbsp;
-                p Backend Developer
-            .company.line
-                h4 Company:
-                | &nbsp;
-                p Microsoft inc.
-            .location.line
-                h4 location:
-                | &nbsp;
-                p Accra
-            .type.line
-                h4 type:
-                | &nbsp;
-                p Hybrid
-            .details.action-btn-two
-                p Details
-        .card-overview-job
-            .title.line
-                h4 Title:
-                | &nbsp;
-                p Web Developer
-            .position.line
-                h4 Postition:
-                | &nbsp;
-                p Backend Developer
-            .company.line
-                h4 Company:
-                | &nbsp;
-                p Microsoft inc.
-            .location.line
-                h4 location:
-                | &nbsp;
-                p Accra
-            .type.line
-                h4 type:
-                | &nbsp;
-                p Hybrid
-            .details.action-btn-two
-                p Details
-        .card-overview-job
-            .title.line
-                h4 Title:
-                | &nbsp;
-                p Web Developer
-            .position.line
-                h4 Postition:
-                | &nbsp;
-                p Backend Developer
-            .company.line
-                h4 Company:
-                | &nbsp;
-                p Microsoft inc.
-            .location.line
-                h4 location:
-                | &nbsp;
-                p Accra
-            .type.line
-                h4 type:
-                | &nbsp;
-                p Hybrid
-            .details.action-btn-two
-                p Details
-        
+        each job in jobs
+            .card-overview-job
+                .title.line
+                    h4 Title:
+                    | &nbsp;
+                    p=job.title
+                .position.line
+                    h4 Postition:
+                    | &nbsp;
+                    p=job.position
+                .company.line
+                    h4 Company:
+                    | &nbsp;
+                    p=job.company
+                .location.line
+                    h4 location:
+                    | &nbsp;
+                    p=job.location
+                .type.line
+                    h4 type:
+                    | &nbsp;
+                    p=job.type
+                .details.action-btn-two
+                    p Details 

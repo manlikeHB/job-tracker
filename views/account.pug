@@ -10,8 +10,8 @@ block content
             li.btn.btn-nav.nav-item.center-div
                 a(href="#", class="nav__el")
                     img.user-img(src="/img/default.jpg", alt="User photo")
-                    | &nbsp;
-                span Habib
+                    |  &nbsp;
+                span=user.firstName
         .hamburger
             span.bar
             span.bar
@@ -47,10 +47,10 @@ block content
                     form.form.form-user-data
                         .form-group
                             label(class="form__label", for="name") Name
-                            input#name.form-input-account(type="text", value="Yusuf Habib Tajudeen", required="required")
+                            input#name.form-input-account(type="text", value=`${user.firstName} ${user.lastName}`, required="required")
                         .form-group
                             label(class="form__label", for="email") Email address
-                            input#email.form-input-account(type="email", value="admin@natours.io", required="required")
+                            input#email.form-input-account(type="email", value=user.email, required="required")
                         .choose-photo
                             img.user-img(src="/img/default.jpg", alt="User photo")
                             .avatar

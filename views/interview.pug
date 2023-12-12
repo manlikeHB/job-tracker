@@ -25,51 +25,50 @@ block content
             input#search(type="search", name="search", placeholder="Search your interviews", required="required")
     hr
     section#content
-        .card
-            form.form.form-job-data
-                .edit-icon.form-input-div
-                    i.fa-regular.fa-pen-to-square.fa-lg.fa-icons.edit-interview
-                .type.form-input-div
-                    span Type:
-                    | &nbsp;
-                    input#type.form-input(type="text", name="type", required, value="Face to face", readonly)
-                .interviewers-name.form-input-div
-                    span Interviewer&apos;s Name:
-                    | &nbsp;
-                    input#interviewers-name.form-input(type="text", name="interviewers-name", required, value="Grace Good Person", readonly)
-                .date.form-input-div
-                    span Date:
-                    | &nbsp;
-                    input#date.form-input.interview-date-input(type="text", name="date", required, value="Wed Aug 31 2022 by 02:15 am", readonly)
-                .address.form-input-div
-                    span Address:
-                    | &nbsp;
-                    input#address.form-input(type="text", name="address", required, value="No 14b along the road, Ilorin Canada.", readonly)
-                .note.form-input-div
-                    span Note:
-                    | &nbsp;
-                    textarea#note.form-input(name="note", cols="25", rows="7", readonly)
-                        | Come with your writing materials.
-                .result.form-input-div
-                    span Result:
-                    | &nbsp;
-                    select#result.form-input.select-interview-result(name="result", required, disabled)
-                        option(value="passed") Passed
-                .rescheduleDate.form-input-div
-                    span Rescheduled Date:
-                    | &nbsp;
-                    input#rescheduleDate.form-input(type="datetime-local", name="rescheduleDate")
-                .reschedule-reason.form-input-div
-                    span Reschedule reason:
-                    | &nbsp;
-                    textarea#reschedule-reason.form-input(name="reschedule-reason", cols="25", rows="7", readonly)
-                        | Bad Internet
-                .deadline.form-input-div
-                    span Deadline:
-                    | &nbsp;
-                    input#deadline.form-input.interview-deadline(type="text", name="deadline", value="Wed Aug 31 2022 by 02:15 am", readonly)
-                .save-interview.center-div.display-none
-                    .action-btn-two
-                        span.save-interview-btn  Save 
+        each interview in interviews
+            .card
+                form.form.form-job-data
+                    .edit-icon.form-input-div
+                        i.fa-regular.fa-pen-to-square.fa-lg.fa-icons.edit-interview
+                    .type.form-input-div
+                        span Type:
+                        | &nbsp;
+                        input#type.form-input(type="text", name="type", required, value=interview.type, readonly)
+                    .interviewers-name.form-input-div
+                        span Interviewer&apos;s Name:
+                        | &nbsp;
+                        input#interviewers-name.form-input(type="text", name="interviewers-name", required, value=interview.interviewer_name, readonly)
+                    .date.form-input-div
+                        span Date:
+                        | &nbsp;
+                        input#date.form-input.interview-date-input(type="text", name="date", required, value="Wed Aug 31 2022 by 02:15 am", readonly)
+                    .address.form-input-div
+                        span Address:
+                        | &nbsp;
+                        input#address.form-input(type="text", name="address", required, value=interview.address, readonly)
+                    .note.form-input-div
+                        span Note:
+                        | &nbsp;
+                        textarea#note.form-input(name="note", cols="25", rows="7", readonly)=interview.note
+                    .result.form-input-div
+                        span Result:
+                        | &nbsp;
+                        select#result.form-input.select-interview-result(name="result", required, disabled)
+                            option(value="passed") Passed
+                    .rescheduleDate.form-input-div
+                        span Rescheduled Date:
+                        | &nbsp;
+                        input#rescheduleDate.form-input(type="datetime-local", name="rescheduleDate")
+                    .reschedule-reason.form-input-div
+                        span Reschedule reason:
+                        | &nbsp;
+                        textarea#reschedule-reason.form-input(name="reschedule-reason", cols="25", rows="7", readonly)=interview.reschedule_reason
+                    .deadline.form-input-div
+                        span Deadline:
+                        | &nbsp;
+                        input#deadline.form-input.interview-deadline(type="text", name="deadline", value="Wed Aug 31 2022 by 02:15 am", readonly)
+                    .save-interview.center-div.display-none
+                        .action-btn-two
+                            span.save-interview-btn  Save 
 
 

@@ -54,7 +54,6 @@ const generateAmPmTime = (time) => {
 };
 
 const convertDateTime = (dateTime) => {
-  console.log(dateTime);
   // 2023-12-22T23:00:00.000Z
   let [dayOfWeek, month, day, year, by, time, ampm] = dateTime.split(" ");
 
@@ -198,9 +197,14 @@ function editInterviewFunc() {
     }
   });
 
+  let interviewDateValue;
+  let interviewDeadlineValue;
+
   // convert date and time to datetime-local acceptable format
-  const interviewDateValue = convertDateTime(interviewDate);
-  const interviewDeadlineValue = convertDateTime(interviewDeadline);
+  if (interviewDate || interviewDeadline) {
+    interviewDateValue = convertDateTime(interviewDate);
+    interviewDeadlineValue = convertDateTime(interviewDeadline);
+  }
 
   // Set attribute to type datetime-local
   interviewDate.setAttribute("type", "datetime-local");
