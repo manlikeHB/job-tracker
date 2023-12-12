@@ -54,7 +54,9 @@ const generateAmPmTime = (time) => {
 };
 
 const convertDateTime = (dateTime) => {
-  let [dayOfWeek, month, day, year, by, time, ampm] = dateTime.value.split(" ");
+  console.log(dateTime);
+  // 2023-12-22T23:00:00.000Z
+  let [dayOfWeek, month, day, year, by, time, ampm] = dateTime.split(" ");
 
   let [h, m, s] = time.split(":");
 
@@ -90,11 +92,13 @@ const convertDateTimeToString = (dateTime) => {
 // Collect initial values for job status and job type
 let prevJobStatus;
 let prevJobType;
+let deadlineValue;
+let prevJobDeadline;
 
 function editJobFunc() {
   prevJobStatus = jobStatus.value;
   prevJobType = jobType.value;
-
+  prevJobDeadline = jobDeadline.value;
   // Get all input fields and remove the readonly and disabled attribute
   inputs.forEach((n) => {
     if (n.hasAttribute("readonly")) {
@@ -107,12 +111,14 @@ function editJobFunc() {
   // Change the deadline input type to datetime-local and set the value
   // 1) convert deadline to datetime-local acceptable format
 
-  const deadlineValue = convertDateTime(jobDeadline);
+  if (jobDeadline.value) {
+    deadlineValue = convertDateTime(jobDeadline.value);
+  }
 
   // 2) set deadline attribute to datetime-local
   jobDeadline.setAttribute("type", "datetime-local");
   // 3) set the value
-  jobDeadline.value = deadlineValue;
+  // jobDeadline.value = deadlineValue;
 
   //   Add options tag to the select element
   jobStatus.innerHTML = `  <option value="">Select Job Status*</option>
@@ -142,8 +148,26 @@ function saveJob() {
     }
   });
 
-  // Convert job deadline to readable time string
-  const deadlineValue = convertDateTimeToString(jobDeadline);
+  if (!jobDeadline.value) {
+    jobDeadline.setAttribute("type", "text");
+    console.log(prevJobDeadline);
+    console.log("hi");
+    jobDeadline.value = convertDateTime(prevJobDeadline);
+    // jobDeadline.value = convertDateTimeToString(prevJobDeadline);
+  } else {
+    // Convert job deadline to readable time string
+    // const deadlineValue = convertDateTimeToString(jobDeadline);
+    const deadlineValue = jobDeadline;
+    console.log("hello");
+    jobDeadline.setAttribute("type", "text");
+    jobDeadline.value = deadlineValue;
+
+    // ////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////
+    /////////REFRESH AFTER SAVING/////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////
+  }
 
   jobDeadline.setAttribute("type", "text");
   jobDeadline.value = deadlineValue;

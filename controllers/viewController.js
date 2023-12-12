@@ -1,3 +1,8 @@
+const db = require("../db");
+const factory = require("../controllers/handlerFactory");
+const catchAsync = require("../utils/catchAsync");
+const convertDateTimeToString = require("../utils/convertDateTimeToString");
+
 exports.getLandingPage = (req, res, next) => {
   res.status(200).render("landingPage", {
     title: "JobTracker",
@@ -28,11 +33,19 @@ exports.getInterviewPage = (req, res, next) => {
   });
 };
 
-exports.getJob = (req, res, next) => {
+exports.getJob = catchAsync(async (req, res, next) => {
+  // Get Jobs from Database
+  const sql = "SELECT * FROM jobs";
+
+  const jobs = (await db.query(sql))[0];
+
+  //
   res.status(200).render("job", {
     title: "Job",
+    job: jobs[4],
+    convertDateTimeToString,
   });
-};
+});
 
 exports.getLogin = (req, res, next) => {
   res.status(200).render("login", {
