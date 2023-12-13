@@ -12,8 +12,8 @@ block content
             li.btn.btn-nav.nav-item.center-div
                 a(href="#", class="nav__el")
                     img.user-img(src="/img/default.jpg", alt="User photo")
-                    |  &nbsp;
-                span=user.firstName
+                    | &nbsp;
+                span= data[0].firstName
         .hamburger
             span.bar
             span.bar
@@ -27,7 +27,7 @@ block content
             input#search(type="search", name="search", placeholder="Search your jobs", required="required")
     hr
     section#content
-        each job in jobs
+        each job in data
             .card-overview-job
                 .title.line
                     h4 Title:

@@ -53,16 +53,13 @@ exports.getInterviewPage = catchAsync(async (req, res, next) => {
 
 exports.getJob = catchAsync(async (req, res, next) => {
   // Get Jobs from Database
-  const sqlJobs = "SELECT * FROM jobs WHERE id = ?";
-  const sqlUser = "SELECT * FROM users WHERE id = ?";
+  const sql = `SELECT jobs.*, users.firstName FROM jobs JOIN users_Jobs ON users_Jobs.job_id = jobs.id JOIN users ON users.id = users_Jobs.user_id WHERE jobs.id = ? AND users.id = ?;`;
 
-  const job = (await db.query(sqlJobs, "8"))[0][0];
-  const user = (await db.query(sqlUser, "2"))[0][0];
+  const data = (await db.query(sql, ["2", "1"]))[0][0];
 
   res.status(200).render("job", {
     title: "Job",
-    job,
-    user,
+    data,
     convertDateTimeToString,
   });
 });
@@ -74,16 +71,14 @@ exports.getLogin = (req, res, next) => {
 };
 
 exports.getJobsOverview = catchAsync(async (req, res, next) => {
-  const sqlJobs = "SELECT * FROM jobs";
-  const sqlUser = "SELECT * FROM users WHERE id = ?";
+  const sql =
+    "SELECT jobs.*, users.firstName FROM jobs JOIN users_Jobs ON users_Jobs.job_id = jobs.id JOIN users ON users.id = users_Jobs.user_id WHERE users.id = ?;";
 
-  const jobs = (await db.query(sqlJobs))[0];
-  const user = (await db.query(sqlUser, "2"))[0][0];
+  const data = (await db.query(sql, 1))[0];
 
   res.status(200).render("jobsOverview", {
     title: "Jobs Overview",
-    jobs,
-    user,
+    data,
   });
 });
 

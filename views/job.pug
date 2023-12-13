@@ -11,16 +11,16 @@ block content
                 a(href="#", class="nav__el")
                     img.user-img(src="/img/default.jpg", alt="User photo")
                     |  &nbsp;
-                span=user.firstName
+                span=data.firstName
         .hamburger
             span.bar
             span.bar
             span.bar
     #header
-        if job.position
-            h3= `Job Application for ${job.position} position at ${job.company}.`
+        if data.position
+            h3= `Job Application for ${data.position} position at ${data.company}.`
         else 
-            h3= `Job Application at ${job.company}.`
+            h3= `Job Application at ${data.company}.`
     hr
     section#content
         .card
@@ -30,44 +30,44 @@ block content
                 .title.form-input-div
                     span Title:
                     | &nbsp;
-                    input#title.form-input(type="text", name="title", placeholder="Enter Job Title", required, value=job.title, readonly)
+                    input#title.form-input(type="text", name="title", placeholder="Enter Job Title", required, value=data.title, readonly)
                 .position.form-input-div
                     span Position:
                     | &nbsp;
-                    input#position.form-input(type="text", name="position", placeholder="Enter Job Position", required, value=job.position, readonly)
+                    input#position.form-input(type="text", name="position", placeholder="Enter Job Position", required, value=data.position, readonly)
                 .company.form-input-div
                     span Company:
                     | &nbsp;
-                    input#company.form-input(type="text", name="company", placeholder="Enter Company Name", required, value=job.company, readonly)
+                    input#company.form-input(type="text", name="company", placeholder="Enter Company Name", required, value=data.company, readonly)
                 .location.form-input-div
                     span Location:
                     | &nbsp;
-                    input#location.form-input(type="text", name="location", placeholder="Enter Company location", required, value=job.location, readonly)
+                    input#location.form-input(type="text", name="location", placeholder="Enter Company location", required, value=data.location, readonly)
                 .status.form-input-div
                     span status:
                     | &nbsp;
                     select#status.form-input.select-job-status(name="status", required, disabled)
-                        option(value=job.status) Open
+                        option(value=data.status) Open
                 .type.form-input-div
                     span Type:
                     | &nbsp;
                     select#type.form-input.select-job-type(name="type", required, disabled)
-                        option(value=job.type) On-site
+                        option(value=data.type) On-site
                 .deadline.form-input-div
                     span Deadline:
                     | &nbsp;
-                    if job.deadline 
-                        input#deadline.form-input.job-deadline(type="text", name="deadline", value=`${convertDateTimeToString(job.deadline)}`, readonly)
+                    if data.deadline 
+                        input#deadline.form-input.job-deadline(type="text", name="deadline", value=`${convertDateTimeToString(data.deadline)}`, readonly)
                     else
-                        input#deadline.form-input.job-deadline(type="text", name="deadline", value=job.deadline, readonly)
+                        input#deadline.form-input.job-deadline(type="text", name="deadline", value=data.deadline, readonly)
                 .description.form-input-div
                     span Description:
                     | &nbsp;
-                    textarea#description.form-input(name="description", cols="25", rows="7", placeholder="Enter Job Description", readonly)= job.description
+                    textarea#description.form-input(name="description", cols="25", rows="7", placeholder="Enter Job Description", readonly)= data.description
                 .requirement.form-input-div
                     label(for="requirement") Requirement:
                     | &nbsp;
-                    textarea#requirement.form-input(name="requirement", cols="25", rows="7", placeholder="Enter Job Requirements", readonly)= job.description
+                    textarea#requirement.form-input(name="requirement", cols="25", rows="7", placeholder="Enter Job Requirements", readonly)= data.description
                 .add-view-interview
                     .view-interview.action-btn-two
                         p
