@@ -125,6 +125,15 @@ exports.signUp = catchAsync(async (req, res, next) => {
   createSendToken(newUser, 201, res, req);
 });
 
+exports.logout = (res, req) => {
+  res.cookie("jwt", "loggedOut", {
+    expires: new Date(Date.now() + 10 * 1000),
+    httpOnly: true,
+  });
+
+  res.status("200").json({ status: "success" });
+};
+
 exports.login = catchAsync(async (req, res, next) => {
   const { email, password } = req.body;
 
