@@ -4,6 +4,7 @@
     "bcryptjs": "^2.4.3",
     "bluebird": "^3.7.2",
     "cookie-parser": "^1.4.6",
+    "core-js": "^3.34.0",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.0",
@@ -11,11 +12,13 @@
     "node-cron": "^3.0.2",
     "nodemailer": "^6.8.0",
     "pug": "^3.0.2",
+    "uninstall": "^0.0.0",
     "validator": "^13.7.0"
   },
   "scripts": {
     "start": "nodemon server.js",
-    "start:prod": "SET NODE_ENV=production&&nodemon server.js"
+    "start:prod": "SET NODE_ENV=production&&nodemon server.js",
+    "watch:js": "parcel public/js/index.js --dist-dir public/js/bundle"
   },
   "name": "job-tracker",
   "version": "1.0.0",
@@ -36,7 +39,9 @@
   },
   "homepage": "https://github.com/manlikeHB/job-tracker#readme",
   "devDependencies": {
+    "buffer": "^6.0.3",
     "morgan": "^1.10.0",
-    "nodemon": "^2.0.20"
+    "nodemon": "^2.0.20",
+    "parcel": "^2.10.3"
   }
 }
