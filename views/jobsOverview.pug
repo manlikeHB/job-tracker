@@ -6,14 +6,14 @@ block content
             span.active-color JobTracker
         ul.nav-menu
             li.btn.btn-nav.nav-item
-                a.nav-link(href="#") Add Job
+                a.nav-link(href="/add-job") Add Job
             li.btn.btn-nav.nav-item
-                a.nav-link(href="#") My Interviews
+                a.nav-link(href="/interview") My Interviews
             li.btn.btn-nav.nav-item.center-div
                 a(href="#", class="nav__el")
                     img.user-img(src="/img/default.jpg", alt="User photo")
                     | &nbsp;
-                span= data[0].firstName
+                span= user.firstName
         .hamburger
             span.bar
             span.bar
@@ -21,10 +21,11 @@ block content
     #header
         h3 My Job Applications
         .search-div
-            label(for="search")
-                i.fa-solid.fa-magnifying-glass
-            | &nbsp;
-            input#search(type="search", name="search", placeholder="Search your jobs", required="required")
+            form#search-form
+                label(for="search")
+                    i.fa-solid.fa-magnifying-glass.search-glass
+                | &nbsp;
+                input#search(type="search", name="search", placeholder="Search your jobs", required="required")
     hr
     section#content
         each job in data
@@ -45,9 +46,9 @@ block content
                     h4 location:
                     | &nbsp;
                     p=job.location
-                .type.line
-                    h4 type:
+                .status.line
+                    h4 status:
                     | &nbsp;
-                    p=job.type
+                    p=job.status
                 .details.action-btn-two
                     p Details 

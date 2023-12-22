@@ -583,11 +583,16 @@ var _showPassword = require("./showPassword");
 var _showPasswordDefault = parcelHelpers.interopDefault(_showPassword);
 var _hamburgerMenu = require("./hamburgerMenu");
 var _hamburgerMenuDefault = parcelHelpers.interopDefault(_hamburgerMenu);
+var _search = require("./search");
+var _searchDefault = parcelHelpers.interopDefault(_search);
 const hamburger = document.querySelector(".hamburger");
 const navMenu = document.querySelector(".nav-menu");
 const showPasswordBox = document.querySelector(".show-password");
 const passwordInputs = document.querySelectorAll(".password");
 const loginForm = document.querySelector(".form-login");
+const searchGlass = document.querySelector(".search-glass");
+const searchInput = document.querySelector("#search");
+// login
 if (loginForm) document.querySelector(".form-login").addEventListener("submit", (e)=>{
     e.preventDefault();
     const email = document.querySelector("#email").value;
@@ -598,8 +603,20 @@ if (loginForm) document.querySelector(".form-login").addEventListener("submit", 
 if (hamburger && navMenu) (0, _hamburgerMenuDefault.default)(hamburger, navMenu);
 // Show password
 if (showPasswordBox && passwordInputs) (0, _showPasswordDefault.default)(showPasswordBox, passwordInputs);
+// perform search when enter key is pressed
+if (searchInput) searchInput.addEventListener("keydown", (e)=>{
+    // Check if key pressed was the enter key
+    if (e.key === "Enter") // Perform search
+    (0, _searchDefault.default)();
+});
+// Perform search when the magnifing glass is clicked
+if (searchGlass) // Listen for a click on search glass
+searchGlass.addEventListener("click", ()=>{
+    // Get the value from search input and trim to remove whitesapace
+    (0, _searchDefault.default)();
+});
 
-},{"core-js/modules/esnext.symbol.dispose.js":"b9ez5","core-js/modules/web.immediate.js":"49tUX","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./login":"7yHem","./showPassword":"jb4Zk","./hamburgerMenu":"bZ6uq"}],"b9ez5":[function(require,module,exports) {
+},{"core-js/modules/esnext.symbol.dispose.js":"b9ez5","core-js/modules/web.immediate.js":"49tUX","./login":"7yHem","./showPassword":"jb4Zk","./hamburgerMenu":"bZ6uq","./search":"1VcuN","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"b9ez5":[function(require,module,exports) {
 "use strict";
 var global = require("c050e94c4f6437d6");
 var defineWellKnownSymbol = require("efe796c38aca437b");
@@ -1890,36 +1907,6 @@ module.exports = function(scheduler, hasTimeArg) {
 "use strict";
 /* global Bun -- Bun case */ module.exports = typeof Bun == "function" && Bun && typeof Bun.version == "string";
 
-},{}],"gkKU3":[function(require,module,exports) {
-exports.interopDefault = function(a) {
-    return a && a.__esModule ? a : {
-        default: a
-    };
-};
-exports.defineInteropFlag = function(a) {
-    Object.defineProperty(a, "__esModule", {
-        value: true
-    });
-};
-exports.exportAll = function(source, dest) {
-    Object.keys(source).forEach(function(key) {
-        if (key === "default" || key === "__esModule" || Object.prototype.hasOwnProperty.call(dest, key)) return;
-        Object.defineProperty(dest, key, {
-            enumerable: true,
-            get: function() {
-                return source[key];
-            }
-        });
-    });
-    return dest;
-};
-exports.export = function(dest, destName, get) {
-    Object.defineProperty(dest, destName, {
-        enumerable: true,
-        get: get
-    });
-};
-
 },{}],"7yHem":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
@@ -2621,7 +2608,37 @@ function bind(fn, thisArg) {
     };
 }
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"cpqD8":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gkKU3":[function(require,module,exports) {
+exports.interopDefault = function(a) {
+    return a && a.__esModule ? a : {
+        default: a
+    };
+};
+exports.defineInteropFlag = function(a) {
+    Object.defineProperty(a, "__esModule", {
+        value: true
+    });
+};
+exports.exportAll = function(source, dest) {
+    Object.keys(source).forEach(function(key) {
+        if (key === "default" || key === "__esModule" || Object.prototype.hasOwnProperty.call(dest, key)) return;
+        Object.defineProperty(dest, key, {
+            enumerable: true,
+            get: function() {
+                return source[key];
+            }
+        });
+    });
+    return dest;
+};
+exports.export = function(dest, destName, get) {
+    Object.defineProperty(dest, destName, {
+        enumerable: true,
+        get: get
+    });
+};
+
+},{}],"cpqD8":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _utilsJs = require("./../utils.js");
@@ -6316,6 +6333,76 @@ exports.default = hamburgerMenu = (hamburger, navMenu)=>{
         }));
 };
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["i5p9B","f2QDv"], "f2QDv", "parcelRequirebd65")
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"1VcuN":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _axios = require("axios");
+var _axiosDefault = parcelHelpers.interopDefault(_axios);
+var _alerts = require("./alerts");
+const searchInput = document.querySelector("#search");
+const search = async (searchInput)=>{
+    try {
+        const response = await (0, _axiosDefault.default).get(`/api/v1/users/jobs/search-my-jobs/?input=${searchInput}`);
+        // if there is data for the search, then render it on the page
+        if (response.data.status === "success") {
+            const data = response.data.jobs || response.data.job;
+            // remove contents from the jobs overview page
+            const contentSection = document.querySelector("#content");
+            while(contentSection.firstChild)contentSection.removeChild(contentSection.firstChild);
+            // render searched data
+            data.forEach((job)=>{
+                const markUp = `<div class="card-overview-job">
+        <div class="title line">
+          <h4>Title:</h4>
+          &nbsp;
+          <p>${job.title ? job.title : " "}</p>
+        </div>
+        <div class="position line">
+          <h4>Postition:</h4>
+          &nbsp;
+          <p>${job.position ? job.position : " "}</p>
+        </div>
+        <div class="company line">
+          <h4>Company:</h4>
+          &nbsp;
+          <p>${job.company ? job.company : " "}</p>
+        </div>
+        <div class="location line">
+          <h4>location:</h4>
+          &nbsp;
+          <p>${job.location ? job.location : " "}</p>
+        </div>
+        <div class="status line">
+          <h4>status:</h4>
+          &nbsp;
+          <p>${job.status ? job.status : " "}</p>
+        </div>
+        <div class="details action-btn-two">
+          <p>Details</p>
+        </div>
+      </div>`;
+                contentSection.insertAdjacentHTML("afterbegin", markUp);
+            });
+        }
+    } catch (err) {
+        console.log(err);
+        (0, _alerts.showAlert)("error", "Job not found!!!");
+        window.setTimeout(()=>{
+            location.reload();
+        }, 2000);
+    }
+};
+exports.default = performSearch = ()=>{
+    const searchInputValue = searchInput.value.trim();
+    // Check if there is a value in input before proceeding to search
+    if (searchInputValue) {
+        search(searchInputValue);
+        // reset search input value after search
+        searchInput.value = "";
+    }
+    searchInput.value = "";
+};
+
+},{"axios":"jo6P5","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./alerts":"6Mcnf"}]},["i5p9B","f2QDv"], "f2QDv", "parcelRequirebd65")
 
 //# sourceMappingURL=index.js.map

@@ -198,6 +198,7 @@ exports.protect = catchAsync(async (req, res, next) => {
   user.password = undefined;
 
   req.user = user;
+  res.locals.user = user;
 
   next();
 });

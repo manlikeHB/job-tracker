@@ -1,5 +1,6 @@
 const express = require("express");
 const viewController = require("../controllers/viewController");
+const authController = require("../controllers/authController");
 
 const router = express.Router();
 
@@ -10,7 +11,7 @@ router.get("/add-job", viewController.getAddJobPage);
 router.get("/interview", viewController.getInterviewPage);
 router.get("/job", viewController.getJob);
 router.get("/login", viewController.getLogin);
-router.get("/overview", viewController.getJobsOverview);
+router.get("/overview", authController.protect, viewController.getJobsOverview);
 router.get("/signup", viewController.getSignUp);
 
 module.exports = router;

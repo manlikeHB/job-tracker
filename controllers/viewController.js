@@ -72,9 +72,9 @@ exports.getLogin = (req, res, next) => {
 
 exports.getJobsOverview = catchAsync(async (req, res, next) => {
   const sql =
-    "SELECT jobs.*, users.firstName FROM jobs JOIN users_Jobs ON users_Jobs.job_id = jobs.id JOIN users ON users.id = users_Jobs.user_id WHERE users.id = ?;";
+    "SELECT jobs.* FROM jobs JOIN users_Jobs ON users_Jobs.job_id = jobs.id JOIN users ON users.id = users_Jobs.user_id WHERE users.id = ?;";
 
-  const data = (await db.query(sql, 1))[0];
+  const data = (await db.query(sql, req.user.id))[0];
 
   res.status(200).render("jobsOverview", {
     title: "Jobs Overview",
