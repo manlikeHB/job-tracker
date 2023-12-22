@@ -20,7 +20,7 @@
 
 .action-btn-two {
   cursor: pointer;
-  padding: 1rem 1.5rem;
+  /* padding: 1rem 1.5rem; */
   background-color: white;
   color: var(--background-color);
   border: none;
@@ -70,6 +70,8 @@
   color: var(--background-color);
   text-decoration: none;
   padding: 1rem 1.5rem;
+  display: flex;
+  justify-content: center;
 }
 
 .de-link:hover {

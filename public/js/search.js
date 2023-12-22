@@ -49,7 +49,7 @@ const search = async (searchInput) => {
           <p>${job.status ? job.status : " "}</p>
         </div>
         <div class="details action-btn-two">
-          <p>Details</p>
+          <a class="de-link" href=/job/${job.id}>Details</a>
         </div>
       </div>`;
 
