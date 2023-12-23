@@ -20,7 +20,18 @@
 
 .action-btn-two {
   cursor: pointer;
-  /* padding: 1rem 1.5rem; */
+  padding: 1rem 1.5rem;
+  background-color: white;
+  color: var(--background-color);
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: 700;
+  font-size: 2rem;
+  margin-top: 1rem;
+}
+
+.action-btn-two-link {
+  cursor: pointer;
   background-color: white;
   color: var(--background-color);
   border: none;
@@ -34,7 +45,8 @@
   background-color: var(--action-btn-color);
 }
 
-.action-btn-two:hover {
+.action-btn-two:hover,
+.action-btn-two-link:hover {
   background-color: var(--background-color);
   color: var(--text-color);
 }
