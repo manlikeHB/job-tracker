@@ -256,6 +256,7 @@ body {
 
 .add-view-interview {
   display: flex;
+  justify-content: center;
   gap: 1rem;
 }
 

@@ -6,12 +6,12 @@ block content
             span.active-color JobTracker
         ul.nav-menu
             li.btn.btn-nav.nav-item
-                a.nav-link(href="#") My Job Applications
+                a.nav-link(href="/overview") My Job Applications
             li.btn.btn-nav.nav-item.center-div
-                a(href="#", class="nav__el")
+                a(href="/account", class="nav__el")
                     img.user-img(src="/img/default.jpg", alt="User photo")
                     |  &nbsp;
-                span=data.firstName
+                span=user.firstName
         .hamburger
             span.bar
             span.bar
@@ -71,9 +71,9 @@ block content
                 .add-view-interview
                     .view-interview.action-btn-two
                         p
-                            a.de-link(href="#")  View Interview 
+                            a.de-link(href=`/job/${data.id}/interview`)  View Interview 
                     .add-interview.action-btn-two
-                        a.de-link(href="#")  Add Interview 
+                        a.de-link(href=`/job/${data.id}/add-interview`)  Add Interview 
                 .save-job.center-div.display-none
                     .action-btn-two
                         span.save  Save 
