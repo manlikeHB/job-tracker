@@ -51,6 +51,23 @@ exports.getInterviewPage = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.getInterview = catchAsync(async (req, res, next) => {
+  const sql =
+    "SELECT interviews.* FROM interviews JOIN job_interviews ON interviews.id = job_interviews.interview_id JOIN jobs ON jobs.id = job_interviews.job_id WHERE jobs.id = ?";
+
+  const interviews = (await db.query(sql, req.params.jobId))[0];
+
+  if (!(Array.isArray(interviews) && interviews.length)) {
+    return next(
+      new AppError("This job has no interviews scheduled at the moment.", 404)
+    );
+  }
+
+  res.status(200).render("interview", {
+    interviews,
+  });
+});
+
 exports.getJob = catchAsync(async (req, res, next) => {
   // Get Jobs from Database
   const sql = `SELECT jobs.* FROM jobs JOIN users_Jobs ON users_Jobs.job_id = jobs.id JOIN users ON users.id = users_Jobs.user_id WHERE jobs.id = ? AND users.id = ?;`;
