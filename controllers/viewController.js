@@ -20,13 +20,8 @@ exports.getAccountPage = catchAsync(async (req, res, next) => {
 });
 
 exports.addInterviewsPage = catchAsync(async (req, res, next) => {
-  const sql = "SELECT * FROM users WHERE id = ?";
-
-  const user = (await db.query(sql, "2"))[0];
-
   res.status(200).render("addInterview", {
     title: "Add Interview",
-    user: user[0],
   });
 });
 
@@ -56,12 +51,6 @@ exports.getInterview = catchAsync(async (req, res, next) => {
     "SELECT interviews.* FROM interviews JOIN job_interviews ON interviews.id = job_interviews.interview_id JOIN jobs ON jobs.id = job_interviews.job_id WHERE jobs.id = ?";
 
   const interviews = (await db.query(sql, req.params.jobId))[0];
-
-  if (!(Array.isArray(interviews) && interviews.length)) {
-    return next(
-      new AppError("This job has no interviews scheduled at the moment.", 404)
-    );
-  }
 
   res.status(200).render("interview", {
     interviews,

@@ -585,6 +585,8 @@ var _hamburgerMenu = require("./hamburgerMenu");
 var _hamburgerMenuDefault = parcelHelpers.interopDefault(_hamburgerMenu);
 var _search = require("./search");
 var _searchDefault = parcelHelpers.interopDefault(_search);
+var _addInterview = require("./addInterview");
+var _addInterviewDefault = parcelHelpers.interopDefault(_addInterview);
 const hamburger = document.querySelector(".hamburger");
 const navMenu = document.querySelector(".nav-menu");
 const showPasswordBox = document.querySelector(".show-password");
@@ -592,6 +594,7 @@ const passwordInputs = document.querySelectorAll(".password");
 const loginForm = document.querySelector(".form-login");
 const searchGlass = document.querySelector(".search-glass");
 const searchInput = document.querySelector("#search");
+const interviewForm = document.querySelector(".form-interview-data");
 // login
 if (loginForm) document.querySelector(".form-login").addEventListener("submit", (e)=>{
     e.preventDefault();
@@ -615,8 +618,33 @@ searchGlass.addEventListener("click", ()=>{
     // Get the value from search input and trim to remove whitesapace
     (0, _searchDefault.default)();
 });
+// Interview form data
+if (interviewForm) interviewForm.addEventListener("submit", (e)=>{
+    e.preventDefault();
+    const form = {};
+    const type = document.getElementsByName("type")[0].value;
+    const interviewerName = document.getElementsByName("interviewer_name")[0].value;
+    const interviewDate = document.getElementsByName("interview_date")[0].value;
+    const address = document.getElementsByName("address")[0].value;
+    const note = document.getElementsByName("note")[0].value;
+    const deadline = document.getElementsByName("deadline")[0].value;
+    const results = document.getElementsByName("result")[0].value;
+    const rescheduledDate = document.getElementsByName("rescheduleDate")[0].value;
+    const rescheduleReason = document.getElementsByName("rescheduleReason")[0].value;
+    if (type) form.type = type;
+    if (interviewDate) form.interview_date = interviewDate;
+    if (address) form.address = address;
+    if (note) form.notes = note;
+    if (interviewerName) form.interviewer_name = interviewerName;
+    if (deadline) form.deadline = deadline;
+    if (results) form.results = results;
+    if (rescheduledDate) form.rescheduled_date = rescheduledDate;
+    if (rescheduleReason) form.rescheduleReason = rescheduleReason;
+    console.log(form);
+    (0, _addInterviewDefault.default)(form);
+});
 
-},{"core-js/modules/esnext.symbol.dispose.js":"b9ez5","core-js/modules/web.immediate.js":"49tUX","./login":"7yHem","./showPassword":"jb4Zk","./hamburgerMenu":"bZ6uq","./search":"1VcuN","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"b9ez5":[function(require,module,exports) {
+},{"core-js/modules/esnext.symbol.dispose.js":"b9ez5","core-js/modules/web.immediate.js":"49tUX","./login":"7yHem","./showPassword":"jb4Zk","./hamburgerMenu":"bZ6uq","./search":"1VcuN","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./addInterview":"i37qd"}],"b9ez5":[function(require,module,exports) {
 "use strict";
 var global = require("c050e94c4f6437d6");
 var defineWellKnownSymbol = require("efe796c38aca437b");
@@ -6378,7 +6406,7 @@ const search = async (searchInput)=>{
           <p>${job.status ? job.status : " "}</p>
         </div>
         <div class="details action-btn-two">
-          <p>Details</p>
+          <a class="de-link" href=/job/${job.id}>Details</a>
         </div>
       </div>`;
                 contentSection.insertAdjacentHTML("afterbegin", markUp);
@@ -6401,6 +6429,36 @@ exports.default = performSearch = ()=>{
         searchInput.value = "";
     }
     searchInput.value = "";
+};
+
+},{"axios":"jo6P5","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./alerts":"6Mcnf"}],"i37qd":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _axios = require("axios");
+var _axiosDefault = parcelHelpers.interopDefault(_axios);
+var _alerts = require("./alerts");
+exports.default = addInterview = async (form)=>{
+    // Getting the job ID
+    const jobId = window.location.pathname.split("/")[2];
+    // Constructing  post ULR for the adding new interview request
+    // Get original URL
+    const fullUrl = window.location.href;
+    // Create a URL object
+    const url = new URL(fullUrl);
+    // Extract the base URL
+    const baseUrl = `${url.protocol}//${url.host}/`;
+    try {
+        const response = await (0, _axiosDefault.default).post(`${baseUrl}api/v1/jobs/${jobId}/interviews`, form);
+        if (response.data.status === "success") {
+            (0, _alerts.showAlert)("success", "Interview added successfully!");
+            window.setTimeout(()=>{
+                location.assign(`/job/${jobId}/interview`);
+            }, 1500);
+        }
+    } catch (err) {
+        console.log(err.response.data);
+        (0, _alerts.showAlert)("error", err.response.data.message);
+    }
 };
 
 },{"axios":"jo6P5","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./alerts":"6Mcnf"}]},["i5p9B","f2QDv"], "f2QDv", "parcelRequirebd65")
