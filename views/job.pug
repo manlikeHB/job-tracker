@@ -57,7 +57,7 @@ block content
                     span Deadline:
                     | &nbsp;
                     if data.deadline 
-                        input#deadline.form-input.job-deadline(type="text", name="deadline", value=`${convertDateTimeToString(data.deadline)}`, readonly)
+                        input#deadline.form-input.job-deadline(type="text", name="deadline", value=`${DBDateTimeToReadableString(data.deadline)}`, readonly)
                     else
                         input#deadline.form-input.job-deadline(type="text", name="deadline", value=data.deadline, readonly)
                 .description.form-input-div

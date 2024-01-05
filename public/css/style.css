@@ -288,6 +288,12 @@ body {
   display: none;
 }
 
+.disabled-icon {
+  opacity: 0.5; /* Dim the icon */
+  pointer-events: none; /* Disable pointer events */
+  /* Add any other styles to visually indicate a disabled state */
+}
+
 /* //////////////////////////////////////////////////////////////////////////////// */
 /* User account */
 #user-account {

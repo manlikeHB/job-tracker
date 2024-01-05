@@ -54,7 +54,6 @@ const generateAmPmTime = (time) => {
 };
 
 const convertDateTime = (dateTime) => {
-  // 2023-12-22T23:00:00.000Z
   let [dayOfWeek, month, day, year, by, time, ampm] = dateTime.split(" ");
 
   let [h, m, s] = time.split(":");
@@ -75,10 +74,8 @@ const convertDateTime = (dateTime) => {
   return convertedDateTime;
 };
 
-const convertDateTimeToString = (dateTime) => {
-  const [dayW, M, dayN, year, time] = new Date(dateTime.value)
-    .toString()
-    .split(" ");
+const DBDateTimeToReadableString = (dateTime) => {
+  const [dayW, M, dayN, year, time] = new Date(dateTime).toString().split(" ");
 
   const timeString = generateAmPmTime(time);
 
@@ -86,6 +83,12 @@ const convertDateTimeToString = (dateTime) => {
   const dateTimeString = `${dateString} by ${timeString}`;
 
   return dateTimeString;
+};
+
+const convertToMySQLDateTime = (dateString) => {
+  const date = new Date(dateString);
+
+  return (mysqlDatetime = date.toISOString().slice(0, 19).replace("T", " "));
 };
 
 // Collect initial values for job status and job type
@@ -98,6 +101,9 @@ function editJobFunc() {
   prevJobStatus = jobStatus.value;
   prevJobType = jobType.value;
   prevJobDeadline = jobDeadline.value;
+
+  editJob.classList.toggle("disabled-icon");
+
   // Get all input fields and remove the readonly and disabled attribute
   inputs.forEach((n) => {
     if (n.hasAttribute("readonly")) {
@@ -107,17 +113,10 @@ function editJobFunc() {
     }
   });
 
-  // Change the deadline input type to datetime-local and set the value
-  // 1) convert deadline to datetime-local acceptable format
-
-  if (jobDeadline.value) {
-    deadlineValue = convertDateTime(jobDeadline.value);
-  }
+  jobDeadline.value = "";
 
   // 2) set deadline attribute to datetime-local
   jobDeadline.setAttribute("type", "datetime-local");
-  // 3) set the value
-  // jobDeadline.value = deadlineValue;
 
   //   Add options tag to the select element
   jobStatus.innerHTML = `  <option value="">Select Job Status*</option>
@@ -147,29 +146,18 @@ function saveJob() {
     }
   });
 
+  // If nonew value for job deadline then set value to preveious value
   if (!jobDeadline.value) {
     jobDeadline.setAttribute("type", "text");
-    console.log(prevJobDeadline);
-    console.log("hi");
-    jobDeadline.value = convertDateTime(prevJobDeadline);
-    // jobDeadline.value = convertDateTimeToString(prevJobDeadline);
+    jobDeadline.value = prevJobDeadline;
   } else {
-    // Convert job deadline to readable time string
-    // const deadlineValue = convertDateTimeToString(jobDeadline);
-    const deadlineValue = jobDeadline;
-    console.log("hello");
+    // If new value is provided for jobdeadline then set value to new value
     jobDeadline.setAttribute("type", "text");
-    jobDeadline.value = deadlineValue;
-
-    // ////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////
-    /////////REFRESH AFTER SAVING/////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////
+    // convert to readable string
+    jobDeadline.value = DBDateTimeToReadableString(
+      convertToMySQLDateTime(jobDeadline.value)
+    );
   }
-
-  jobDeadline.setAttribute("type", "text");
-  jobDeadline.value = deadlineValue;
 
   // Assign job status value and job type value if unprovided
   const jobStatusValue = jobStatus.value ? jobStatus.value : prevJobStatus;
@@ -181,6 +169,8 @@ function saveJob() {
   //   Show the save button and remove add interview and view interview button
   addAndViewButton.classList.toggle("display-none");
   saveDiv.classList.toggle("display-none");
+
+  editJob.classList.toggle("disabled-icon");
 }
 
 // collect initial values of interview result
@@ -232,8 +222,8 @@ function saveInterviewFunc() {
   });
 
   // Convert interview date and deadline to readable time string
-  const interviewDateValue = convertDateTimeToString(interviewDate);
-  const interviewDeadlineValue = convertDateTimeToString(interviewDeadline);
+  const interviewDateValue = DBDateTimeToReadableString(interviewDate);
+  const interviewDeadlineValue = DBDateTimeToReadableString(interviewDeadline);
 
   // Set interview date and deadline attributes to type text
   interviewDate.setAttribute("type", "text");

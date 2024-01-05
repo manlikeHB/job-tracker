@@ -18,7 +18,7 @@ const generateAmPmTime = (time) => {
   return timeString;
 };
 
-const convertDateTimeToString = (dateTime) => {
+const DBDateTimeToReadableString = (dateTime) => {
   console.log(dateTime);
   const [dayW, M, dayN, year, time] = new Date(dateTime).toString().split(" ");
 
@@ -30,4 +30,4 @@ const convertDateTimeToString = (dateTime) => {
   return dateTimeString;
 };
 
-module.exports = convertDateTimeToString;
+module.exports = DBDateTimeToReadableString;

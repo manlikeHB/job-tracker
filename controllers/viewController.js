@@ -1,6 +1,6 @@
 const db = require("../db");
 const catchAsync = require("../utils/catchAsync");
-const convertDateTimeToString = require("../utils/convertDateTimeToString");
+const DBDateTimeToReadableString = require("../utils/DBDateTimeToReadableString");
 
 exports.getLandingPage = (req, res, next) => {
   res.status(200).render("landingPage", {
@@ -66,7 +66,7 @@ exports.getJob = catchAsync(async (req, res, next) => {
   res.status(200).render("job", {
     title: "Job",
     data,
-    convertDateTimeToString,
+    DBDateTimeToReadableString,
   });
 });
 
