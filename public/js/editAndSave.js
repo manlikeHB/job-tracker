@@ -22,6 +22,7 @@ const editInterview = document.querySelector(".edit-interview");
 const result = document.querySelector(".select-interview-result");
 const interviewDate = document.querySelector(".interview-date-input");
 const interviewDeadline = document.querySelector(".interview-deadline");
+const rescheduleDate = document.querySelector(".reschedule-date");
 const saveInterview = document.querySelector(".save-interview");
 const saveInterviewBtn = document.querySelector(".save-interview-btn");
 
@@ -146,7 +147,7 @@ function saveJob() {
     }
   });
 
-  // If nonew value for job deadline then set value to preveious value
+  // If no new value for job deadline then set value to preveious value
   if (!jobDeadline.value) {
     jobDeadline.setAttribute("type", "text");
     jobDeadline.value = prevJobDeadline;
@@ -173,10 +174,20 @@ function saveJob() {
   editJob.classList.toggle("disabled-icon");
 }
 
-// collect initial values of interview result
+// Initialize previous values of interview result, date, rescheduled date and deadline
 let prevResult;
+let prevInterviewDate = interviewDate;
+let prevRescheduledDate;
+let prevDeadline = interviewDeadline;
+
 function editInterviewFunc() {
+  // collect values of interview result, date, rescheduled date and deadline
   prevResult = result.value;
+  prevInterviewDate = interviewDate.value;
+  prevRescheduledDate = rescheduleDate.value;
+  prevDeadline = interviewDeadline.value;
+
+  editInterview.classList.toggle("disabled-icon");
 
   // Get all input fields and remove the readonly and disabled attribute
   inputs.forEach((n) => {
@@ -187,22 +198,15 @@ function editInterviewFunc() {
     }
   });
 
-  let interviewDateValue;
-  let interviewDeadlineValue;
+  // Empty the interview date, deadline and rescheduled date value
+  interviewDate.value = "";
+  interviewDeadline.value = "";
+  rescheduleDate.value = "";
 
-  // convert date and time to datetime-local acceptable format
-  if (interviewDate || interviewDeadline) {
-    interviewDateValue = convertDateTime(interviewDate);
-    interviewDeadlineValue = convertDateTime(interviewDeadline);
-  }
-
-  // Set attribute to type datetime-local
+  // set thier type attributes to datetime local
   interviewDate.setAttribute("type", "datetime-local");
   interviewDeadline.setAttribute("type", "datetime-local");
-
-  // set value
-  interviewDate.value = interviewDateValue;
-  interviewDeadline.value = interviewDeadlineValue;
+  rescheduleDate.setAttribute("type", "datetime-local");
 
   // Add options tag to the result select element
   result.innerHTML = `<option value="">Select Interview Result*</option> <option value="passed">Passed</option> <option value="failed">Failed</option>`;
@@ -221,17 +225,44 @@ function saveInterviewFunc() {
     }
   });
 
-  // Convert interview date and deadline to readable time string
-  const interviewDateValue = DBDateTimeToReadableString(interviewDate);
-  const interviewDeadlineValue = DBDateTimeToReadableString(interviewDeadline);
+  // Interview date
+  if (!interviewDate.value) {
+    interviewDate.setAttribute("type", "text");
+    interviewDate.value = prevInterviewDate;
+  } else {
+    // If new value is provided for interviewDate then set value to new value
+    interviewDate.setAttribute("type", "text");
+    // convert to readable string
+    interviewDate.value = DBDateTimeToReadableString(
+      convertToMySQLDateTime(interviewDate.value)
+    );
+  }
 
-  // Set interview date and deadline attributes to type text
-  interviewDate.setAttribute("type", "text");
-  interviewDeadline.setAttribute("type", "text");
+  // Interview deadline
+  if (!interviewDeadline.value) {
+    interviewDeadline.setAttribute("type", "text");
+    interviewDeadline.value = prevDeadline;
+  } else {
+    // If new value is provided for interviewDeadline then set value to new value
+    interviewDeadline.setAttribute("type", "text");
+    // convert to readable string
+    interviewDeadline.value = DBDateTimeToReadableString(
+      convertToMySQLDateTime(interviewDeadline.value)
+    );
+  }
 
-  // Set interview date and deadline values
-  interviewDate.value = interviewDateValue;
-  interviewDeadline.value = interviewDeadlineValue;
+  //  Interview rescheduled Date
+  if (!rescheduleDate.value) {
+    rescheduleDate.setAttribute("type", "text");
+    rescheduleDate.value = prevRescheduledDate;
+  } else {
+    // If new value is provided for rescheduleDate then set value to new value
+    rescheduleDate.setAttribute("type", "text");
+    // convert to readable string
+    rescheduleDate.value = DBDateTimeToReadableString(
+      convertToMySQLDateTime(rescheduleDate.value)
+    );
+  }
 
   // Assign result value if unprovided
   const resultValue = result.value ? result.value : prevResult;
@@ -239,4 +270,5 @@ function saveInterviewFunc() {
 
   // Hide save button
   saveInterview.classList.toggle("display-none");
+  editInterview.classList.toggle("disabled-icon");
 }

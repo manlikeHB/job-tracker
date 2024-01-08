@@ -6,12 +6,12 @@ block content
             span.active-color JobTracker
         ul.nav-menu
             li.btn.btn-nav.nav-item
-                a.nav-link(href="#") My Jobs
+                a.nav-link(href="/overview") My Jobs
             li.btn.btn-nav.nav-item.center-div
-                a(href="#", class="nav__el")
+                a(href="/account", class="nav__el")
                     img.user-img(src="/img/default.jpg", alt="User photo")
                     | &nbsp;
-                span Habib
+                span=user.firstName
         .hamburger
             span.bar
             span.bar
@@ -19,10 +19,11 @@ block content
     #header
         h3 My Interviews
         .search-div
-            label(for="search")
-                i.fa-solid.fa-magnifying-glass
-            | &nbsp;
-            input#search(type="search", name="search", placeholder="Search your interviews", required="required")
+            form#search-form
+                label(for="search")
+                    i.fa-solid.fa-magnifying-glass.search-glass
+                | &nbsp;
+                input#search(type="search", name="search", placeholder="Search your jobs", required="required")
     hr
     section#content
         each interview in interviews
@@ -41,7 +42,7 @@ block content
                     .date.form-input-div
                         span Date:
                         | &nbsp;
-                        input#date.form-input.interview-date-input(type="text", name="date", required, value="Wed Aug 31 2022 by 02:15 am", readonly)
+                        input#date.form-input.interview-date-input(type="text", name="date", required, value=`${DBDateTimeToReadableString(interview.interview_date)}`, readonly)
                     .address.form-input-div
                         span Address:
                         | &nbsp;
@@ -54,11 +55,11 @@ block content
                         span Result:
                         | &nbsp;
                         select#result.form-input.select-interview-result(name="result", required, disabled)
-                            option(value="passed") Passed
+                            option(value=interview.results) Passed
                     .rescheduleDate.form-input-div
                         span Rescheduled Date:
                         | &nbsp;
-                        input#rescheduleDate.form-input(type="datetime-local", name="rescheduleDate")
+                        input#rescheduleDate.form-input.reschedule-date(name="rescheduleDate", value=`${DBDateTimeToReadableString(interview.rescheduled_date)}`)
                     .reschedule-reason.form-input-div
                         span Reschedule reason:
                         | &nbsp;
@@ -66,7 +67,7 @@ block content
                     .deadline.form-input-div
                         span Deadline:
                         | &nbsp;
-                        input#deadline.form-input.interview-deadline(type="text", name="deadline", value="Wed Aug 31 2022 by 02:15 am", readonly)
+                        input#deadline.form-input.interview-deadline(type="text", name="deadline", value=`${DBDateTimeToReadableString(interview.deadline)}`, readonly)
                     .save-interview.center-div.display-none
                         .action-btn-two
                             span.save-interview-btn  Save 

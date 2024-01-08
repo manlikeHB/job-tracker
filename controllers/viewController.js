@@ -54,6 +54,7 @@ exports.getInterview = catchAsync(async (req, res, next) => {
 
   res.status(200).render("interview", {
     interviews,
+    DBDateTimeToReadableString,
   });
 });
 
