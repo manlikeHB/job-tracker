@@ -30,29 +30,29 @@ block content
                 .title.form-input-div
                     span Title:
                     | &nbsp;
-                    input#title.form-input(type="text", name="title", placeholder="Enter Job Title", required, value=data.title, readonly)
+                    input#title.form-input.job-title(type="text", name="title", placeholder="Enter Job Title", required, value=data.title, readonly)
                 .position.form-input-div
                     span Position:
                     | &nbsp;
-                    input#position.form-input(type="text", name="position", placeholder="Enter Job Position", required, value=data.position, readonly)
+                    input#position.form-input.job-position(type="text", name="position", placeholder="Enter Job Position", required, value=data.position, readonly)
                 .company.form-input-div
                     span Company:
                     | &nbsp;
-                    input#company.form-input(type="text", name="company", placeholder="Enter Company Name", required, value=data.company, readonly)
+                    input#company.form-input.job-company(type="text", name="company", placeholder="Enter Company Name", required, value=data.company, readonly)
                 .location.form-input-div
                     span Location:
                     | &nbsp;
-                    input#location.form-input(type="text", name="location", placeholder="Enter Company location", required, value=data.location, readonly)
+                    input#location.form-input.job-location(type="text", name="location", placeholder="Enter Company location", required, value=data.location, readonly)
                 .status.form-input-div
                     span status:
                     | &nbsp;
                     select#status.form-input.select-job-status(name="status", required, disabled)
-                        option(value=data.status) Open
+                        option()= data.status
                 .type.form-input-div
                     span Type:
                     | &nbsp;
                     select#type.form-input.select-job-type(name="type", required, disabled)
-                        option(value=data.type) On-site
+                        option()= data.type
                 .deadline.form-input-div
                     span Deadline:
                     | &nbsp;
@@ -63,11 +63,11 @@ block content
                 .description.form-input-div
                     span Description:
                     | &nbsp;
-                    textarea#description.form-input(name="description", cols="25", rows="7", placeholder="Enter Job Description", readonly)
+                    textarea#description.form-input.job-description(name="description", cols="25", rows="7", placeholder="Enter Job Description", readonly)= data.description
                 .requirement.form-input-div
                     label(for="requirement") Requirement:
                     | &nbsp;
-                    textarea#requirement.form-input(name="requirement", cols="25", rows="7", placeholder="Enter Job Requirements", readonly)= data.description
+                    textarea#requirement.form-input.job-requirement(name="requirement", cols="25", rows="7", placeholder="Enter Job Requirements", readonly)= data.requirement
                 .add-view-interview
                     .view-interview.action-btn-two
                         p

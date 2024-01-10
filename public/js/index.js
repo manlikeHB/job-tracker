@@ -5,6 +5,7 @@ import showPassword from "./showPassword";
 import hamburgerMenu from "./hamburgerMenu";
 import performSearch from "./search";
 import addInterview from "./addInterview";
+import { editJobFunc, saveJobFunc } from "./editAndSaveJob";
 
 const hamburger = document.querySelector(".hamburger");
 const navMenu = document.querySelector(".nav-menu");
@@ -14,6 +15,8 @@ const loginForm = document.querySelector(".form-login");
 const searchGlass = document.querySelector(".search-glass");
 const searchInput = document.querySelector("#search");
 const interviewForm = document.querySelector(".form-interview-data");
+const editJob = document.querySelector(".edit-job");
+const saveJob = document.querySelector(".save");
 
 // login
 if (loginForm) {
@@ -55,7 +58,6 @@ if (searchGlass) {
 }
 
 // Interview form data
-
 if (interviewForm) {
   interviewForm.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -89,4 +91,14 @@ if (interviewForm) {
 
     addInterview(form);
   });
+}
+
+// Edit job
+if (editJob) {
+  editJob.addEventListener("click", editJobFunc);
+}
+
+// Save job after edit
+if (saveJob) {
+  saveJob.addEventListener("click", saveJobFunc);
 }

@@ -587,6 +587,7 @@ var _search = require("./search");
 var _searchDefault = parcelHelpers.interopDefault(_search);
 var _addInterview = require("./addInterview");
 var _addInterviewDefault = parcelHelpers.interopDefault(_addInterview);
+var _editAndSaveJob = require("./editAndSaveJob");
 const hamburger = document.querySelector(".hamburger");
 const navMenu = document.querySelector(".nav-menu");
 const showPasswordBox = document.querySelector(".show-password");
@@ -595,6 +596,8 @@ const loginForm = document.querySelector(".form-login");
 const searchGlass = document.querySelector(".search-glass");
 const searchInput = document.querySelector("#search");
 const interviewForm = document.querySelector(".form-interview-data");
+const editJob = document.querySelector(".edit-job");
+const saveJob = document.querySelector(".save");
 // login
 if (loginForm) document.querySelector(".form-login").addEventListener("submit", (e)=>{
     e.preventDefault();
@@ -643,8 +646,12 @@ if (interviewForm) interviewForm.addEventListener("submit", (e)=>{
     console.log(form);
     (0, _addInterviewDefault.default)(form);
 });
+// Edit job
+if (editJob) editJob.addEventListener("click", (0, _editAndSaveJob.editJobFunc));
+// Save job after edit
+if (saveJob) saveJob.addEventListener("click", (0, _editAndSaveJob.saveJobFunc));
 
-},{"core-js/modules/esnext.symbol.dispose.js":"b9ez5","core-js/modules/web.immediate.js":"49tUX","./login":"7yHem","./showPassword":"jb4Zk","./hamburgerMenu":"bZ6uq","./search":"1VcuN","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./addInterview":"i37qd"}],"b9ez5":[function(require,module,exports) {
+},{"core-js/modules/esnext.symbol.dispose.js":"b9ez5","core-js/modules/web.immediate.js":"49tUX","./login":"7yHem","./showPassword":"jb4Zk","./hamburgerMenu":"bZ6uq","./search":"1VcuN","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./addInterview":"i37qd","./editAndSaveJob":"82rR9"}],"b9ez5":[function(require,module,exports) {
 "use strict";
 var global = require("c050e94c4f6437d6");
 var defineWellKnownSymbol = require("efe796c38aca437b");
@@ -6461,6 +6468,193 @@ exports.default = addInterview = async (form)=>{
     }
 };
 
-},{"axios":"jo6P5","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./alerts":"6Mcnf"}]},["i5p9B","f2QDv"], "f2QDv", "parcelRequirebd65")
+},{"axios":"jo6P5","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./alerts":"6Mcnf"}],"82rR9":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "editJobFunc", ()=>editJobFunc);
+parcelHelpers.export(exports, "saveJobFunc", ()=>saveJobFunc);
+var _axios = require("axios");
+var _axiosDefault = parcelHelpers.interopDefault(_axios);
+var _timeFunctions = require("./timeFunctions");
+var _alerts = require("./alerts");
+// All input field
+const inputs = document.querySelectorAll(".form-input");
+// Jobs edit, save and add/view buttons
+const editJob = document.querySelector(".edit-job");
+const addAndViewButton = document.querySelector(".add-view-interview");
+const saveDiv = document.querySelector(".save-job");
+// Job feilds
+const jobStatus = document.querySelector(".select-job-status");
+const jobRequirement = document.querySelector(".job-requirement");
+const jobDescription = document.querySelector(".job-description");
+const jobType = document.querySelector(".select-job-type");
+const jobDeadline = document.querySelector(".job-deadline");
+const jobLocation = document.querySelector(".job-location");
+const jobCompany = document.querySelector(".job-company");
+const jobPosition = document.querySelector(".job-position");
+const jobTitle = document.querySelector(".job-title");
+// Initialize the previous values
+let prevJobStatus;
+let prevJobType;
+let prevJobDeadline;
+let prevJobRequirement;
+let prevJobDescription;
+let prevJobLocation;
+let prevJobCompany;
+let prevJobPosition;
+let prevJobTitle;
+// Save edited job to database
+const saveJobToDB = async ()=>{
+    // Initialize the form where fields and values to be updated are saved
+    const form = {};
+    // Check if the previous value are changed before adding to the form
+    if (prevJobStatus !== jobStatus.value) form.status = jobStatus.value;
+    if (prevJobRequirement !== jobRequirement.value) form.requirement = jobRequirement.value;
+    if (prevJobDescription !== jobDescription.value) form.description = jobDescription.value;
+    if (prevJobType !== jobType.value) form.type = jobType.value;
+    if (prevJobDeadline !== jobDeadline.value) form.deadline = (0, _timeFunctions.readableDateTimeToMySQlDateTime)(jobDeadline.value);
+    if (prevJobLocation !== jobLocation.value) form.location = jobLocation.value;
+    if (prevJobCompany !== jobCompany.value) form.company = jobCompany.value;
+    if (prevJobPosition !== jobPosition.value) form.position = jobPosition.value;
+    if (prevJobTitle !== jobTitle.value) form.title = jobTitle.value;
+    // Check if form empty before submitting to the database
+    if (isEmpty(form)) return;
+    const fullUrl = window.location.href;
+    // Create a URL object
+    const url = new URL(fullUrl);
+    // Extract the base URL
+    const baseUrl = `${url.protocol}//${url.host}/`;
+    try {
+        const jobId = window.location.pathname.split("/")[2];
+        const response = await (0, _axiosDefault.default).patch(`${baseUrl}api/v1/jobs/${jobId}`, form);
+        if (response.data.status === "success") (0, _alerts.showAlert)("success", "Job updated successfully!");
+    } catch (err) {
+        console.log(err.response.data);
+        (0, _alerts.showAlert)("error", err.response.data.message);
+        window.setTimeout(()=>{
+            location.reload();
+        }, 1500);
+    }
+};
+const editJobFunc = ()=>{
+    // Collect initial values
+    prevJobStatus = jobStatus.value;
+    prevJobType = jobType.value;
+    prevJobDeadline = jobDeadline.value;
+    prevJobRequirement = jobRequirement.value;
+    prevJobDescription = jobDescription.value;
+    prevJobLocation = jobLocation.value;
+    prevJobCompany = jobCompany.value;
+    prevJobPosition = jobPosition.value;
+    prevJobTitle = jobTitle.value;
+    // Disable edit button when editing job
+    editJob.classList.toggle("disabled-icon");
+    // Get all input fields and remove the readonly and disabled attribute
+    inputs.forEach((n)=>{
+        if (n.hasAttribute("readonly")) n.removeAttribute("readonly");
+        else if (n.hasAttribute("disabled")) n.removeAttribute("disabled");
+    });
+    // Remove job deadline value when editing
+    jobDeadline.value = "";
+    // 2) set deadline attribute to datetime-local
+    jobDeadline.setAttribute("type", "datetime-local");
+    //   Add options tag to the select element
+    jobStatus.innerHTML = `  <option value="">Select Job Status*</option>
+                            <option value="open">Open</option>
+                             <option value="closed">Closed</option>
+  <option value="forthcoming">Forthcoming</option>`;
+    jobType.innerHTML = `<option value="">Select Job Type*</option> 
+                        <option value="onsite">On-site</option>
+                        <option value="remote">Remote</option>
+                        <option value="hybrid">Hybrid</option>`;
+    //   Show the save button and remove add interview and view interview button
+    addAndViewButton.classList.toggle("display-none");
+    saveDiv.classList.toggle("display-none");
+};
+// Check if an object is empty
+const isEmpty = (obj)=>Object.keys(obj).length === 0;
+const saveJobFunc = async ()=>{
+    // Get all input fields and add the readonly and disabled attribute
+    inputs.forEach((n)=>{
+        if (n.classList.contains("select-job-status") || n.classList.contains("select-job-type")) n.setAttribute("disabled", "");
+        else n.setAttribute("readonly", "");
+    });
+    // If no new value for job deadline then set value to preveious value
+    if (!jobDeadline.value) {
+        jobDeadline.setAttribute("type", "text");
+        jobDeadline.value = prevJobDeadline;
+    } else {
+        // If new value is provided for jobdeadline then set value to new value
+        jobDeadline.setAttribute("type", "text");
+        // convert to readable string
+        jobDeadline.value = (0, _timeFunctions.DBDateTimeToReadableString)((0, _timeFunctions.convertToMySQLDateTime)(jobDeadline.value));
+    }
+    // Assign job status value and job type value if unprovided
+    const jobStatusValue = jobStatus.value ? jobStatus.value : prevJobStatus;
+    const jobTypeValue = jobType.value ? jobType.value : prevJobType;
+    jobStatus.innerHTML = `<option value="${jobStatusValue}">${jobStatusValue}</option>`;
+    jobType.innerHTML = `<option value="${jobTypeValue}">${jobTypeValue}</option>`;
+    //   Show the save button and remove add interview and view interview button
+    addAndViewButton.classList.toggle("display-none");
+    saveDiv.classList.toggle("display-none");
+    editJob.classList.toggle("disabled-icon");
+    await saveJobToDB();
+};
+
+},{"axios":"jo6P5","./alerts":"6Mcnf","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./timeFunctions":"96pPM"}],"96pPM":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "readableDateTimeToMySQlDateTime", ()=>readableDateTimeToMySQlDateTime);
+parcelHelpers.export(exports, "DBDateTimeToReadableString", ()=>DBDateTimeToReadableString);
+parcelHelpers.export(exports, "convertToMySQLDateTime", ()=>convertToMySQLDateTime);
+const generateAmPmTime = (time)=>{
+    const [h, min, sec] = time.split(":");
+    hr = Number(h) + 1;
+    const ampm = hr > 12 ? "pm" : "am";
+    let timeString = "";
+    if (hr > "12" && hr !== "24") {
+        const hrDiff = hr - 12;
+        timeString = `${hrDiff}:${min} ${ampm}`;
+    } else if (hr === "12") timeString = `12:${min} pm`;
+    else if (hr === "24" || hr === "00") timeString = `12:${min} am`;
+    else timeString = `${hr}:${min} ${ampm}`;
+    return timeString;
+};
+const readableDateTimeToMySQlDateTime = (dateTime)=>{
+    let [dayOfWeek, month, day, year, by, time, ampm] = dateTime.split(" ");
+    let [h, m, s] = time.split(":");
+    if (ampm === "pm") h = h * 1 + 12;
+    h = h * 1 + 1;
+    time = [
+        h,
+        m,
+        s
+    ].join(":");
+    const convertedDateTime = new Date([
+        month,
+        day,
+        year,
+        time
+    ]).toISOString().slice(0, -1).replace("T", " ");
+    return convertedDateTime;
+};
+const DBDateTimeToReadableString = (dateTime)=>{
+    const [dayW, M, dayN, year, time] = new Date(dateTime).toString().split(" ");
+    const timeString = generateAmPmTime(time);
+    const dateString = [
+        dayW,
+        M,
+        dayN,
+        year
+    ].join(" ");
+    const dateTimeString = `${dateString} by ${timeString}`;
+    return dateTimeString;
+};
+const convertToMySQLDateTime = (dateString)=>{
+    const date = new Date(dateString);
+    return mysqlDatetime = date.toISOString().slice(0, 19).replace("T", " ");
+};
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["i5p9B","f2QDv"], "f2QDv", "parcelRequirebd65")
 
 //# sourceMappingURL=index.js.map
