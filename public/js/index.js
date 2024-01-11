@@ -1,6 +1,7 @@
 import "core-js/actual";
 
 import { login } from "./login";
+import signUp from "./signUp";
 import showPassword from "./showPassword";
 import hamburgerMenu from "./hamburgerMenu";
 import performSearch from "./search";
@@ -13,6 +14,7 @@ const navMenu = document.querySelector(".nav-menu");
 const showPasswordBox = document.querySelector(".show-password");
 const passwordInputs = document.querySelectorAll(".password");
 const loginForm = document.querySelector(".form-login");
+const signUpForm = document.querySelector(".form-signup");
 const searchGlass = document.querySelector(".search-glass");
 const searchInput = document.querySelector("#search");
 const interviewForm = document.querySelector(".form-interview-data");
@@ -128,5 +130,20 @@ if (saveInterviewBtns) {
       // Call the save interview function and pass the particular card being edited as a parameter
       await saveInterviewFunc(card);
     });
+  });
+}
+
+// Sign Up
+if (signUpForm) {
+  signUpForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const lastName = document.querySelector("#last-name").value;
+    const firstName = document.querySelector("#first-name").value;
+    const email = document.querySelector("#email").value;
+    const password = document.querySelector("#password-signup").value;
+    const passwordConfirm = document.querySelector("#password-confirm").value;
+
+    signUp(lastName, firstName, email, password, passwordConfirm);
   });
 }

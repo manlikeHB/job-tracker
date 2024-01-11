@@ -579,6 +579,8 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 var _esnextSymbolDisposeJs = require("core-js/modules/esnext.symbol.dispose.js");
 var _webImmediateJs = require("core-js/modules/web.immediate.js");
 var _login = require("./login");
+var _signUp = require("./signUp");
+var _signUpDefault = parcelHelpers.interopDefault(_signUp);
 var _showPassword = require("./showPassword");
 var _showPasswordDefault = parcelHelpers.interopDefault(_showPassword);
 var _hamburgerMenu = require("./hamburgerMenu");
@@ -594,6 +596,7 @@ const navMenu = document.querySelector(".nav-menu");
 const showPasswordBox = document.querySelector(".show-password");
 const passwordInputs = document.querySelectorAll(".password");
 const loginForm = document.querySelector(".form-login");
+const signUpForm = document.querySelector(".form-signup");
 const searchGlass = document.querySelector(".search-glass");
 const searchInput = document.querySelector("#search");
 const interviewForm = document.querySelector(".form-interview-data");
@@ -670,8 +673,18 @@ if (saveInterviewBtns) saveInterviewBtns.forEach((btn)=>{
         await (0, _editAndSaveInterview.saveInterviewFunc)(card);
     });
 });
+// Sign Up
+if (signUpForm) signUpForm.addEventListener("submit", (e)=>{
+    e.preventDefault();
+    const lastName = document.querySelector("#last-name").value;
+    const firstName = document.querySelector("#first-name").value;
+    const email = document.querySelector("#email").value;
+    const password = document.querySelector("#password-signup").value;
+    const passwordConfirm = document.querySelector("#password-confirm").value;
+    (0, _signUpDefault.default)(lastName, firstName, email, password, passwordConfirm);
+});
 
-},{"core-js/modules/esnext.symbol.dispose.js":"b9ez5","core-js/modules/web.immediate.js":"49tUX","./login":"7yHem","./showPassword":"jb4Zk","./hamburgerMenu":"bZ6uq","./search":"1VcuN","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./addInterview":"i37qd","./editAndSaveJob":"82rR9","./editAndSaveInterview":"cmNFU"}],"b9ez5":[function(require,module,exports) {
+},{"core-js/modules/esnext.symbol.dispose.js":"b9ez5","core-js/modules/web.immediate.js":"49tUX","./login":"7yHem","./showPassword":"jb4Zk","./hamburgerMenu":"bZ6uq","./search":"1VcuN","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./addInterview":"i37qd","./editAndSaveJob":"82rR9","./editAndSaveInterview":"cmNFU","./signUp":"a26Sx"}],"b9ez5":[function(require,module,exports) {
 "use strict";
 var global = require("c050e94c4f6437d6");
 var defineWellKnownSymbol = require("efe796c38aca437b");
@@ -6843,6 +6856,34 @@ const saveInterviewFunc = async (card)=>{
     await saveInterviewToDB(card);
 };
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./timeFunctions":"96pPM","axios":"jo6P5","./alerts":"6Mcnf"}]},["i5p9B","f2QDv"], "f2QDv", "parcelRequirebd65")
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./timeFunctions":"96pPM","axios":"jo6P5","./alerts":"6Mcnf"}],"a26Sx":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _axios = require("axios");
+var _axiosDefault = parcelHelpers.interopDefault(_axios);
+var _alerts = require("./alerts");
+exports.default = signUp = async (lastName, firstName, email, password, passwordConfirm)=>{
+    console.log(lastName, firstName, email, password, passwordConfirm);
+    try {
+        const response = await (0, _axiosDefault.default).post("api/v1/users/signup", {
+            lastName,
+            firstName,
+            email,
+            password,
+            passwordConfirm
+        });
+        if (response.data.status === "success") {
+            (0, _alerts.showAlert)("success", "SignUp successful!!");
+            window.setTimeout(()=>{
+                location.assign("/overview");
+            }, 1500);
+        }
+    } catch (err) {
+        console.log(err.response.data);
+        (0, _alerts.showAlert)("error", err.response.data.message);
+    }
+};
+
+},{"axios":"jo6P5","./alerts":"6Mcnf","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["i5p9B","f2QDv"], "f2QDv", "parcelRequirebd65")
 
 //# sourceMappingURL=index.js.map

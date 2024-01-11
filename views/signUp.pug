@@ -8,7 +8,7 @@ block content
             li.btn.btn-nav.nav-item
                 a.nav-link(href="#") Pricing
             li.btn.btn-nav.nav-item
-                a.nav-link(href="#") Log In 
+                a.nav-link(href="/login") Log In 
                 i.fa-solid.fa-circle-user
         .hamburger
             span.bar
@@ -19,15 +19,21 @@ block content
         main.card.main
             .login-form
                 h2.login-heading Sign Up
-                form.form.form-login
+                form.form.form-signup
                     .form-group
-                        label(class="", for="email") Email address
+                        label(for="last-name") Last Name
+                        input#last-name.login-input(type="text", placeholder="Enter your Last Name", required="required")
+                    .form-group
+                        label(for="first-name") First Name
+                        input#first-name.login-input(type="text", placeholder="Enter your First Name", required="required")
+                    .form-group
+                        label(for="email") Email address
                         input#email.login-input(type="email", placeholder="you@example.com", required="required")
                     .form-group
-                        label(class="", for="password") Password
-                        input#password.login-input.password(type="password", placeholder="••••••••", required="required", minlength="8")
+                        label(for="password") Password
+                        input#password-signup.login-input.password(type="password", placeholder="••••••••", required="required", minlength="8")
                     .form-group
-                        label(class="", for="password-confirm") Confirm Password
+                        label(for="password-confirm") Confirm Password
                         input#password-confirm.login-input.password(type="password", placeholder="••••••••", required="required", minlength="8")
                     .show-password-div
                         input.show-password(type="checkbox")
