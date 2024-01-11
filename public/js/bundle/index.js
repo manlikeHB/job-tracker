@@ -588,6 +588,7 @@ var _searchDefault = parcelHelpers.interopDefault(_search);
 var _addInterview = require("./addInterview");
 var _addInterviewDefault = parcelHelpers.interopDefault(_addInterview);
 var _editAndSaveJob = require("./editAndSaveJob");
+var _editAndSaveInterview = require("./editAndSaveInterview");
 const hamburger = document.querySelector(".hamburger");
 const navMenu = document.querySelector(".nav-menu");
 const showPasswordBox = document.querySelector(".show-password");
@@ -598,6 +599,8 @@ const searchInput = document.querySelector("#search");
 const interviewForm = document.querySelector(".form-interview-data");
 const editJob = document.querySelector(".edit-job");
 const saveJob = document.querySelector(".save");
+const editInterviewBtns = document.querySelectorAll(".edit-interview");
+const saveInterviewBtns = document.querySelectorAll(".save-interview-btn");
 // login
 if (loginForm) document.querySelector(".form-login").addEventListener("submit", (e)=>{
     e.preventDefault();
@@ -650,8 +653,25 @@ if (interviewForm) interviewForm.addEventListener("submit", (e)=>{
 if (editJob) editJob.addEventListener("click", (0, _editAndSaveJob.editJobFunc));
 // Save job after edit
 if (saveJob) saveJob.addEventListener("click", (0, _editAndSaveJob.saveJobFunc));
+// Edit interview
+if (editInterviewBtns) // Get all edit buttons and attach an event listener to all
+editInterviewBtns.forEach((btn)=>{
+    btn.addEventListener("click", function(e) {
+        const card = btn.parentElement.parentElement.parentElement;
+        // Call the edit interview function and pass the particular card being edited as a parameter
+        (0, _editAndSaveInterview.editInterviewFunc)(card);
+    });
+});
+// Save interview after edit
+if (saveInterviewBtns) saveInterviewBtns.forEach((btn)=>{
+    btn.addEventListener("click", async ()=>{
+        const card = btn.parentElement.parentElement.parentElement.parentElement;
+        // Call the save interview function and pass the particular card being edited as a parameter
+        await (0, _editAndSaveInterview.saveInterviewFunc)(card);
+    });
+});
 
-},{"core-js/modules/esnext.symbol.dispose.js":"b9ez5","core-js/modules/web.immediate.js":"49tUX","./login":"7yHem","./showPassword":"jb4Zk","./hamburgerMenu":"bZ6uq","./search":"1VcuN","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./addInterview":"i37qd","./editAndSaveJob":"82rR9"}],"b9ez5":[function(require,module,exports) {
+},{"core-js/modules/esnext.symbol.dispose.js":"b9ez5","core-js/modules/web.immediate.js":"49tUX","./login":"7yHem","./showPassword":"jb4Zk","./hamburgerMenu":"bZ6uq","./search":"1VcuN","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./addInterview":"i37qd","./editAndSaveJob":"82rR9","./editAndSaveInterview":"cmNFU"}],"b9ez5":[function(require,module,exports) {
 "use strict";
 var global = require("c050e94c4f6437d6");
 var defineWellKnownSymbol = require("efe796c38aca437b");
@@ -6493,6 +6513,8 @@ const jobLocation = document.querySelector(".job-location");
 const jobCompany = document.querySelector(".job-company");
 const jobPosition = document.querySelector(".job-position");
 const jobTitle = document.querySelector(".job-title");
+// Check if an object is empty
+const isEmpty = (obj)=>Object.keys(obj).length === 0;
 // Initialize the previous values
 let prevJobStatus;
 let prevJobType;
@@ -6571,8 +6593,6 @@ const editJobFunc = ()=>{
     addAndViewButton.classList.toggle("display-none");
     saveDiv.classList.toggle("display-none");
 };
-// Check if an object is empty
-const isEmpty = (obj)=>Object.keys(obj).length === 0;
 const saveJobFunc = async ()=>{
     // Get all input fields and add the readonly and disabled attribute
     inputs.forEach((n)=>{
@@ -6655,6 +6675,174 @@ const convertToMySQLDateTime = (dateString)=>{
     return mysqlDatetime = date.toISOString().slice(0, 19).replace("T", " ");
 };
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["i5p9B","f2QDv"], "f2QDv", "parcelRequirebd65")
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"cmNFU":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "editInterviewFunc", ()=>editInterviewFunc);
+parcelHelpers.export(exports, "saveInterviewFunc", ()=>saveInterviewFunc);
+var _axios = require("axios");
+var _axiosDefault = parcelHelpers.interopDefault(_axios);
+var _alerts = require("./alerts");
+var _timeFunctions = require("./timeFunctions");
+// Check if an object is empty
+const isEmpty = (obj)=>Object.keys(obj).length === 0;
+// Initialize previous values of interview the interview input fields
+let prevResult;
+let prevInterviewDate;
+let prevRescheduledDate;
+let prevDeadline;
+let prevRescheduleReason;
+let prevInterviewersName;
+let prevInterviewType;
+let prevInterviewAddress;
+let prevInterviewNote;
+// Function to save/update the edited interview to the database
+const saveInterviewToDB = async (card)=>{
+    // Select the respective fields of the particular card being edited
+    const result = card.querySelector(".select-interview-result");
+    const interviewDate = card.querySelector(".interview-date-input");
+    const interviewDeadline = card.querySelector(".interview-deadline");
+    const rescheduleDate = card.querySelector(".reschedule-date");
+    const rescheduleReason = card.querySelector(".select-reschedule-reason");
+    const interviewersName = card.querySelector(".select-interviewers-name");
+    const interviewType = card.querySelector(".interview-type");
+    const interviewAddress = card.querySelector(".interview-address");
+    const interviewNote = card.querySelector(".interview-note");
+    const interviewForm = card.querySelector(".form-interview-data");
+    // Initailize an empty object (form) where all the updated fields values are stored
+    const form = {};
+    // Compare the previous values in the fields with the current values before adding them to the form
+    if (prevDeadline !== interviewDeadline.value) form.deadline = (0, _timeFunctions.readableDateTimeToMySQlDateTime)(interviewDeadline.value);
+    if (prevInterviewAddress !== interviewAddress.value) form.address = interviewAddress.value;
+    if (prevInterviewDate !== interviewDate.value) form.interview_date = (0, _timeFunctions.readableDateTimeToMySQlDateTime)(interviewDate.value);
+    if (prevInterviewNote !== interviewNote.value) form.note = interviewNote.value;
+    if (prevInterviewType !== interviewType.value) form.type = interviewType.value;
+    if (prevInterviewersName !== interviewersName.value) form.interviewer_name = interviewersName.value;
+    if (prevRescheduleReason !== rescheduleReason.value) form.reschedule_reason = rescheduleReason.value;
+    if (prevRescheduledDate !== rescheduleDate.value) form.rescheduled_date = (0, _timeFunctions.readableDateTimeToMySQlDateTime)(rescheduleDate.value);
+    if (prevResult !== result.value) form.result = result.value;
+    // Check if form is empty before submitting to the database
+    if (isEmpty(form)) return;
+    // Get the full url and construct the url for the patch request
+    const fullUrl = window.location.href;
+    // Create a URL object
+    const url = new URL(fullUrl);
+    // Extract the base URL
+    const baseUrl = `${url.protocol}//${url.host}/`;
+    try {
+        // Get the ID of the currently edited interview
+        const interviewID = interviewForm.dataset.id;
+        // Make a patch request sending the form
+        const response = await (0, _axiosDefault.default).patch(`${baseUrl}api/v1/interviews/${interviewID}`, form);
+        // Show alert if interview was updated successfully
+        if (response.data.status === "success") (0, _alerts.showAlert)("success", "Interview updated successfully!");
+    } catch (err) {
+        // Show alert if there was an error while updating interview
+        (0, _alerts.showAlert)("error", err.response.data.message);
+        window.setTimeout(()=>{
+            location.reload();
+        }, 1500);
+    }
+};
+const editInterviewFunc = (card)=>{
+    // Select all the input fields and edit and save button of the selected card
+    const inputs = card.querySelectorAll(".form-input");
+    const editInterview = card.querySelector(".edit-interview");
+    const saveInterview = card.querySelector(".save-interview");
+    // Select the respective fields of the selected interview card
+    const result = card.querySelector(".select-interview-result");
+    const interviewDate = card.querySelector(".interview-date-input");
+    const interviewDeadline = card.querySelector(".interview-deadline");
+    const rescheduleDate = card.querySelector(".reschedule-date");
+    const rescheduleReason = card.querySelector(".select-reschedule-reason");
+    const interviewersName = card.querySelector(".select-interviewers-name");
+    const interviewType = card.querySelector(".interview-type");
+    const interviewAddress = card.querySelector(".interview-address");
+    const interviewNote = card.querySelector(".interview-note");
+    // collect the previous values of the interview fields
+    prevResult = result.value;
+    prevInterviewDate = interviewDate.value;
+    prevRescheduledDate = rescheduleDate.value;
+    prevDeadline = interviewDeadline.value;
+    prevRescheduleReason = rescheduleReason.value;
+    prevInterviewersName = interviewersName.value;
+    prevInterviewType = interviewType.value;
+    prevInterviewAddress = interviewAddress.value;
+    prevInterviewNote = interviewNote.value;
+    // Toggle the edit button
+    editInterview.classList.toggle("disabled-icon");
+    // Get all input fields and remove the readonly and disabled attribute
+    inputs.forEach((n)=>{
+        if (n.hasAttribute("readonly")) n.removeAttribute("readonly");
+        else if (n.hasAttribute("disabled")) n.removeAttribute("disabled");
+    });
+    // Empty the interview date, deadline and rescheduled date value
+    interviewDate.value = "";
+    interviewDeadline.value = "";
+    rescheduleDate.value = "";
+    // set thier type attributes to datetime local
+    interviewDate.setAttribute("type", "datetime-local");
+    interviewDeadline.setAttribute("type", "datetime-local");
+    rescheduleDate.setAttribute("type", "datetime-local");
+    // Add options tag to the result select element
+    result.innerHTML = `<option value="">Select Interview Result*</option> <option value="passed">Passed</option> <option value="failed">Failed</option>`;
+    // Show save button
+    saveInterview.classList.toggle("display-none");
+};
+const saveInterviewFunc = async (card)=>{
+    // Select all the inputs, edit and save buttons of the selected interview card
+    const inputs = card.querySelectorAll(".form-input");
+    const editInterview = card.querySelector(".edit-interview");
+    const saveInterview = card.querySelector(".save-interview");
+    // Select the result, interview date, interview deadline and rescheduled date
+    const result = card.querySelector(".select-interview-result");
+    const interviewDate = card.querySelector(".interview-date-input");
+    const interviewDeadline = card.querySelector(".interview-deadline");
+    const rescheduleDate = card.querySelector(".reschedule-date");
+    // Get all input fields and add the readonly and disabled attribute
+    inputs.forEach((n)=>{
+        if (n.classList.contains("select-interview-result")) n.setAttribute("disabled", "");
+        else n.setAttribute("readonly", "");
+    });
+    // Interview date
+    if (!interviewDate.value) {
+        interviewDate.setAttribute("type", "text");
+        interviewDate.value = prevInterviewDate;
+    } else {
+        // If new value is provided for interviewDate then set value to new value
+        interviewDate.setAttribute("type", "text");
+        // convert to readable string
+        interviewDate.value = (0, _timeFunctions.DBDateTimeToReadableString)((0, _timeFunctions.convertToMySQLDateTime)(interviewDate.value));
+    }
+    // Interview deadline
+    if (!interviewDeadline.value) {
+        interviewDeadline.setAttribute("type", "text");
+        interviewDeadline.value = prevDeadline;
+    } else {
+        // If new value is provided for interviewDeadline then set value to new value
+        interviewDeadline.setAttribute("type", "text");
+        // convert to readable string
+        interviewDeadline.value = (0, _timeFunctions.DBDateTimeToReadableString)((0, _timeFunctions.convertToMySQLDateTime)(interviewDeadline.value));
+    }
+    //  Interview rescheduled Date
+    if (!rescheduleDate.value) {
+        rescheduleDate.setAttribute("type", "text");
+        rescheduleDate.value = prevRescheduledDate;
+    } else {
+        // If new value is provided for rescheduleDate then set value to new value
+        rescheduleDate.setAttribute("type", "text");
+        // convert to readable string
+        rescheduleDate.value = (0, _timeFunctions.DBDateTimeToReadableString)((0, _timeFunctions.convertToMySQLDateTime)(rescheduleDate.value));
+    }
+    // Assign result value if unprovided
+    const resultValue = result.value ? result.value : prevResult;
+    result.innerHTML = `<option value="${resultValue}">${resultValue}</option>`;
+    // Hide save button
+    saveInterview.classList.toggle("display-none");
+    editInterview.classList.toggle("disabled-icon");
+    await saveInterviewToDB(card);
+};
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./timeFunctions":"96pPM","axios":"jo6P5","./alerts":"6Mcnf"}]},["i5p9B","f2QDv"], "f2QDv", "parcelRequirebd65")
 
 //# sourceMappingURL=index.js.map

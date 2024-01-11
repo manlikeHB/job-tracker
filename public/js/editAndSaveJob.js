@@ -25,6 +25,9 @@ const jobCompany = document.querySelector(".job-company");
 const jobPosition = document.querySelector(".job-position");
 const jobTitle = document.querySelector(".job-title");
 
+// Check if an object is empty
+const isEmpty = (obj) => Object.keys(obj).length === 0;
+
 // Initialize the previous values
 let prevJobStatus;
 let prevJobType;
@@ -128,9 +131,6 @@ export const editJobFunc = () => {
   addAndViewButton.classList.toggle("display-none");
   saveDiv.classList.toggle("display-none");
 };
-
-// Check if an object is empty
-const isEmpty = (obj) => Object.keys(obj).length === 0;
 
 // Save job
 export const saveJobFunc = async () => {

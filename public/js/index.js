@@ -6,6 +6,7 @@ import hamburgerMenu from "./hamburgerMenu";
 import performSearch from "./search";
 import addInterview from "./addInterview";
 import { editJobFunc, saveJobFunc } from "./editAndSaveJob";
+import { editInterviewFunc, saveInterviewFunc } from "./editAndSaveInterview";
 
 const hamburger = document.querySelector(".hamburger");
 const navMenu = document.querySelector(".nav-menu");
@@ -17,6 +18,8 @@ const searchInput = document.querySelector("#search");
 const interviewForm = document.querySelector(".form-interview-data");
 const editJob = document.querySelector(".edit-job");
 const saveJob = document.querySelector(".save");
+const editInterviewBtns = document.querySelectorAll(".edit-interview");
+const saveInterviewBtns = document.querySelectorAll(".save-interview-btn");
 
 // login
 if (loginForm) {
@@ -101,4 +104,29 @@ if (editJob) {
 // Save job after edit
 if (saveJob) {
   saveJob.addEventListener("click", saveJobFunc);
+}
+
+// Edit interview
+if (editInterviewBtns) {
+  // Get all edit buttons and attach an event listener to all
+  editInterviewBtns.forEach((btn) => {
+    btn.addEventListener("click", function (e) {
+      const card = btn.parentElement.parentElement.parentElement;
+
+      // Call the edit interview function and pass the particular card being edited as a parameter
+      editInterviewFunc(card);
+    });
+  });
+}
+
+// Save interview after edit
+if (saveInterviewBtns) {
+  saveInterviewBtns.forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      const card = btn.parentElement.parentElement.parentElement.parentElement;
+
+      // Call the save interview function and pass the particular card being edited as a parameter
+      await saveInterviewFunc(card);
+    });
+  });
 }

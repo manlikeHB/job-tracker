@@ -28,17 +28,17 @@ block content
     section#content
         each interview in interviews
             .card
-                form.form.form-job-data
+                form.form.form-interview-data(data-id=`${interview.id}`)
                     .edit-icon.form-input-div
                         i.fa-regular.fa-pen-to-square.fa-lg.fa-icons.edit-interview
                     .type.form-input-div
                         span Type:
                         | &nbsp;
-                        input#type.form-input(type="text", name="type", required, value=interview.type, readonly)
+                        input#type.form-input.interview-type(type="text", name="type", required, value=interview.type, readonly)
                     .interviewers-name.form-input-div
                         span Interviewer&apos;s Name:
                         | &nbsp;
-                        input#interviewers-name.form-input(type="text", name="interviewers-name", required, value=interview.interviewer_name, readonly)
+                        input#interviewers-name.form-input.select-interviewers-name(type="text", name="interviewers-name", required, value=interview.interviewer_name, readonly)
                     .date.form-input-div
                         span Date:
                         | &nbsp;
@@ -46,24 +46,24 @@ block content
                     .address.form-input-div
                         span Address:
                         | &nbsp;
-                        input#address.form-input(type="text", name="address", required, value=interview.address, readonly)
+                        input#address.form-input.interview-address(type="text", name="address", required, value=interview.address, readonly)
                     .note.form-input-div
                         span Note:
                         | &nbsp;
-                        textarea#note.form-input(name="note", cols="25", rows="7", readonly)=interview.notes
+                        textarea#note.form-input.interview-note(name="note", cols="25", rows="7", readonly)=interview.note
                     .result.form-input-div
                         span Result:
                         | &nbsp;
                         select#result.form-input.select-interview-result(name="result", required, disabled)
-                            option(value=interview.results) Passed
+                            option()= interview.result
                     .rescheduleDate.form-input-div
                         span Rescheduled Date:
                         | &nbsp;
-                        input#rescheduleDate.form-input.reschedule-date(name="rescheduleDate", value=`${DBDateTimeToReadableString(interview.rescheduled_date)}`)
+                        input#rescheduleDate.form-input.reschedule-date(name="rescheduleDate", value=`${DBDateTimeToReadableString(interview.rescheduled_date)}`, readonly)
                     .reschedule-reason.form-input-div
                         span Reschedule reason:
                         | &nbsp;
-                        textarea#reschedule-reason.form-input(name="reschedule-reason", cols="25", rows="7", readonly)=interview.reschedule_reason
+                        textarea#reschedule-reason.form-input.select-reschedule-reason(name="reschedule-reason", cols="25", rows="7", readonly)=interview.reschedule_reason
                     .deadline.form-input-div
                         span Deadline:
                         | &nbsp;
