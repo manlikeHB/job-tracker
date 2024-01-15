@@ -1,6 +1,6 @@
 import "core-js/actual";
 
-import { login } from "./login";
+import { login, logout } from "./login";
 import signUp from "./signUp";
 import showPassword from "./showPassword";
 import hamburgerMenu from "./hamburgerMenu";
@@ -22,6 +22,7 @@ const editJob = document.querySelector(".edit-job");
 const saveJob = document.querySelector(".save");
 const editInterviewBtns = document.querySelectorAll(".edit-interview");
 const saveInterviewBtns = document.querySelectorAll(".save-interview-btn");
+const logoutBtns = document.querySelectorAll(".logout");
 
 // login
 if (loginForm) {
@@ -145,5 +146,11 @@ if (signUpForm) {
     const passwordConfirm = document.querySelector("#password-confirm").value;
 
     signUp(lastName, firstName, email, password, passwordConfirm);
+  });
+}
+
+if (logoutBtns) {
+  logoutBtns.forEach((btn) => {
+    btn.addEventListener("click", logout);
   });
 }

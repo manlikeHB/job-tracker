@@ -604,6 +604,7 @@ const editJob = document.querySelector(".edit-job");
 const saveJob = document.querySelector(".save");
 const editInterviewBtns = document.querySelectorAll(".edit-interview");
 const saveInterviewBtns = document.querySelectorAll(".save-interview-btn");
+const logoutBtns = document.querySelectorAll(".logout");
 // login
 if (loginForm) document.querySelector(".form-login").addEventListener("submit", (e)=>{
     e.preventDefault();
@@ -682,6 +683,9 @@ if (signUpForm) signUpForm.addEventListener("submit", (e)=>{
     const password = document.querySelector("#password-signup").value;
     const passwordConfirm = document.querySelector("#password-confirm").value;
     (0, _signUpDefault.default)(lastName, firstName, email, password, passwordConfirm);
+});
+if (logoutBtns) logoutBtns.forEach((btn)=>{
+    btn.addEventListener("click", (0, _login.logout));
 });
 
 },{"core-js/modules/esnext.symbol.dispose.js":"b9ez5","core-js/modules/web.immediate.js":"49tUX","./login":"7yHem","./showPassword":"jb4Zk","./hamburgerMenu":"bZ6uq","./search":"1VcuN","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./addInterview":"i37qd","./editAndSaveJob":"82rR9","./editAndSaveInterview":"cmNFU","./signUp":"a26Sx"}],"b9ez5":[function(require,module,exports) {
@@ -1979,6 +1983,7 @@ module.exports = function(scheduler, hasTimeArg) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "login", ()=>login);
+parcelHelpers.export(exports, "logout", ()=>logout);
 var _axios = require("axios");
 var _axiosDefault = parcelHelpers.interopDefault(_axios);
 var _alerts = require("./alerts");
@@ -1995,6 +2000,22 @@ const login = async (email, password)=>{
             }, 1500);
         }
     } catch (err) {
+        (0, _alerts.showAlert)("error", err.response.data.message);
+    }
+};
+const logout = async ()=>{
+    console.log("logout");
+    try {
+        const response = await (0, _axiosDefault.default).get("api/v1/users/logout");
+        console.log(response);
+        if (response.data.status === "success") {
+            (0, _alerts.showAlert)("success", "Logging out!!!");
+            window.setTimeout(()=>{
+                location.assign("/");
+            }, 1500);
+        }
+    } catch (err) {
+        console.log(err.response.data);
         (0, _alerts.showAlert)("error", err.response.data.message);
     }
 };

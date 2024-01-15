@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.get("/", viewController.getLandingPage);
 router.get("/login", viewController.getLogin);
-router.get("/account", viewController.getAccountPage);
+router.get("/account", authController.protect, viewController.getAccountPage);
 router.get(
   "/job/:jobId/add-interview",
   authController.protect,

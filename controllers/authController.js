@@ -125,7 +125,7 @@ exports.signUp = catchAsync(async (req, res, next) => {
   createSendToken(newUser, 201, res, req);
 });
 
-exports.logout = (res, req) => {
+exports.logout = (req, res) => {
   res.cookie("jwt", "loggedOut", {
     expires: new Date(Date.now() + 10 * 1000),
     httpOnly: true,
