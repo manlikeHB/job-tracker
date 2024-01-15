@@ -36,13 +36,14 @@ exports.getAddJobPage = catchAsync(async (req, res, next) => {
 });
 
 exports.getInterviewPage = catchAsync(async (req, res, next) => {
-  const sql = "SELECT * FROM interviews";
+  const sql =
+    "SELECT interviews.* FROM interviews JOIN job_interviews ON interviews.id = job_interviews.interview_id JOIN jobs ON jobs.id = job_interviews.job_id JOIN users_Jobs ON users_Jobs.job_id = jobs.id JOIN users ON users_Jobs.user_id = users.id WHERE users.id = ?";
 
-  const interviews = (await db.query(sql))[0];
+  const interviews = (await db.query(sql, req.user.id))[0];
 
   res.status(200).render("interview", {
-    title: "Interview",
     interviews,
+    DBDateTimeToReadableString,
   });
 });
 

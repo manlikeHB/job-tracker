@@ -13,7 +13,11 @@ router.get(
   viewController.addInterviewsPage
 );
 router.get("/add-job", viewController.getAddJobPage);
-router.get("/interview", viewController.getInterviewPage);
+router.get(
+  "/interview",
+  authController.protect,
+  viewController.getInterviewPage
+);
 router.get(
   "/job/:jobId/interview",
   authController.protect,
