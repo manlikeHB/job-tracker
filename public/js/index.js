@@ -8,6 +8,7 @@ import performSearch from "./search";
 import addInterview from "./addInterview";
 import { editJobFunc, saveJobFunc } from "./editAndSaveJob";
 import { editInterviewFunc, saveInterviewFunc } from "./editAndSaveInterview";
+import { updateUserInfo, updateUserPassword } from "./updateAccount";
 
 const hamburger = document.querySelector(".hamburger");
 const navMenu = document.querySelector(".nav-menu");
@@ -23,6 +24,8 @@ const saveJob = document.querySelector(".save");
 const editInterviewBtns = document.querySelectorAll(".edit-interview");
 const saveInterviewBtns = document.querySelectorAll(".save-interview-btn");
 const logoutBtns = document.querySelectorAll(".logout");
+const userData = document.querySelector(".form-user-data");
+const userPasswordForm = document.querySelector(".form-user-password");
 
 // login
 if (loginForm) {
@@ -152,5 +155,23 @@ if (signUpForm) {
 if (logoutBtns) {
   logoutBtns.forEach((btn) => {
     btn.addEventListener("click", logout);
+  });
+}
+
+// Update user information
+if (userData) {
+  userData.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    updateUserInfo();
+  });
+}
+
+// Update user password
+if (userPasswordForm) {
+  userPasswordForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    updateUserPassword();
   });
 }

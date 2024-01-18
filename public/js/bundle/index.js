@@ -591,6 +591,7 @@ var _addInterview = require("./addInterview");
 var _addInterviewDefault = parcelHelpers.interopDefault(_addInterview);
 var _editAndSaveJob = require("./editAndSaveJob");
 var _editAndSaveInterview = require("./editAndSaveInterview");
+var _updateAccount = require("./updateAccount");
 const hamburger = document.querySelector(".hamburger");
 const navMenu = document.querySelector(".nav-menu");
 const showPasswordBox = document.querySelector(".show-password");
@@ -605,6 +606,8 @@ const saveJob = document.querySelector(".save");
 const editInterviewBtns = document.querySelectorAll(".edit-interview");
 const saveInterviewBtns = document.querySelectorAll(".save-interview-btn");
 const logoutBtns = document.querySelectorAll(".logout");
+const userData = document.querySelector(".form-user-data");
+const userPasswordForm = document.querySelector(".form-user-password");
 // login
 if (loginForm) document.querySelector(".form-login").addEventListener("submit", (e)=>{
     e.preventDefault();
@@ -687,8 +690,18 @@ if (signUpForm) signUpForm.addEventListener("submit", (e)=>{
 if (logoutBtns) logoutBtns.forEach((btn)=>{
     btn.addEventListener("click", (0, _login.logout));
 });
+// Update user information
+if (userData) userData.addEventListener("submit", (e)=>{
+    e.preventDefault();
+    (0, _updateAccount.updateUserInfo)();
+});
+// Update user password
+if (userPasswordForm) userPasswordForm.addEventListener("submit", (e)=>{
+    e.preventDefault();
+    (0, _updateAccount.updateUserPassword)();
+});
 
-},{"core-js/modules/esnext.symbol.dispose.js":"b9ez5","core-js/modules/web.immediate.js":"49tUX","./login":"7yHem","./showPassword":"jb4Zk","./hamburgerMenu":"bZ6uq","./search":"1VcuN","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./addInterview":"i37qd","./editAndSaveJob":"82rR9","./editAndSaveInterview":"cmNFU","./signUp":"a26Sx"}],"b9ez5":[function(require,module,exports) {
+},{"core-js/modules/esnext.symbol.dispose.js":"b9ez5","core-js/modules/web.immediate.js":"49tUX","./login":"7yHem","./showPassword":"jb4Zk","./hamburgerMenu":"bZ6uq","./search":"1VcuN","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./addInterview":"i37qd","./editAndSaveJob":"82rR9","./editAndSaveInterview":"cmNFU","./signUp":"a26Sx","./updateAccount":"2J59h"}],"b9ez5":[function(require,module,exports) {
 "use strict";
 var global = require("c050e94c4f6437d6");
 var defineWellKnownSymbol = require("efe796c38aca437b");
@@ -6903,6 +6916,81 @@ exports.default = signUp = async (lastName, firstName, email, password, password
         console.log(err.response.data);
         (0, _alerts.showAlert)("error", err.response.data.message);
     }
+};
+
+},{"axios":"jo6P5","./alerts":"6Mcnf","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"2J59h":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "updateUserInfo", ()=>updateUserInfo);
+parcelHelpers.export(exports, "updateUserPassword", ()=>updateUserPassword);
+var _axios = require("axios");
+var _axiosDefault = parcelHelpers.interopDefault(_axios);
+var _alerts = require("./alerts");
+// Target the input fields for email, first name and last name
+const email = document.querySelector("#email");
+const firstName = document.querySelector("#first-Name");
+const lastName = document.querySelector("#lastName");
+// Initialize th previous values of email, first name and last name
+let prevEmail;
+let prevFirstName;
+let prevLastName;
+// If email, first name and last name are present collect initial values
+if (email, firstName, lastName) {
+    prevEmail = email.value;
+    prevFirstName = firstName.value;
+    prevLastName = lastName.value;
+}
+// Check if an object is empty
+const isEmpty = (obj)=>Object.keys(obj).length === 0;
+const updateUserInfo = async ()=>{
+    // Intialize a form to collect data to be passed to the database
+    const form = {};
+    // If values are present add the respective fields and values to the form
+    if (email.value !== prevEmail) form.email = email.value;
+    if (firstName.value !== prevFirstName) form.firstName = firstName.value;
+    if (lastName.value !== prevLastName) form.lastName = lastName.value;
+    // If form is empty return
+    if (isEmpty(form)) return;
+    try {
+        // Make an axios patch request
+        const response = await (0, _axiosDefault.default).patch("api/v1/users/updateme", form);
+        // If successful show alert
+        if (response.data.status === "success") {
+            (0, _alerts.showAlert)("success", "Account updated successfully!");
+            // Reset prev of email, first name and last name to the updated values
+            prevEmail = email.value;
+            prevFirstName = firstName.value;
+            prevLastName = lastName.value;
+        }
+    } catch (err) {
+        // Show alert if there is an error
+        (0, _alerts.showAlert)("error", err.response.data.message);
+    }
+};
+const updateUserPassword = async ()=>{
+    // Target the password, new password, confirm password fields
+    const currentPassword = document.querySelector("#password-current");
+    const newPassword = document.querySelector("#new-password");
+    const confirmPassword = document.querySelector("#password-confirm");
+    // Initialize the form object
+    const form = {};
+    // Get values from the password fields
+    form.passwordCurrent = currentPassword.value;
+    form.password = newPassword.value;
+    form.passwordConfirm = confirmPassword.value;
+    try {
+        // Make an axios patch request
+        const response = await (0, _axiosDefault.default).patch("api/v1/users/updatemypassword", form);
+        // If successful show alert
+        if (response.data.status === "success") (0, _alerts.showAlert)("success", "Password updated successfully!");
+    } catch (err) {
+        // If error show alert for error
+        (0, _alerts.showAlert)("error", err.response.data.message);
+    }
+    // Empty the password fields
+    currentPassword.value = "";
+    newPassword.value = "";
+    confirmPassword.value = "";
 };
 
 },{"axios":"jo6P5","./alerts":"6Mcnf","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["i5p9B","f2QDv"], "f2QDv", "parcelRequirebd65")

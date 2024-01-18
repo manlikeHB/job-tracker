@@ -25,29 +25,34 @@ block content
                 .settings.account-div.active-btn-menu
                     a.de-link(href="#") SETTINGS
                 .my-jobs.account-div
-                    a.de-link(href="#") MY&nbsp;JOBS
+                    a.de-link(href="/overview") MY&nbsp;JOBS
                 .my-interviews.account-div
-                    a.de-link(href="#") My&nbsp;INTERVIEWS
+                    a.de-link(href="interview") My&nbsp;INTERVIEWS
                 .billing.account-div
                     a.de-link(href="#") Billing
                 .log-out.account-div
                     a.de-link.logout(href="#") LOG OUT
-                div
-                    h3.admin-h3 Admin
-                    hr.width-80
-                    .manage-users.account-div
-                        a.de-link(href="#") Manage&nbsp;Users
-                    .manage-jobs.account-div
-                        a.de-link(href="#") Manage&nbsp;Jobs
-                    .manage-billings.account-div
-                        a.de-link(href="#") Manage&nbsp;Billings
+                
+                if (user.role === "admin")
+                    div
+                        h3.admin-h3 Admin
+                        hr.width-80
+                        .manage-users.account-div
+                            a.de-link(href="#") Manage&nbsp;Users
+                        .manage-jobs.account-div
+                            a.de-link(href="#") Manage&nbsp;Jobs
+                        .manage-billings.account-div
+                            a.de-link(href="#") Manage&nbsp;Billings
             .user-view
                 .account-settings
                     h2 Your account settings
                     form.form.form-user-data
                         .form-group
-                            label(class="form__label", for="name") Name
-                            input#name.form-input-account(type="text", value=`${user.firstName} ${user.lastName}`, required="required")
+                            label(class="form__label", for="firstName") First Name
+                            input#first-Name.form-input-account(type="text", value=`${user.firstName}`, required="required")
+                        .form-group
+                            label(class="form__label", for="lastName") Last Name
+                            input#lastName.form-input-account(type="text", value=`${user.lastName}`, required="required")
                         .form-group
                             label(class="form__label", for="email") Email address
                             input#email.form-input-account(type="email", value=user.email, required="required")
@@ -61,7 +66,7 @@ block content
                 hr
                 .change-password.account-settings
                     h2(class="") Password change
-                    form.form.form-user-settings
+                    form.form.form-user-settings.form-user-password
                         .form-group
                             label(class="form__label", for="password-current") Current password
                             input#password-current.form-input-account.password(type="password", placeholder="••••••••", required="required", minlength="8")
