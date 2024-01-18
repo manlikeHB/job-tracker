@@ -15,7 +15,7 @@ router.use(authController.protect);
 
 router.use("/jobs", jobsRouter);
 
-router.post("/updatemypassword", authController.updatePassword);
+router.patch("/updatemypassword", authController.updatePassword);
 router.get("/me", userController.getMe, userController.getUser);
 router.patch("/updateme", userController.updateMe);
 router.delete("/deleteme", userController.deleteMe);
