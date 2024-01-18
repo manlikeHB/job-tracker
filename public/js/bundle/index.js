@@ -592,6 +592,8 @@ var _addInterviewDefault = parcelHelpers.interopDefault(_addInterview);
 var _editAndSaveJob = require("./editAndSaveJob");
 var _editAndSaveInterview = require("./editAndSaveInterview");
 var _updateAccount = require("./updateAccount");
+var _addJob = require("./addJob");
+var _addJobDefault = parcelHelpers.interopDefault(_addJob);
 const hamburger = document.querySelector(".hamburger");
 const navMenu = document.querySelector(".nav-menu");
 const showPasswordBox = document.querySelector(".show-password");
@@ -608,6 +610,7 @@ const saveInterviewBtns = document.querySelectorAll(".save-interview-btn");
 const logoutBtns = document.querySelectorAll(".logout");
 const userData = document.querySelector(".form-user-data");
 const userPasswordForm = document.querySelector(".form-user-password");
+const jobForm = document.querySelector(".form-job-data");
 // login
 if (loginForm) document.querySelector(".form-login").addEventListener("submit", (e)=>{
     e.preventDefault();
@@ -631,7 +634,7 @@ searchGlass.addEventListener("click", ()=>{
     // Get the value from search input and trim to remove whitesapace
     (0, _searchDefault.default)();
 });
-// Interview form data
+// Add Interview on a job
 if (interviewForm) interviewForm.addEventListener("submit", (e)=>{
     e.preventDefault();
     const form = {};
@@ -700,8 +703,13 @@ if (userPasswordForm) userPasswordForm.addEventListener("submit", (e)=>{
     e.preventDefault();
     (0, _updateAccount.updateUserPassword)();
 });
+// Add new Job
+if (jobForm) jobForm.addEventListener("submit", (e)=>{
+    e.preventDefault();
+    (0, _addJobDefault.default)();
+});
 
-},{"core-js/modules/esnext.symbol.dispose.js":"b9ez5","core-js/modules/web.immediate.js":"49tUX","./login":"7yHem","./showPassword":"jb4Zk","./hamburgerMenu":"bZ6uq","./search":"1VcuN","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./addInterview":"i37qd","./editAndSaveJob":"82rR9","./editAndSaveInterview":"cmNFU","./signUp":"a26Sx","./updateAccount":"2J59h"}],"b9ez5":[function(require,module,exports) {
+},{"core-js/modules/esnext.symbol.dispose.js":"b9ez5","core-js/modules/web.immediate.js":"49tUX","./login":"7yHem","./showPassword":"jb4Zk","./hamburgerMenu":"bZ6uq","./search":"1VcuN","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./addInterview":"i37qd","./editAndSaveJob":"82rR9","./editAndSaveInterview":"cmNFU","./signUp":"a26Sx","./updateAccount":"2J59h","./addJob":"lfPeS"}],"b9ez5":[function(require,module,exports) {
 "use strict";
 var global = require("c050e94c4f6437d6");
 var defineWellKnownSymbol = require("efe796c38aca437b");
@@ -6993,6 +7001,52 @@ const updateUserPassword = async ()=>{
     confirmPassword.value = "";
 };
 
-},{"axios":"jo6P5","./alerts":"6Mcnf","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["i5p9B","f2QDv"], "f2QDv", "parcelRequirebd65")
+},{"axios":"jo6P5","./alerts":"6Mcnf","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"lfPeS":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _axios = require("axios");
+var _axiosDefault = parcelHelpers.interopDefault(_axios);
+var _alerts = require("./alerts");
+exports.default = addJob = async ()=>{
+    // Get the values of the respective fields
+    const title = document.querySelector("#title").value;
+    const position = document.querySelector("#position").value;
+    const company = document.querySelector("#company").value;
+    const location = document.querySelector("#location").value;
+    const status = document.querySelector("#status").value;
+    const type = document.querySelector("#type").value;
+    const deadline = document.querySelector("#deadline").value;
+    const description = document.querySelector("#description").value;
+    const requirement = document.querySelector("#requirement").value;
+    //   Initialize a new object
+    const form = {};
+    //   If the respective field values are provided input a key and value pair
+    if (title) form.title = title;
+    if (company) form.company = company;
+    if (location) form.location = location;
+    if (description) form.description = description;
+    if (requirement) form.requirement = requirement;
+    if (type) form.type = type;
+    if (status) form.status = status;
+    if (position) form.position = position;
+    if (deadline) form.deadline = deadline;
+    try {
+        // Make a post request to create new job
+        const response = await (0, _axiosDefault.default).post("api/v1/jobs", form);
+        // If it was a succes send a success alert
+        if (response.data.status === "success") {
+            (0, _alerts.showAlert)("success", "Job added successfully!");
+            // Redirect to the job overview page
+            window.setTimeout(()=>{
+                window.location.assign(`/overview`);
+            }, 1500);
+        }
+    } catch (err) {
+        // Show error
+        (0, _alerts.showAlert)("error", err.response.data.message);
+    }
+};
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","axios":"jo6P5","./alerts":"6Mcnf"}]},["i5p9B","f2QDv"], "f2QDv", "parcelRequirebd65")
 
 //# sourceMappingURL=index.js.map

@@ -9,6 +9,7 @@ import addInterview from "./addInterview";
 import { editJobFunc, saveJobFunc } from "./editAndSaveJob";
 import { editInterviewFunc, saveInterviewFunc } from "./editAndSaveInterview";
 import { updateUserInfo, updateUserPassword } from "./updateAccount";
+import addJob from "./addJob";
 
 const hamburger = document.querySelector(".hamburger");
 const navMenu = document.querySelector(".nav-menu");
@@ -26,6 +27,7 @@ const saveInterviewBtns = document.querySelectorAll(".save-interview-btn");
 const logoutBtns = document.querySelectorAll(".logout");
 const userData = document.querySelector(".form-user-data");
 const userPasswordForm = document.querySelector(".form-user-password");
+const jobForm = document.querySelector(".form-job-data");
 
 // login
 if (loginForm) {
@@ -66,7 +68,7 @@ if (searchGlass) {
   });
 }
 
-// Interview form data
+// Add Interview on a job
 if (interviewForm) {
   interviewForm.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -173,5 +175,14 @@ if (userPasswordForm) {
     e.preventDefault();
 
     updateUserPassword();
+  });
+}
+
+// Add new Job
+if (jobForm) {
+  jobForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    addJob();
   });
 }
