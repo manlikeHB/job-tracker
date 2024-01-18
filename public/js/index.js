@@ -73,34 +73,7 @@ if (interviewForm) {
   interviewForm.addEventListener("submit", (e) => {
     e.preventDefault();
 
-    const form = {};
-
-    const type = document.getElementsByName("type")[0].value;
-    const interviewerName =
-      document.getElementsByName("interviewer_name")[0].value;
-    const interviewDate = document.getElementsByName("interview_date")[0].value;
-    const address = document.getElementsByName("address")[0].value;
-    const note = document.getElementsByName("note")[0].value;
-    const deadline = document.getElementsByName("deadline")[0].value;
-    const results = document.getElementsByName("result")[0].value;
-    const rescheduledDate =
-      document.getElementsByName("rescheduleDate")[0].value;
-    const rescheduleReason =
-      document.getElementsByName("rescheduleReason")[0].value;
-
-    if (type) form.type = type;
-    if (interviewDate) form.interview_date = interviewDate;
-    if (address) form.address = address;
-    if (note) form.notes = note;
-    if (interviewerName) form.interviewer_name = interviewerName;
-    if (deadline) form.deadline = deadline;
-    if (results) form.results = results;
-    if (rescheduledDate) form.rescheduled_date = rescheduledDate;
-    if (rescheduleReason) form.rescheduleReason = rescheduleReason;
-
-    console.log(form);
-
-    addInterview(form);
+    addInterview();
   });
 }
 
