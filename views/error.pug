@@ -1,9 +1,30 @@
 extends base
 
 block content
-   #content
-      .card
-        .error-page
-          h2 Uh oh! Something went wrong!
-          h2.error-emoji😢 🤯
-          .error__msg= msg
+
+  .nav-container
+    p
+      span.active-color JobTracker
+    ul.nav-menu
+      if (user)
+        li.btn.btn-nav.nav-item.center-div
+          a(href="/account", class="nav__el")
+            img.user-img(src="/img/default.jpg", alt="User photo")
+            |  &nbsp;
+          span=user.firstName
+      else 
+        li.btn.btn-nav.nav-item
+          a.nav-link(href="/signup") Sign Up
+        li.btn.btn-nav.nav-item
+          a.nav-link(href="/login") Login
+      .hamburger
+        span.bar
+        span.bar
+        span.bar
+  hr
+  #content
+    .card
+      .error-page
+        h2 Uh oh! Something went wrong!
+        h2.error-emoji 😢 🤯
+        .error__msg= msg
