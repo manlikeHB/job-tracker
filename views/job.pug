@@ -9,7 +9,10 @@ block content
                 a.nav-link(href="/overview") My Job Applications
             li.btn.btn-nav.nav-item.center-div
                 a(href="/account", class="nav__el")
-                    img.user-img(src="/img/default.jpg", alt="User photo")
+                    if user.profilePhotoUrl
+                        img.user-img(src=`${user.profilePhotoUrl}`, alt="User photo")
+                    else
+                        img.user-img(src="/img/default.jpg", alt="User photo")
                     |  &nbsp;
                 span=user.firstName
         .hamburger
