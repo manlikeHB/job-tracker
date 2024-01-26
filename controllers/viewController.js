@@ -11,13 +11,8 @@ exports.getLandingPage = (req, res, next) => {
 
 // Get user account page
 exports.getAccountPage = catchAsync(async (req, res, next) => {
-  const sql = "SELECT * FROM users WHERE id = ?";
-
-  const user = (await db.query(sql, req.user.id))[0];
-
   res.status(200).render("account", {
     title: "account",
-    user: user[0],
   });
 });
 
@@ -30,12 +25,8 @@ exports.addInterviewsPage = catchAsync(async (req, res, next) => {
 
 // Get add new job page
 exports.getAddJobPage = catchAsync(async (req, res, next) => {
-  const sql = "SELECT * FROM users WHERE id = ?";
-
-  const user = (await db.query(sql, "2"))[0];
   res.status(200).render("addJob", {
     title: "Add Job",
-    user: user[0],
   });
 });
 

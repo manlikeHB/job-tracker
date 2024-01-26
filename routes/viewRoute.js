@@ -17,7 +17,7 @@ router.get(
   viewController.addInterviewsPage
 );
 // Add new job route
-router.get("/add-job", viewController.getAddJobPage);
+router.get("/add-job", authController.protect, viewController.getAddJobPage);
 //  All interviews on a user route
 router.get(
   "/interview",
