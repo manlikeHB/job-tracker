@@ -2,6 +2,7 @@ const express = require("express");
 const userController = require("./../controllers/userController");
 const authController = require("./../controllers/authController");
 const jobsRouter = require("./../routes/jobsRoute");
+const multerAndSharp = require("../utils/multerAndSharp");
 
 const router = express.Router();
 
@@ -17,7 +18,12 @@ router.use("/jobs", jobsRouter);
 
 router.patch("/updatemypassword", authController.updatePassword);
 router.get("/me", userController.getMe, userController.getUser);
-router.patch("/updateme", userController.updateMe);
+router.patch(
+  "/updateme",
+  multerAndSharp.uploadUserPhoto,
+  multerAndSharp.resizeUserPhoto,
+  userController.updateMe
+);
 router.delete("/deleteme", userController.deleteMe);
 
 router.use(authController.restrictTo("admin"));

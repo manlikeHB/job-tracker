@@ -45,6 +45,12 @@ exports.updateMe = catchAsync(async (req, res, next) => {
   // Filter out fileds that are not allowed to be updated
   const filteredBody = filterObj(req.body, "lastName", "firstName", "email");
 
+  // Check if profile photo is being updated and add to filterdBody
+  if (req.imageName) {
+    filteredBody.profilePhotoName = req.imageName;
+    filteredBody.profilePhotoUrl = req.imageUrl;
+  }
+
   // Update user
   const sql = "UPDATE users SET ? WHERE id = ?";
   await db.query(sql, [filteredBody, req.user.id]);
