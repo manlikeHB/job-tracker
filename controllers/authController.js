@@ -7,6 +7,8 @@ const catchAsync = require("./../utils/catchAsync");
 const validator = require("validator");
 const { promisify } = require("util");
 const sendEmail = require("./../utils/email");
+const s3 = require("../utils/s3");
+const setProfilePhotoUrlExpTime = require("../utils/setProfilePhotoUrlExpTime");
 
 const signToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -175,9 +177,9 @@ exports.protect = catchAsync(async (req, res, next) => {
   const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
 
   // Check if user still exist
-  const user = (
-    await db.query("SELECT * FROM users WHERE id = ?", decoded.id)
-  )[0][0];
+  let user;
+
+  user = (await db.query("SELECT * FROM users WHERE id = ?", decoded.id))[0][0];
 
   if (!user) {
     return next(
@@ -193,6 +195,26 @@ exports.protect = catchAsync(async (req, res, next) => {
   // Check if user changed password after token was issued
   if (changedPasswordAfter(decoded.iat, user)) {
     return next(new AppError("Password changed recently, Login again", 401));
+  }
+
+  // Check if profile photo url has expired and get a new url
+  if (Date.now() > new Date(user.profilePhotoUrlExp)) {
+    // Get new signed url for profile photo
+    const url = await s3.getSignedUrl(user.profilePhotoName);
+
+    const updateForm = {};
+
+    // Set the value of the profile photo url and expiration time in update form
+    updateForm.profilePhotoUrl = url;
+    updateForm.profilePhotoUrlExp =
+      setProfilePhotoUrlExpTime.setProfilePhotoExp();
+
+    // save update form to database
+    const sql = "UPDATE users SET ? WHERE id = ?";
+    await db.query(sql, [updateForm, user.id]);
+
+    // Get updated user
+    user = (await db.query("SELECT * FROM users WHERE id = ?", user.id))[0][0];
   }
 
   user.password = undefined;

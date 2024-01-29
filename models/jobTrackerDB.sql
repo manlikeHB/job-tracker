@@ -29,6 +29,9 @@ CREATE TABLE users (
     password VARCHAR(255) NOT NULL, 
     role ENUM ('admin', 'subscriber', 'non-subscriber') NOT NULL DEFAULT 'non-subscriber', 
     active ENUM ('true', 'false') NOT NULL DEFAULT 'true',
+    profilePhotoName VARCHAR(255),
+    profilePhotoUrl VARCHAR(700),
+    profilePhotoUrlExp TIMESTAMP,
     created_at TIMESTAMP DEFAULT NOW() 
 );
 

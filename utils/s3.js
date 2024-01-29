@@ -4,6 +4,7 @@ const {
   GetObjectCommand,
 } = require("@aws-sdk/client-s3");
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
+const setProfilePhotoExp = require("./setProfilePhotoUrlExpTime");
 
 const bucketName = process.env.BUCKET_NAME;
 const bucketRegion = process.env.BUCKET_REGION;
@@ -40,7 +41,9 @@ exports.getSignedUrl = async (imageName) => {
   };
 
   const command = new GetObjectCommand(getObjectParams);
-  const url = await getSignedUrl(s3, command, { expiresIn: 3600 });
+  const url = await getSignedUrl(s3, command, {
+    expiresIn: setProfilePhotoExp.s3SignedUrlExp(),
+  });
 
   return url;
 };
