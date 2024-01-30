@@ -2,6 +2,7 @@ const {
   S3Client,
   PutObjectCommand,
   GetObjectCommand,
+  DeleteObjectCommand,
 } = require("@aws-sdk/client-s3");
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
 const setProfilePhotoExp = require("./setProfilePhotoUrlExpTime");
@@ -46,4 +47,15 @@ exports.getSignedUrl = async (imageName) => {
   });
 
   return url;
+};
+
+// Delete file from s3 bucket
+exports.deleteFile = async (imageName) => {
+  const params = {
+    Bucket: bucketName,
+    Key: imageName,
+  };
+
+  const command = new DeleteObjectCommand(params);
+  await s3.send(command);
 };

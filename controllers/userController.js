@@ -3,6 +3,7 @@ const Factory = require("./handlerFactory");
 const catchAsync = require("./../utils/catchAsync");
 const db = require("../db");
 const setProfilePhotoUrlExpTime = require("../utils/setProfilePhotoUrlExpTime");
+const s3 = require("../utils/s3");
 
 const columns = "id, lastName, firstName, email, role";
 
@@ -48,6 +49,10 @@ exports.updateMe = catchAsync(async (req, res, next) => {
 
   // Check if profile photo is being updated and add to filterdBody
   if (req.imageName) {
+    // Delete previous profile photo
+    req.user.profilePhotoName &&
+      (await s3.deleteFile(req.user.profilePhotoName));
+
     // Set the profile photo expiration time
     const profilePhotoUrlExp = setProfilePhotoUrlExpTime.setProfilePhotoExp();
 

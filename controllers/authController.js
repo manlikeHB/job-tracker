@@ -197,8 +197,11 @@ exports.protect = catchAsync(async (req, res, next) => {
     return next(new AppError("Password changed recently, Login again", 401));
   }
 
-  // Check if profile photo url has expired and get a new url
-  if (Date.now() > new Date(user.profilePhotoUrlExp)) {
+  // Check if user has a profile photo and if the url has expired, get a new url
+  if (
+    user.profilePhotoUrlExp &&
+    Date.now() > new Date(user.profilePhotoUrlExp)
+  ) {
     // Get new signed url for profile photo
     const url = await s3.getSignedUrl(user.profilePhotoName);
 

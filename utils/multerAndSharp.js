@@ -28,9 +28,6 @@ exports.uploadUserPhoto = upload.single("photo");
 const randomImageName = (bytes = 32) =>
   crypto.randomBytes(bytes).toString("hex");
 
-// Generate random name
-const imageName = randomImageName();
-
 // Resize phot before upload
 exports.resizeUserPhoto = catchAsync(async (req, res, next) => {
   // Check if there is a file on requst object
@@ -42,6 +39,9 @@ exports.resizeUserPhoto = catchAsync(async (req, res, next) => {
     .toFormat("jpeg")
     .jpeg({ quality: 90 })
     .toBuffer();
+
+  // Generate random Image name
+  const imageName = randomImageName();
 
   // Send file to S3 bucket
   await s3.sendFile(data, req, imageName);
