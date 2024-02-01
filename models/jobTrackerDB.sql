@@ -4,8 +4,6 @@ DROP TABLE IF EXISTS jobs;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS interviews;
 
-
-
 CREATE TABLE jobs (
 	id INT AUTO_INCREMENT PRIMARY KEY, 
     title VARCHAR(255) NOT NULL, 
@@ -13,12 +11,13 @@ CREATE TABLE jobs (
     location VARCHAR(255) NOT NULL, 
     description VARCHAR(255), 
     requirement VARCHAR(255), 
+    type ENUM ('on-site', 'remote', 'hybrid') DEFAULT 'on-site' NOT NULL,
     status ENUM ('open', 'closed', 'forthcoming') DEFAULT 'open' NOT NULL, 
     position VARCHAR(255), 
     deadline DATE, 
     created_at TIMESTAMP DEFAULT NOW(), 
-    CONSTRAINT CHK_JOB_STATUS_AND_DEADLINE CHECK ( (status = 'forthcoming' AND deadline > created_at) OR
-   (status <> 'forthcoming' AND deadline IS NULL) )
+    CONSTRAINT CHK_JOB_STATUS_AND_DEADLINE CHECK ( (status = 'forthcoming' AND (deadline IS NOT NULL AND deadline > created_at)) OR
+   (status = 'closed' AND deadline IS NULL) OR (status = 'open' AND ((deadline IS NULL) OR (deadline > created_at))))
 );
 
 CREATE TABLE users (
@@ -47,7 +46,8 @@ CREATE TABLE interviews (
 	id INT AUTO_INCREMENT PRIMARY KEY,
     interviewer_name VARCHAR(255),
     interview_date TIMESTAMP,
-    location VARCHAR(255),
+    address VARCHAR(255),
+    type VARCHAR(255),
     notes VARCHAR(255),
     results ENUM("Passed", "Failed"),
     rescheduled_date TIMESTAMP,
@@ -64,4 +64,34 @@ CREATE TABLE job_interviews (
     FOREIGN KEY (job_id) REFERENCES jobs (id) ON DELETE CASCADE,
     FOREIGN KEY (interview_id) REFERENCES interviews (id) ON DELETE CASCADE
 );
+
+DELIMITER //
+
+CREATE TRIGGER delete_user_jobs
+BEFORE DELETE ON users
+FOR EACH ROW
+BEGIN
+	DELETE jobs FROM jobs 
+    JOIN users_jobs ON users_jobs.job_id = jobs.id 
+    WHERE users_jobs.user_id = OLD.id;
+END;
+
+//
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE TRIGGER delete_job_interviews
+BEFORE DELETE ON jobs
+FOR EACH ROW
+BEGIN
+	DELETE interviews FROM interviews 
+    JOIN job_interviews ON job_interviews.interview_id = interviews.id 
+    WHERE job_interviews.job_id = OLD.id;
+END;
+
+//
+
+DELIMITER ;
 
