@@ -1,9 +1,19 @@
 const db = require("../db");
 const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
-const { response } = require("express");
+const { trim } = require("validator");
 
 const isIdaNumberMsg = "Invalid ID! (ID must be a number)";
+
+const removeWhiteSpaces = (body) => {
+  let data = {};
+
+  for (const [key, value] of Object.entries(body)) {
+    data[key] = trim(value);
+  }
+
+  return data;
+};
 
 const sendResponse = (res, table, response, statusCode) => {
   const results = response.length > 1 ? response.length : undefined;
@@ -34,7 +44,7 @@ exports.getAll = (table, filteredColumns) => {
 exports.createOne = (table) => {
   return catchAsync(async (req, res, next) => {
     const sql = `INSERT INTO ${table} SET ?`;
-    const data = req.body;
+    const data = removeWhiteSpaces(req.body);
 
     // Insert data into table
     const [row, fields] = await db.query(sql, data);
@@ -114,7 +124,7 @@ exports.getOne = (table, filteredColumns) => {
 exports.updateOne = (table, filteredColumns, data) => {
   return catchAsync(async (req, res, next) => {
     const sql = `UPDATE ${table} SET ? WHERE id = ?`;
-    let update = data ? data : req.body;
+    let update = data ? removeWhiteSpaces(data) : removeWhiteSpaces(req.body);
     const id = req.params.id;
     const columns = filteredColumns ? filteredColumns : "*";
 
