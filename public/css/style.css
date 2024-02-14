@@ -274,13 +274,12 @@ body {
   align-self: center;
 }
 
-.edit-icon {
-  display: flex;
-  justify-content: flex-end;
-  padding: 1rem;
+.icons {
+  font-size: 1.8rem;
 }
 
-.fa-icons:hover {
+.fa-icons:hover,
+.delete-icon:hover {
   color: var(--background-color-onhover);
 }
 

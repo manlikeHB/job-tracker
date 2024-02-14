@@ -10,6 +10,7 @@ import { editJobFunc, saveJobFunc } from "./editAndSaveJob";
 import { editInterviewFunc, saveInterviewFunc } from "./editAndSaveInterview";
 import { updateUserInfo, updateUserPassword } from "./updateAccount";
 import addJob from "./addJob";
+import { deleteJobFunc } from "./deleteJob";
 
 const hamburger = document.querySelector(".hamburger");
 const navMenu = document.querySelector(".nav-menu");
@@ -28,6 +29,7 @@ const logoutBtns = document.querySelectorAll(".logout");
 const userData = document.querySelector(".form-user-data");
 const userPasswordForm = document.querySelector(".form-user-password");
 const jobForm = document.querySelector(".form-job-data");
+const deleteJob = document.querySelector(".delete-icon");
 
 // login
 if (loginForm) {
@@ -158,4 +160,9 @@ if (jobForm) {
 
     addJob();
   });
+}
+
+// Delete a job
+if (deleteJob) {
+  deleteJob.addEventListener("click", deleteJobFunc);
 }

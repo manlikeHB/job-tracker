@@ -594,6 +594,7 @@ var _editAndSaveInterview = require("./editAndSaveInterview");
 var _updateAccount = require("./updateAccount");
 var _addJob = require("./addJob");
 var _addJobDefault = parcelHelpers.interopDefault(_addJob);
+var _deleteJob = require("./deleteJob");
 const hamburger = document.querySelector(".hamburger");
 const navMenu = document.querySelector(".nav-menu");
 const showPasswordBox = document.querySelector(".show-password");
@@ -611,6 +612,7 @@ const logoutBtns = document.querySelectorAll(".logout");
 const userData = document.querySelector(".form-user-data");
 const userPasswordForm = document.querySelector(".form-user-password");
 const jobForm = document.querySelector(".form-job-data");
+const deleteJob = document.querySelector(".delete-icon");
 // login
 if (loginForm) document.querySelector(".form-login").addEventListener("submit", (e)=>{
     e.preventDefault();
@@ -688,8 +690,10 @@ if (jobForm) jobForm.addEventListener("submit", (e)=>{
     e.preventDefault();
     (0, _addJobDefault.default)();
 });
+// Delete a job
+if (deleteJob) deleteJob.addEventListener("click", (0, _deleteJob.deleteJobFunc));
 
-},{"core-js/modules/esnext.symbol.dispose.js":"b9ez5","core-js/modules/web.immediate.js":"49tUX","./login":"7yHem","./showPassword":"jb4Zk","./hamburgerMenu":"bZ6uq","./search":"1VcuN","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./addInterview":"i37qd","./editAndSaveJob":"82rR9","./editAndSaveInterview":"cmNFU","./signUp":"a26Sx","./updateAccount":"2J59h","./addJob":"lfPeS"}],"b9ez5":[function(require,module,exports) {
+},{"core-js/modules/esnext.symbol.dispose.js":"b9ez5","core-js/modules/web.immediate.js":"49tUX","./login":"7yHem","./showPassword":"jb4Zk","./hamburgerMenu":"bZ6uq","./search":"1VcuN","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./addInterview":"i37qd","./editAndSaveJob":"82rR9","./editAndSaveInterview":"cmNFU","./signUp":"a26Sx","./updateAccount":"2J59h","./addJob":"lfPeS","./deleteJob":"8CIbU"}],"b9ez5":[function(require,module,exports) {
 "use strict";
 var global = require("c050e94c4f6437d6");
 var defineWellKnownSymbol = require("efe796c38aca437b");
@@ -7071,6 +7075,40 @@ exports.default = addJob = async ()=>{
         }
     } catch (err) {
         // Show error
+        (0, _alerts.showAlert)("error", err.response.data.message);
+    }
+};
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","axios":"jo6P5","./alerts":"6Mcnf"}],"8CIbU":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "deleteJobFunc", ()=>deleteJobFunc);
+var _axios = require("axios");
+var _axiosDefault = parcelHelpers.interopDefault(_axios);
+var _alerts = require("./alerts");
+const deleteJobFunc = async ()=>{
+    // Getting the job ID
+    const jobId = window.location.pathname.split("/")[2];
+    // Constructing delete ULR for deleting a job
+    // Get original URL
+    const fullUrl = window.location.href;
+    // Create a URL object
+    const url = new URL(fullUrl);
+    // Extract the base URL
+    const baseUrl = `${url.protocol}//${url.host}/`;
+    // Confirm if user wants to delete job
+    if (!window.confirm("Are you sure you want to delete job?")) return;
+    try {
+        const response = await (0, _axiosDefault.default).delete(`${baseUrl}api/v1/jobs/${jobId}`);
+        // If successful send a success alert
+        if (response.status === 204) {
+            (0, _alerts.showAlert)("success", "Job Deleted successfully!");
+            // Redirect to the jobs overview page
+            window.setTimeout(()=>{
+                location.assign(`/overview`);
+            }, 1500);
+        }
+    } catch (err) {
         (0, _alerts.showAlert)("error", err.response.data.message);
     }
 };
