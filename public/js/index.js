@@ -10,7 +10,7 @@ import { editJobFunc, saveJobFunc } from "./editAndSaveJob";
 import { editInterviewFunc, saveInterviewFunc } from "./editAndSaveInterview";
 import { updateUserInfo, updateUserPassword } from "./updateAccount";
 import addJob from "./addJob";
-import { deleteJobFunc } from "./deleteJob";
+import { deleteJobFunc, deleteInterviewFunc } from "./delete";
 
 const hamburger = document.querySelector(".hamburger");
 const navMenu = document.querySelector(".nav-menu");
@@ -29,7 +29,8 @@ const logoutBtns = document.querySelectorAll(".logout");
 const userData = document.querySelector(".form-user-data");
 const userPasswordForm = document.querySelector(".form-user-password");
 const jobForm = document.querySelector(".form-job-data");
-const deleteJob = document.querySelector(".delete-icon");
+const deleteJob = document.querySelector(".delete-job");
+const deleteInterview = document.querySelectorAll(".delete-interview");
 
 // login
 if (loginForm) {
@@ -165,4 +166,16 @@ if (jobForm) {
 // Delete a job
 if (deleteJob) {
   deleteJob.addEventListener("click", deleteJobFunc);
+}
+
+// Delete Interview
+if (deleteInterview) {
+  deleteInterview.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      // Get current card of interview to be deleted
+      const card = btn.parentElement.parentElement.parentElement;
+
+      deleteInterviewFunc(card);
+    });
+  });
 }
