@@ -57,7 +57,6 @@ const search = async (searchInput) => {
       });
     }
   } catch (err) {
-    console.log(err);
     showAlert("error", "Job not found!!!");
     window.setTimeout(() => {
       location.reload();

@@ -2018,10 +2018,8 @@ const login = async (email, password)=>{
     }
 };
 const logout = async ()=>{
-    console.log("logout");
     try {
         const response = await (0, _axiosDefault.default).get("api/v1/users/logout");
-        console.log(response);
         if (response.data.status === "success") {
             (0, _alerts.showAlert)("success", "Logging out!!!");
             window.setTimeout(()=>{
@@ -2029,7 +2027,6 @@ const logout = async ()=>{
             }, 1500);
         }
     } catch (err) {
-        console.log(err.response.data);
         (0, _alerts.showAlert)("error", err.response.data.message);
     }
 };
@@ -6488,7 +6485,6 @@ const search = async (searchInput)=>{
             });
         }
     } catch (err) {
-        console.log(err);
         (0, _alerts.showAlert)("error", "Job not found!!!");
         window.setTimeout(()=>{
             location.reload();
@@ -6623,7 +6619,6 @@ const saveJobToDB = async ()=>{
         const response = await (0, _axiosDefault.default).patch(`${baseUrl}api/v1/jobs/${jobId}`, form);
         if (response.data.status === "success") (0, _alerts.showAlert)("success", "Job updated successfully!");
     } catch (err) {
-        console.log(err.response.data);
         (0, _alerts.showAlert)("error", err.response.data.message);
         window.setTimeout(()=>{
             location.reload();
@@ -6922,7 +6917,6 @@ var _axios = require("axios");
 var _axiosDefault = parcelHelpers.interopDefault(_axios);
 var _alerts = require("./alerts");
 exports.default = signUp = async (lastName, firstName, email, password, passwordConfirm)=>{
-    console.log(lastName, firstName, email, password, passwordConfirm);
     try {
         const response = await (0, _axiosDefault.default).post("api/v1/users/signup", {
             lastName,
@@ -6938,7 +6932,6 @@ exports.default = signUp = async (lastName, firstName, email, password, password
             }, 1500);
         }
     } catch (err) {
-        console.log(err.response.data);
         (0, _alerts.showAlert)("error", err.response.data.message);
     }
 };

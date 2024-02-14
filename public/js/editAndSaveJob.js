@@ -78,7 +78,6 @@ const saveJobToDB = async () => {
       showAlert("success", "Job updated successfully!");
     }
   } catch (err) {
-    console.log(err.response.data);
     showAlert("error", err.response.data.message);
     window.setTimeout(() => {
       location.reload();

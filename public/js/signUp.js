@@ -8,8 +8,6 @@ export default signUp = async (
   password,
   passwordConfirm
 ) => {
-  console.log(lastName, firstName, email, password, passwordConfirm);
-
   try {
     const response = await axios.post("api/v1/users/signup", {
       lastName,
@@ -26,7 +24,6 @@ export default signUp = async (
       }, 1500);
     }
   } catch (err) {
-    console.log(err.response.data);
     showAlert("error", err.response.data.message);
   }
 };

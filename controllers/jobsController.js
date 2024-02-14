@@ -63,7 +63,6 @@ exports.checkAndUpdateJobStatus = catchAsync(async (req, res, next) => {
           const date = new Date(job.deadline);
 
           if (date < new Date(Date.now())) {
-            console.log(`update deadline for job with the id: ${job.id}`);
 
             const sql = `UPDATE jobs SET status = 'closed', deadline = ${null} WHERE id = ?`;
 
@@ -81,11 +80,6 @@ exports.updateOpenedJobStatusToClosed = Factory.updateOne("jobs", undefined, {
   status: "closed",
   deadline: null,
 });
-
-// [
-//   { user_id: 2, deadline: 2023-12-22T23:00:00.000Z, job_id: 5 },
-//   { user_id: 2, deadline: 2024-12-31T23:00:00.000Z, job_id: 6 }
-// ]
 
 exports.getAllJobsWithDeadline = async () => {
   const sql =
