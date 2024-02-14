@@ -19,7 +19,6 @@ const generateAmPmTime = (time) => {
 };
 
 const DBDateTimeToReadableString = (dateTime) => {
-  console.log(dateTime);
   const [dayW, M, dayN, year, time] = new Date(dateTime).toString().split(" ");
 
   const timeString = generateAmPmTime(time);
