@@ -38,7 +38,7 @@ router
 
 router
   .route("/:id")
-  .delete(jobController.deleteJob)
+  .delete(jobController.deleteAllInterviewsOnJob, jobController.deleteJob)
   .get(
     authController.restrictTo("admin"),
     jobController.checkAndUpdateJobStatus,

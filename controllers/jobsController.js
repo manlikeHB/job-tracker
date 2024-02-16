@@ -63,7 +63,6 @@ exports.checkAndUpdateJobStatus = catchAsync(async (req, res, next) => {
           const date = new Date(job.deadline);
 
           if (date < new Date(Date.now())) {
-
             const sql = `UPDATE jobs SET status = 'closed', deadline = ${null} WHERE id = ?`;
 
             await db.query(sql, job.id);
@@ -94,4 +93,15 @@ exports.updateNotificationCreatedStatus = async (jobId) => {
   const sql = "UPDATE jobs SET notification_created = 'true' WHERE id = ?";
 
   await db.query(sql, jobId);
+};
+
+exports.deleteAllInterviewsOnJob = async (req, res, next) => {
+  const jobId = req.params.id;
+
+  const sql =
+    "DELETE interviews FROM interviews JOIN job_interviews ON job_interviews.interview_id = interviews.id JOIN jobs ON job_interviews.job_id = jobs.id WHERE jobs.id = ?";
+
+  await db.query(sql, jobId);
+
+  next();
 };
