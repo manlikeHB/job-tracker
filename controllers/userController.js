@@ -89,6 +89,28 @@ exports.deleteMe = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.deleteAllJobsOnUser = catchAsync(async (req, res, next) => {
+  const userId = req.params.id || req.user.id;
+
+  const sql =
+    "DELETE jobs FROM jobs JOIN users_jobs ON users_jobs.job_id = jobs.id JOIN users ON users_jobs.user_id = users.id WHERE users.id = ?";
+
+  await db.query(sql, userId);
+
+  next();
+});
+
+exports.deleteAllInterviewsOnUser = catchAsync(async (req, res, next) => {
+  const userId = req.params.id || req.user.id;
+
+  const sql =
+    "DELETE interviews FROM jobs JOIN users_jobs ON users_jobs.job_id = jobs.id JOIN job_interviews ON job_interviews.job_id = jobs.id JOIN interviews ON job_interviews.interview_id = interviews.id JOIN users ON users_jobs.user_id = users.id WHERE users.id = ? ";
+
+  await db.query(sql, userId);
+
+  next();
+});
+
 exports.getAllUsers = Factory.getAll("users", columns);
 exports.getUser = Factory.getOne("users", columns);
 exports.deleteUser = Factory.deleteOne("users");
