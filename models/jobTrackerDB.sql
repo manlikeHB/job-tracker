@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS users_Jobs;
+DROP TABLE IF EXISTS users_jobs;
 DROP TABLE IF EXISTS job_interviews;
 DROP TABLE IF EXISTS jobs;
 DROP TABLE IF EXISTS users;
@@ -34,7 +34,7 @@ CREATE TABLE users (
     created_at TIMESTAMP DEFAULT NOW() 
 );
 
-CREATE TABLE users_Jobs (
+CREATE TABLE users_jobs (
 	id INT AUTO_INCREMENT PRIMARY KEY, 
     user_id INT NOT NULL, 
     job_id INT NOT NULL, 
@@ -65,33 +65,33 @@ CREATE TABLE job_interviews (
     FOREIGN KEY (interview_id) REFERENCES interviews (id) ON DELETE CASCADE
 );
 
-DELIMITER //
+-- DELIMITER //
 
-CREATE TRIGGER delete_user_jobs
-BEFORE DELETE ON users
-FOR EACH ROW
-BEGIN
-	DELETE jobs FROM jobs 
-    JOIN users_jobs ON users_jobs.job_id = jobs.id 
-    WHERE users_jobs.user_id = OLD.id;
-END;
+-- CREATE TRIGGER delete_user_jobs
+-- BEFORE DELETE ON users
+-- FOR EACH ROW
+-- BEGIN
+-- 	DELETE jobs FROM jobs 
+--     JOIN users_jobs ON users_jobs.job_id = jobs.id 
+--     WHERE users_jobs.user_id = OLD.id;
+-- END;
 
-//
+-- //
 
-DELIMITER ;
+-- DELIMITER ;
 
-DELIMITER //
+-- DELIMITER //
 
-CREATE TRIGGER delete_job_interviews
-BEFORE DELETE ON jobs
-FOR EACH ROW
-BEGIN
-	DELETE interviews FROM interviews 
-    JOIN job_interviews ON job_interviews.interview_id = interviews.id 
-    WHERE job_interviews.job_id = OLD.id;
-END;
+-- CREATE TRIGGER delete_job_interviews
+-- BEFORE DELETE ON jobs
+-- FOR EACH ROW
+-- BEGIN
+-- 	DELETE interviews FROM interviews 
+--     JOIN job_interviews ON job_interviews.interview_id = interviews.id 
+--     WHERE job_interviews.job_id = OLD.id;
+-- END;
 
-//
+-- //
 
-DELIMITER ;
+-- DELIMITER ;
 

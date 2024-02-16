@@ -33,7 +33,7 @@ exports.getAddJobPage = catchAsync(async (req, res, next) => {
 // Get all interviews on a user page
 exports.getInterviewPage = catchAsync(async (req, res, next) => {
   const sql =
-    "SELECT interviews.* FROM interviews JOIN job_interviews ON interviews.id = job_interviews.interview_id JOIN jobs ON jobs.id = job_interviews.job_id JOIN users_Jobs ON users_Jobs.job_id = jobs.id JOIN users ON users_Jobs.user_id = users.id WHERE users.id = ?";
+    "SELECT interviews.* FROM interviews JOIN job_interviews ON interviews.id = job_interviews.interview_id JOIN jobs ON jobs.id = job_interviews.job_id JOIN users_jobs ON users_jobs.job_id = jobs.id JOIN users ON users_jobs.user_id = users.id WHERE users.id = ?";
 
   const interviews = (await db.query(sql, req.user.id))[0];
 
@@ -59,7 +59,7 @@ exports.getInterview = catchAsync(async (req, res, next) => {
 // Get a job page
 exports.getJob = catchAsync(async (req, res, next) => {
   // Get Jobs from Database
-  const sql = `SELECT jobs.* FROM jobs JOIN users_Jobs ON users_Jobs.job_id = jobs.id JOIN users ON users.id = users_Jobs.user_id WHERE jobs.id = ? AND users.id = ?;`;
+  const sql = `SELECT jobs.* FROM jobs JOIN users_jobs ON users_jobs.job_id = jobs.id JOIN users ON users.id = users_jobs.user_id WHERE jobs.id = ? AND users.id = ?;`;
 
   const data = (await db.query(sql, [req.params.jobId, req.user.id]))[0][0];
 
@@ -80,7 +80,7 @@ exports.getLogin = (req, res, next) => {
 // Get all jobs on a user page
 exports.getJobsOverview = catchAsync(async (req, res, next) => {
   const sql =
-    "SELECT jobs.* FROM jobs JOIN users_Jobs ON users_Jobs.job_id = jobs.id JOIN users ON users.id = users_Jobs.user_id WHERE users.id = ?;";
+    "SELECT jobs.* FROM jobs JOIN users_jobs ON users_jobs.job_id = jobs.id JOIN users ON users.id = users_jobs.user_id WHERE users.id = ?;";
 
   const data = (await db.query(sql, req.user.id))[0];
 
