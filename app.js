@@ -2,7 +2,6 @@ const path = require("path");
 const express = require("express");
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
-const cron = require("./utils/cronjob");
 const cors = require("cors");
 const helmet = require("helmet");
 const rateLimiter = require("express-rate-limit");
